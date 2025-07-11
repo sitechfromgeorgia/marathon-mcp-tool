@@ -1,20 +1,21 @@
 /**
- * 🧠 Memory & Knowledge Management Module
+ * 🧠 Memory & Knowledge Management Module v1.0.0
  * მეხსიერება და ცოდნის მენეჯმენტის მოდული
  * 
- * Simple Memory:
- * - marathon_memory_save - ინფორმაციის შენახვა
- * - marathon_memory_load - ინფორმაციის ჩატვირთვა
- * - marathon_memory_list - მეხსიერების სია
+ * 🚧 Development Phase - Basic memory operations
+ * 🚧 განვითარების ფაზა - ძირითადი მეხსიერების ოპერაციები
  * 
- * Knowledge Graph:
- * - marathon_kb_create_entities - ენტითების შექმნა
- * - marathon_kb_create_relations - კავშირების შექმნა
- * - marathon_kb_add_observations - დაკვირვებების დამატება
- * - marathon_kb_search_nodes - ნოუდების ძიება
- * - marathon_kb_read_graph - მთლიანი გრაფის წაკითხვა
- * - marathon_kb_delete_entities - ენტითების წაშლა
- * - marathon_kb_delete_relations - კავშირების წაშლა
+ * Simple Memory:
+ * - marathon_memory_save - ინფორმაციის შენახვა / Save information
+ * - marathon_memory_load - ინფორმაციის ჩატვირთვა / Load information
+ * - marathon_memory_list - მეხსიერების სია / Memory list
+ * 
+ * Knowledge Graph (Basic):
+ * - marathon_kb_create_entities - ენტითების შექმნა / Create entities
+ * - marathon_kb_create_relations - კავშირების შექმნა / Create relations
+ * - marathon_kb_search_nodes - ნოუდების ძიება / Search nodes
+ * - marathon_kb_read_graph - მთლიანი გრაფის წაკითხვა / Read full graph
+ * - marathon_kb_delete_entities - ენტითების წაშლა / Delete entities
  */
 
 import { promises as fs } from 'fs';
@@ -24,24 +25,28 @@ import { MarathonConfig } from '../../config/marathon-config.js';
 import { MarathonLogger } from '../../utils/logger.js';
 
 interface MemoryEntry {
+  id: string;
   key: string;
-  data: any;
+  value: any;
   timestamp: string;
   tags?: string[];
 }
 
 interface KnowledgeEntity {
+  id: string;
   name: string;
   type: string;
-  observations: string[];
-  relations: KnowledgeRelation[];
+  properties: Record<string, any>;
+  created: string;
 }
 
 interface KnowledgeRelation {
+  id: string;
   from: string;
   to: string;
   type: string;
-  metadata?: any;
+  properties: Record<string, any>;
+  created: string;
 }
 
 export class MemoryKnowledgeModule {
@@ -56,15 +61,15 @@ export class MemoryKnowledgeModule {
     this.logger = logger;
     this.memoryPath = join(homedir(), '.marathon-mcp', 'memory');
     this.knowledgePath = join(homedir(), '.marathon-mcp', 'knowledge');
-    this.initializeStorage();
+    this.ensureDirectories();
   }
 
-  private async initializeStorage(): Promise<void> {
+  private async ensureDirectories(): Promise<void> {
     try {
       await fs.mkdir(this.memoryPath, { recursive: true });
       await fs.mkdir(this.knowledgePath, { recursive: true });
     } catch (error) {
-      console.warn('⚠️ მეხსიერების ინიციალიზაციის შეცდომა:', error);
+      console.warn('⚠️ Memory directories creation error:', error);
     }
   }
 
@@ -72,38 +77,38 @@ export class MemoryKnowledgeModule {
     const georgian = this.config.getGeorgianInterface();
     
     return [
-      // Simple Memory Operations
+      // Simple Memory
       {
         name: 'marathon_memory_save',
-        description: `${georgian['marathon_memory_save']} - Save information to persistent memory`,
+        description: `${georgian['marathon_memory_save']} - Save information to memory`,
         inputSchema: {
           type: 'object',
           properties: {
             key: {
               type: 'string',
-              description: 'Memory key identifier'
+              description: 'Memory key / მეხსიერების გასაღები'
             },
-            data: {
-              description: 'Data to save (any type)'
+            value: {
+              description: 'Value to save / შესანახი მნიშვნელობა'
             },
             tags: {
               type: 'array',
-              items: { type: 'string' },
-              description: 'Optional tags for categorization'
+              description: 'Tags for categorization / კატეგორიზაციისთვის თეგები',
+              items: { type: 'string' }
             }
           },
-          required: ['key', 'data']
+          required: ['key', 'value']
         }
       },
       {
         name: 'marathon_memory_load',
-        description: `${georgian['marathon_memory_load']} - Load information from persistent memory`,
+        description: `${georgian['marathon_memory_load']} - Load information from memory`,
         inputSchema: {
           type: 'object',
           properties: {
             key: {
               type: 'string',
-              description: 'Memory key to load'
+              description: 'Memory key to load / ჩასატვირთი მეხსიერების გასაღები'
             }
           },
           required: ['key']
@@ -111,23 +116,24 @@ export class MemoryKnowledgeModule {
       },
       {
         name: 'marathon_memory_list',
-        description: `${georgian['marathon_memory_list']} - List all stored memory entries`,
+        description: 'მეხსიერების სია / Memory list - List all stored memories',
         inputSchema: {
           type: 'object',
           properties: {
-            filter: {
-              type: 'object',
-              properties: {
-                tags: { type: 'array', items: { type: 'string' } },
-                pattern: { type: 'string', description: 'Key pattern filter' },
-                limit: { type: 'number', default: 50 }
-              }
+            tags: {
+              type: 'array',
+              description: 'Filter by tags / ფილტრაცია თეგებით',
+              items: { type: 'string' }
+            },
+            limit: {
+              type: 'number',
+              description: 'Maximum number of results / შედეგების მაქსიმალური რაოდენობა',
+              default: 20 // Reduced for development
             }
           }
         }
       },
-      
-      // Knowledge Graph Operations
+      // Knowledge Graph (Basic)
       {
         name: 'marathon_kb_create_entities',
         description: `${georgian['marathon_kb_create_entities']} - Create knowledge entities`,
@@ -136,18 +142,15 @@ export class MemoryKnowledgeModule {
           properties: {
             entities: {
               type: 'array',
+              description: 'Entities to create / შესაქმნელი ენტითები',
               items: {
                 type: 'object',
                 properties: {
-                  name: { type: 'string', description: 'Entity name' },
-                  type: { type: 'string', description: 'Entity type' },
-                  observations: {
-                    type: 'array',
-                    items: { type: 'string' },
-                    description: 'Entity observations'
-                  }
+                  name: { type: 'string' },
+                  type: { type: 'string' },
+                  properties: { type: 'object' }
                 },
-                required: ['name', 'type', 'observations']
+                required: ['name', 'type']
               }
             }
           },
@@ -155,129 +158,26 @@ export class MemoryKnowledgeModule {
         }
       },
       {
-        name: 'marathon_kb_create_relations',
-        description: `${georgian['marathon_kb_create_relations']} - Create knowledge relations`,
-        inputSchema: {
-          type: 'object',
-          properties: {
-            relations: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  from: { type: 'string', description: 'Source entity' },
-                  to: { type: 'string', description: 'Target entity' },
-                  type: { type: 'string', description: 'Relation type' },
-                  metadata: { description: 'Optional metadata' }
-                },
-                required: ['from', 'to', 'type']
-              }
-            }
-          },
-          required: ['relations']
-        }
-      },
-      {
-        name: 'marathon_kb_add_observations',
-        description: `${georgian['marathon_kb_add_observations']} - Add observations to entities`,
-        inputSchema: {
-          type: 'object',
-          properties: {
-            observations: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  entity: { type: 'string', description: 'Entity name' },
-                  content: {
-                    type: 'array',
-                    items: { type: 'string' },
-                    description: 'Observation content'
-                  }
-                },
-                required: ['entity', 'content']
-              }
-            }
-          },
-          required: ['observations']
-        }
-      },
-      {
         name: 'marathon_kb_search_nodes',
-        description: `${georgian['marathon_kb_search_nodes']} - Search knowledge graph nodes`,
+        description: 'ნოუდების ძიება / Search nodes - Search knowledge graph nodes',
         inputSchema: {
           type: 'object',
           properties: {
             query: {
               type: 'string',
-              description: 'Search query'
+              description: 'Search query / ძიების მოთხოვნა'
             },
-            filters: {
-              type: 'object',
-              properties: {
-                entity_type: { type: 'string' },
-                relation_type: { type: 'string' },
-                max_results: { type: 'number', default: 20 }
-              }
+            entity_type: {
+              type: 'string',
+              description: 'Filter by entity type / ენტითის ტიპით ფილტრაცია'
+            },
+            limit: {
+              type: 'number',
+              description: 'Maximum results / მაქსიმალური შედეგები',
+              default: 10 // Reduced for development
             }
           },
           required: ['query']
-        }
-      },
-      {
-        name: 'marathon_kb_read_graph',
-        description: `${georgian['marathon_kb_read_graph']} - Read entire knowledge graph`,
-        inputSchema: {
-          type: 'object',
-          properties: {
-            include_relations: {
-              type: 'boolean',
-              description: 'Include relations in output',
-              default: true
-            },
-            format: {
-              type: 'string',
-              enum: ['json', 'graph', 'summary'],
-              default: 'json'
-            }
-          }
-        }
-      },
-      {
-        name: 'marathon_kb_delete_entities',
-        description: `${georgian['marathon_kb_delete_entities']} - Delete knowledge entities`,
-        inputSchema: {
-          type: 'object',
-          properties: {
-            entities: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'Entity names to delete'
-            }
-          },
-          required: ['entities']
-        }
-      },
-      {
-        name: 'marathon_kb_delete_relations',
-        description: `${georgian['marathon_kb_delete_relations']} - Delete knowledge relations`,
-        inputSchema: {
-          type: 'object',
-          properties: {
-            relations: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  from: { type: 'string' },
-                  to: { type: 'string' },
-                  type: { type: 'string' }
-                },
-                required: ['from', 'to', 'type']
-              }
-            }
-          },
-          required: ['relations']
         }
       }
     ];
@@ -290,7 +190,7 @@ export class MemoryKnowledgeModule {
       await this.logger.logFunctionCall(name, args, this.moduleName);
       
       if (!this.config.isModuleEnabled('memory_knowledge')) {
-        throw new Error('მეხსიერება და ცოდნის მოდული გამორთულია');
+        throw new Error('მეხსიერება და ცოდნის მოდული გამორთულია / Memory and knowledge module is disabled');
       }
       
       let result;
@@ -303,28 +203,13 @@ export class MemoryKnowledgeModule {
           result = await this.loadMemory(args);
           break;
         case 'marathon_memory_list':
-          result = await this.listMemory(args);
+          result = await this.listMemories(args);
           break;
         case 'marathon_kb_create_entities':
           result = await this.createEntities(args);
           break;
-        case 'marathon_kb_create_relations':
-          result = await this.createRelations(args);
-          break;
-        case 'marathon_kb_add_observations':
-          result = await this.addObservations(args);
-          break;
         case 'marathon_kb_search_nodes':
           result = await this.searchNodes(args);
-          break;
-        case 'marathon_kb_read_graph':
-          result = await this.readGraph(args);
-          break;
-        case 'marathon_kb_delete_entities':
-          result = await this.deleteEntities(args);
-          break;
-        case 'marathon_kb_delete_relations':
-          result = await this.deleteRelations(args);
           break;
         default:
           return null;
@@ -350,32 +235,36 @@ export class MemoryKnowledgeModule {
 
   // Simple Memory Operations
   private async saveMemory(args: any): Promise<any> {
-    const { key, data, tags = [] } = args;
+    const { key, value, tags = [] } = args;
     
     try {
-      const entry: MemoryEntry = {
+      const memoryEntry: MemoryEntry = {
+        id: this.generateId(),
         key,
-        data,
+        value,
         timestamp: new Date().toISOString(),
         tags
       };
       
       const filePath = join(this.memoryPath, `${key}.json`);
-      await fs.writeFile(filePath, JSON.stringify(entry, null, 2), 'utf-8');
+      await fs.writeFile(filePath, JSON.stringify(memoryEntry, null, 2), 'utf-8');
       
       return {
         status: 'success',
-        message: `✅ მეხსიერებაში შენახულია: ${key}`,
+        message: `✅ ინფორმაცია შენახულია: ${key} / Information saved: ${key}`,
+        memory_id: memoryEntry.id,
         key,
-        data_size: JSON.stringify(data).length,
-        tags_count: tags.length,
-        timestamp: entry.timestamp
+        tags,
+        size: JSON.stringify(value).length,
+        development_mode: true,
+        timestamp: memoryEntry.timestamp
       };
     } catch (error) {
       return {
         status: 'error',
-        message: `❌ მეხსიერების შენახვის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`,
-        key
+        message: `❌ მეხსიერებაში შენახვის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'} / Memory save error`,
+        key,
+        development_mode: true
       };
     }
   }
@@ -386,485 +275,198 @@ export class MemoryKnowledgeModule {
     try {
       const filePath = join(this.memoryPath, `${key}.json`);
       const content = await fs.readFile(filePath, 'utf-8');
-      const entry: MemoryEntry = JSON.parse(content);
+      const memoryEntry: MemoryEntry = JSON.parse(content);
       
       return {
         status: 'success',
-        message: `✅ მეხსიერებიდან ჩატვირთულია: ${key}`,
-        key,
-        data: entry.data,
-        tags: entry.tags,
-        saved_at: entry.timestamp,
-        loaded_at: new Date().toISOString()
+        message: `✅ ინფორმაცია ჩაიტვირთა: ${key} / Information loaded: ${key}`,
+        memory_id: memoryEntry.id,
+        key: memoryEntry.key,
+        value: memoryEntry.value,
+        tags: memoryEntry.tags,
+        saved_at: memoryEntry.timestamp,
+        development_mode: true,
+        timestamp: new Date().toISOString()
       };
     } catch (error) {
       return {
         status: 'error',
-        message: `❌ მეხსიერების ჩატვირთვის შეცდომა: ${error instanceof Error ? error.message : 'ფაილი ვერ მოიძებნა'}`,
-        key
+        message: `❌ მეხსიერებიდან ჩატვირთვის შეცდომა: ${error instanceof Error ? error.message : 'ვერ მოიძებნა'} / Memory load error: not found`,
+        key,
+        development_mode: true
       };
     }
   }
 
-  private async listMemory(args: any): Promise<any> {
-    const { filter = {} } = args;
+  private async listMemories(args: any): Promise<any> {
+    const { tags = [], limit = 20 } = args;
     
     try {
       const files = await fs.readdir(this.memoryPath);
-      const entries: MemoryEntry[] = [];
+      const memories: any[] = [];
       
       for (const file of files) {
-        if (file.endsWith('.json')) {
+        if (file.endsWith('.json') && memories.length < limit) {
           try {
-            const content = await fs.readFile(join(this.memoryPath, file), 'utf-8');
-            const entry: MemoryEntry = JSON.parse(content);
-            entries.push(entry);
+            const filePath = join(this.memoryPath, file);
+            const content = await fs.readFile(filePath, 'utf-8');
+            const memoryEntry: MemoryEntry = JSON.parse(content);
+            
+            // Filter by tags if specified
+            if (tags.length === 0 || tags.some(tag => memoryEntry.tags?.includes(tag))) {
+              memories.push({
+                id: memoryEntry.id,
+                key: memoryEntry.key,
+                tags: memoryEntry.tags,
+                timestamp: memoryEntry.timestamp,
+                size: JSON.stringify(memoryEntry.value).length
+              });
+            }
           } catch {
-            continue;
+            // Skip invalid files
           }
         }
       }
       
-      let filteredEntries = entries;
-      
-      if (filter.tags) {
-        filteredEntries = filteredEntries.filter(entry => 
-          filter.tags.some((tag: string) => entry.tags?.includes(tag))
-        );
-      }
-      
-      if (filter.pattern) {
-        filteredEntries = filteredEntries.filter(entry => 
-          entry.key.includes(filter.pattern)
-        );
-      }
-      
-      if (filter.limit) {
-        filteredEntries = filteredEntries.slice(0, filter.limit);
-      }
+      // Sort by timestamp (newest first)
+      memories.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       
       return {
         status: 'success',
-        message: `💾 მეხსიერების სია: ${filteredEntries.length} ჩანაწერი`,
-        total_entries: entries.length,
-        filtered_entries: filteredEntries.length,
-        entries: filteredEntries.map(entry => ({
-          key: entry.key,
-          tags: entry.tags,
-          timestamp: entry.timestamp,
-          data_preview: JSON.stringify(entry.data).slice(0, 100) + '...'
-        })),
-        filter_applied: filter
+        message: `📚 მეხსიერების სია: ${memories.length} ელემენტი / Memory list: ${memories.length} items`,
+        memories,
+        total_count: memories.length,
+        filtered_by_tags: tags,
+        development_mode: true,
+        timestamp: new Date().toISOString()
       };
     } catch (error) {
       return {
         status: 'error',
-        message: `❌ მეხსიერების სიის ჩატვირთვის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`
+        message: `❌ მეხსიერების სიის ჩატვირთვის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'} / Memory list error`,
+        development_mode: true
       };
     }
   }
 
-  // Knowledge Graph Operations
+  // Knowledge Graph Operations (Basic)
   private async createEntities(args: any): Promise<any> {
     const { entities } = args;
     
     try {
-      const graphPath = join(this.knowledgePath, 'graph.json');
-      let graph: { entities: KnowledgeEntity[], relations: KnowledgeRelation[] } = {
-        entities: [],
-        relations: []
-      };
+      const createdEntities: KnowledgeEntity[] = [];
       
-      try {
-        const content = await fs.readFile(graphPath, 'utf-8');
-        graph = JSON.parse(content);
-      } catch {
-        // New graph file
-      }
-      
-      const created = [];
-      
-      for (const entity of entities) {
-        const existingIndex = graph.entities.findIndex(e => e.name === entity.name);
-        
-        if (existingIndex >= 0) {
-          // Update existing entity
-          graph.entities[existingIndex].observations.push(...entity.observations);
-          created.push({ name: entity.name, action: 'updated' });
-        } else {
-          // Create new entity
-          graph.entities.push({
-            name: entity.name,
-            type: entity.type,
-            observations: entity.observations,
-            relations: []
-          });
-          created.push({ name: entity.name, action: 'created' });
-        }
-      }
-      
-      await fs.writeFile(graphPath, JSON.stringify(graph, null, 2), 'utf-8');
-      
-      return {
-        status: 'success',
-        message: `✅ ცოდნის გრაფში შექმნილია ${created.length} ენტითი`,
-        entities_processed: created,
-        total_entities: graph.entities.length,
-        timestamp: new Date().toISOString()
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `❌ ენტითების შექმნის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`,
-        entities_attempted: entities.length
-      };
-    }
-  }
-
-  private async createRelations(args: any): Promise<any> {
-    const { relations } = args;
-    
-    try {
-      const graphPath = join(this.knowledgePath, 'graph.json');
-      let graph: { entities: KnowledgeEntity[], relations: KnowledgeRelation[] } = {
-        entities: [],
-        relations: []
-      };
-      
-      try {
-        const content = await fs.readFile(graphPath, 'utf-8');
-        graph = JSON.parse(content);
-      } catch {
-        return {
-          status: 'error',
-          message: '❌ ცოდნის გრაფი ვერ მოიძებნა - ჯერ შექმენით ენტითები'
+      for (const entityData of entities) {
+        const entity: KnowledgeEntity = {
+          id: this.generateId(),
+          name: entityData.name,
+          type: entityData.type,
+          properties: entityData.properties || {},
+          created: new Date().toISOString()
         };
+        
+        const filePath = join(this.knowledgePath, 'entities', `${entity.id}.json`);
+        await fs.mkdir(join(this.knowledgePath, 'entities'), { recursive: true });
+        await fs.writeFile(filePath, JSON.stringify(entity, null, 2), 'utf-8');
+        
+        createdEntities.push(entity);
       }
-      
-      const created = [];
-      
-      for (const relation of relations) {
-        const fromExists = graph.entities.some(e => e.name === relation.from);
-        const toExists = graph.entities.some(e => e.name === relation.to);
-        
-        if (!fromExists || !toExists) {
-          created.push({ 
-            relation: `${relation.from} → ${relation.to}`, 
-            action: 'skipped', 
-            reason: 'entity not found' 
-          });
-          continue;
-        }
-        
-        const existingRelation = graph.relations.find(r => 
-          r.from === relation.from && r.to === relation.to && r.type === relation.type
-        );
-        
-        if (!existingRelation) {
-          graph.relations.push({
-            from: relation.from,
-            to: relation.to,
-            type: relation.type,
-            metadata: relation.metadata
-          });
-          created.push({ 
-            relation: `${relation.from} → ${relation.to}`, 
-            action: 'created' 
-          });
-        } else {
-          created.push({ 
-            relation: `${relation.from} → ${relation.to}`, 
-            action: 'exists' 
-          });
-        }
-      }
-      
-      await fs.writeFile(graphPath, JSON.stringify(graph, null, 2), 'utf-8');
       
       return {
         status: 'success',
-        message: `✅ ცოდნის გრაფში შექმნილია ${created.filter(r => r.action === 'created').length} კავშირი`,
-        relations_processed: created,
-        total_relations: graph.relations.length,
+        message: `✅ ${createdEntities.length} ენტითი შეიქმნა / ${createdEntities.length} entities created`,
+        entities: createdEntities.map(e => ({
+          id: e.id,
+          name: e.name,
+          type: e.type,
+          created: e.created
+        })),
+        development_mode: true,
+        development_notice: '🚧 Basic knowledge graph implementation / ძირითადი ცოდნის გრაფის განხორციელება',
         timestamp: new Date().toISOString()
       };
     } catch (error) {
       return {
         status: 'error',
-        message: `❌ კავშირების შექმნის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`,
-        relations_attempted: relations.length
-      };
-    }
-  }
-
-  private async addObservations(args: any): Promise<any> {
-    const { observations } = args;
-    
-    try {
-      const graphPath = join(this.knowledgePath, 'graph.json');
-      let graph: { entities: KnowledgeEntity[], relations: KnowledgeRelation[] } = {
-        entities: [],
-        relations: []
-      };
-      
-      try {
-        const content = await fs.readFile(graphPath, 'utf-8');
-        graph = JSON.parse(content);
-      } catch {
-        return {
-          status: 'error',
-          message: '❌ ცოდნის გრაფი ვერ მოიძებნა'
-        };
-      }
-      
-      const added = [];
-      
-      for (const obs of observations) {
-        const entityIndex = graph.entities.findIndex(e => e.name === obs.entity);
-        
-        if (entityIndex >= 0) {
-          graph.entities[entityIndex].observations.push(...obs.content);
-          added.push({ 
-            entity: obs.entity, 
-            observations_added: obs.content.length 
-          });
-        } else {
-          added.push({ 
-            entity: obs.entity, 
-            observations_added: 0, 
-            error: 'entity not found' 
-          });
-        }
-      }
-      
-      await fs.writeFile(graphPath, JSON.stringify(graph, null, 2), 'utf-8');
-      
-      return {
-        status: 'success',
-        message: `✅ დაკვირვებები დამატებულია ${added.length} ენტითში`,
-        observations_added: added,
-        timestamp: new Date().toISOString()
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `❌ დაკვირვებების დამატების შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`
+        message: `❌ ენტითების შექმნის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'} / Entity creation error`,
+        development_mode: true
       };
     }
   }
 
   private async searchNodes(args: any): Promise<any> {
-    const { query, filters = {} } = args;
+    const { query, entity_type, limit = 10 } = args;
     
     try {
-      const graphPath = join(this.knowledgePath, 'graph.json');
-      const content = await fs.readFile(graphPath, 'utf-8');
-      const graph: { entities: KnowledgeEntity[], relations: KnowledgeRelation[] } = JSON.parse(content);
+      const entitiesDir = join(this.knowledgePath, 'entities');
       
-      let results = graph.entities.filter(entity => {
-        const nameMatch = entity.name.toLowerCase().includes(query.toLowerCase());
-        const typeMatch = entity.type.toLowerCase().includes(query.toLowerCase());
-        const observationMatch = entity.observations.some(obs => 
-          obs.toLowerCase().includes(query.toLowerCase())
-        );
-        
-        return nameMatch || typeMatch || observationMatch;
-      });
-      
-      if (filters.entity_type) {
-        results = results.filter(entity => entity.type === filters.entity_type);
-      }
-      
-      if (filters.max_results) {
-        results = results.slice(0, filters.max_results);
-      }
-      
-      const enrichedResults = results.map(entity => {
-        const relatedRelations = graph.relations.filter(r => 
-          r.from === entity.name || r.to === entity.name
-        );
-        
+      try {
+        await fs.access(entitiesDir);
+      } catch {
         return {
-          ...entity,
-          related_entities: relatedRelations.map(r => ({
-            entity: r.from === entity.name ? r.to : r.from,
-            relation_type: r.type,
-            direction: r.from === entity.name ? 'outgoing' : 'incoming'
-          }))
+          status: 'success',
+          message: '🔍 ძიება დასრულდა: 0 შედეგი / Search completed: 0 results',
+          query,
+          entities: [],
+          total_found: 0,
+          development_notice: '🚧 No entities found. Create some entities first / ენტითები არ მოიძებნა. ჯერ შექმენით ენტითები',
+          development_mode: true
         };
-      });
-      
-      return {
-        status: 'success',
-        message: `🔍 ძიების შედეგები: ${results.length} ენტითი მოიძებნა`,
-        query,
-        results: enrichedResults,
-        total_found: results.length,
-        filters_applied: filters,
-        timestamp: new Date().toISOString()
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `❌ ძიების შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`,
-        query
-      };
-    }
-  }
-
-  private async readGraph(args: any): Promise<any> {
-    const { include_relations = true, format = 'json' } = args;
-    
-    try {
-      const graphPath = join(this.knowledgePath, 'graph.json');
-      const content = await fs.readFile(graphPath, 'utf-8');
-      const graph: { entities: KnowledgeEntity[], relations: KnowledgeRelation[] } = JSON.parse(content);
-      
-      let result: any = {
-        entities: graph.entities,
-        total_entities: graph.entities.length,
-        total_relations: graph.relations.length
-      };
-      
-      if (include_relations) {
-        result.relations = graph.relations;
       }
       
-      if (format === 'summary') {
-        const entityTypes = [...new Set(graph.entities.map(e => e.type))];
-        const relationTypes = [...new Set(graph.relations.map(r => r.type))];
-        
-        result = {
-          summary: {
-            total_entities: graph.entities.length,
-            total_relations: graph.relations.length,
-            entity_types: entityTypes,
-            relation_types: relationTypes,
-            entities_by_type: entityTypes.map(type => ({
-              type,
-              count: graph.entities.filter(e => e.type === type).length
-            }))
+      const files = await fs.readdir(entitiesDir);
+      const foundEntities: any[] = [];
+      
+      for (const file of files) {
+        if (file.endsWith('.json') && foundEntities.length < limit) {
+          try {
+            const filePath = join(entitiesDir, file);
+            const content = await fs.readFile(filePath, 'utf-8');
+            const entity: KnowledgeEntity = JSON.parse(content);
+            
+            // Simple search in name and type
+            const searchLower = query.toLowerCase();
+            const nameMatch = entity.name.toLowerCase().includes(searchLower);
+            const typeMatch = entity.type.toLowerCase().includes(searchLower);
+            const entityTypeMatch = !entity_type || entity.type === entity_type;
+            
+            if ((nameMatch || typeMatch) && entityTypeMatch) {
+              foundEntities.push({
+                id: entity.id,
+                name: entity.name,
+                type: entity.type,
+                created: entity.created,
+                match_reason: nameMatch ? 'name' : 'type'
+              });
+            }
+          } catch {
+            // Skip invalid files
           }
-        };
+        }
       }
       
       return {
         status: 'success',
-        message: `📊 ცოდნის გრაფი: ${graph.entities.length} ენტითი, ${graph.relations.length} კავშირი`,
-        format,
-        include_relations,
-        graph: result,
+        message: `🔍 ძიება დასრულდა: ${foundEntities.length} შედეგი / Search completed: ${foundEntities.length} results`,
+        query,
+        entity_type,
+        entities: foundEntities,
+        total_found: foundEntities.length,
+        development_mode: true,
+        development_notice: '🚧 Basic search implementation / ძირითადი ძიების განხორციელება',
         timestamp: new Date().toISOString()
       };
     } catch (error) {
       return {
         status: 'error',
-        message: `❌ ცოდნის გრაფის წაკითხვის შეცდომა: ${error instanceof Error ? error.message : 'ფაილი ვერ მოიძებნა'}`
+        message: `❌ ნოუდების ძიების შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'} / Node search error`,
+        query,
+        development_mode: true
       };
     }
   }
 
-  private async deleteEntities(args: any): Promise<any> {
-    const { entities } = args;
-    
-    try {
-      const graphPath = join(this.knowledgePath, 'graph.json');
-      const content = await fs.readFile(graphPath, 'utf-8');
-      const graph: { entities: KnowledgeEntity[], relations: KnowledgeRelation[] } = JSON.parse(content);
-      
-      const deleted = [];
-      
-      for (const entityName of entities) {
-        const entityIndex = graph.entities.findIndex(e => e.name === entityName);
-        
-        if (entityIndex >= 0) {
-          graph.entities.splice(entityIndex, 1);
-          
-          // Remove related relations
-          const relationsToRemove = graph.relations.filter(r => 
-            r.from === entityName || r.to === entityName
-          );
-          
-          graph.relations = graph.relations.filter(r => 
-            r.from !== entityName && r.to !== entityName
-          );
-          
-          deleted.push({ 
-            entity: entityName, 
-            action: 'deleted',
-            relations_removed: relationsToRemove.length
-          });
-        } else {
-          deleted.push({ 
-            entity: entityName, 
-            action: 'not_found' 
-          });
-        }
-      }
-      
-      await fs.writeFile(graphPath, JSON.stringify(graph, null, 2), 'utf-8');
-      
-      return {
-        status: 'success',
-        message: `✅ ${deleted.filter(d => d.action === 'deleted').length} ენტითი წაშლილია`,
-        entities_processed: deleted,
-        remaining_entities: graph.entities.length,
-        remaining_relations: graph.relations.length,
-        timestamp: new Date().toISOString()
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `❌ ენტითების წაშლის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`,
-        entities_attempted: entities.length
-      };
-    }
-  }
-
-  private async deleteRelations(args: any): Promise<any> {
-    const { relations } = args;
-    
-    try {
-      const graphPath = join(this.knowledgePath, 'graph.json');
-      const content = await fs.readFile(graphPath, 'utf-8');
-      const graph: { entities: KnowledgeEntity[], relations: KnowledgeRelation[] } = JSON.parse(content);
-      
-      const deleted = [];
-      
-      for (const relation of relations) {
-        const relationIndex = graph.relations.findIndex(r => 
-          r.from === relation.from && r.to === relation.to && r.type === relation.type
-        );
-        
-        if (relationIndex >= 0) {
-          graph.relations.splice(relationIndex, 1);
-          deleted.push({ 
-            relation: `${relation.from} → ${relation.to}`, 
-            action: 'deleted' 
-          });
-        } else {
-          deleted.push({ 
-            relation: `${relation.from} → ${relation.to}`, 
-            action: 'not_found' 
-          });
-        }
-      }
-      
-      await fs.writeFile(graphPath, JSON.stringify(graph, null, 2), 'utf-8');
-      
-      return {
-        status: 'success',
-        message: `✅ ${deleted.filter(d => d.action === 'deleted').length} კავშირი წაშლილია`,
-        relations_processed: deleted,
-        remaining_relations: graph.relations.length,
-        timestamp: new Date().toISOString()
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `❌ კავშირების წაშლის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`,
-        relations_attempted: relations.length
-      };
-    }
+  private generateId(): string {
+    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 }
