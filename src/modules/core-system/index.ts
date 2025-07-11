@@ -1,14 +1,17 @@
 /**
- * 🔧 Core System Module
+ * 🔧 Core System Module v1.0.0
  * ძირითადი სისტემის მოდული
  * 
- * ფუნქციები:
- * - marathon_test_connection - კავშირის ტესტირება
- * - marathon_get_config - კონფიგურაციის ნახვა  
- * - marathon_set_config - კონფიგურაციის ცვლილება
- * - marathon_module_toggle - მოდულების ჩართვა/გამორთვა
- * - marathon_get_status - სისტემის სტატუსი
- * - marathon_language_switch - ენის ცვლილება
+ * 🚧 Development Phase - Basic core functionality
+ * 🚧 განვითარების ფაზა - ძირითადი ბირთვული ფუნქციონალი
+ * 
+ * ფუნქციები / Functions:
+ * - marathon_test_connection - კავშირის ტესტირება / Connection testing
+ * - marathon_get_config - კონფიგურაციის ნახვა / View configuration
+ * - marathon_set_config - კონფიგურაციის ცვლილება / Change configuration
+ * - marathon_module_toggle - მოდულების ჩართვა/გამორთვა / Toggle modules
+ * - marathon_get_status - სისტემის სტატუსი / System status
+ * - marathon_language_switch - ენის ცვლილება / Language switch
  */
 
 import { MarathonConfig } from '../../config/marathon-config.js';
@@ -36,7 +39,7 @@ export class CoreSystemModule {
           properties: {
             message: {
               type: 'string',
-              description: 'Test message (optional)',
+              description: 'Test message (optional) / ტესტ მესიჯი (არასავალდებულო)',
               default: 'Hello Marathon!'
             }
           }
@@ -50,8 +53,8 @@ export class CoreSystemModule {
           properties: {
             section: {
               type: 'string',
-              description: 'Specific config section (optional)',
-              enum: ['modules', 'ui_preferences', 'security', 'all']
+              description: 'Specific config section (optional) / კონკრეტული კონფიგურაციის სექცია',
+              enum: ['modules', 'ui_preferences', 'security', 'development', 'all']
             }
           }
         }
@@ -64,10 +67,10 @@ export class CoreSystemModule {
           properties: {
             key: {
               type: 'string',
-              description: 'Configuration key (dot notation supported)'
+              description: 'Configuration key (dot notation supported) / კონფიგურაციის გასაღები'
             },
             value: {
-              description: 'New value for the configuration key'
+              description: 'New value for the configuration key / ახალი მნიშვნელობა'
             }
           },
           required: ['key', 'value']
@@ -81,12 +84,12 @@ export class CoreSystemModule {
           properties: {
             module: {
               type: 'string',
-              description: 'Module name',
+              description: 'Module name / მოდულის სახელი',
               enum: ['core_system', 'file_system', 'git_repository', 'memory_knowledge', 'system_process', 'documentation', 'advanced_features']
             },
             enabled: {
               type: 'boolean',
-              description: 'Enable or disable the module'
+              description: 'Enable or disable the module / მოდულის ჩართვა ან გამორთვა'
             }
           },
           required: ['module']
@@ -100,7 +103,7 @@ export class CoreSystemModule {
           properties: {
             detailed: {
               type: 'boolean',
-              description: 'Include detailed statistics',
+              description: 'Include detailed statistics / დეტალური სტატისტიკის ჩართვა',
               default: false
             }
           }
@@ -114,7 +117,7 @@ export class CoreSystemModule {
           properties: {
             language: {
               type: 'string',
-              description: 'Target language',
+              description: 'Target language / სამიზნე ენა',
               enum: ['georgian', 'english']
             }
           },
@@ -181,13 +184,14 @@ export class CoreSystemModule {
     
     return {
       status: 'success',
-      message: '🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition',
+      message: '🏃‍♂️ Marathon MCP Tool v1.0.0 Development Edition',
       test_message: message,
-      response: '🇬🇪 კავშირი წარმატებულია!',
+      response: '🇬🇪 კავშირი წარმატებულია! / Connection successful!',
+      development_notice: '🚧 განვითარების ფაზა - ძირითადი ფუნქციონალი / Development Phase - Core functionality',
       system_info: systemInfo,
       log_stats: logStats,
       timestamp: new Date().toISOString(),
-      batumi_signature: '🌊 ბათუმის შავი ზღვის ტალღებისგან მისალმება!'
+      batumi_signature: '🌊 ბათუმის შავი ზღვის ტალღებისგან მისალმება! / Greetings from the waves of Batumi\'s Black Sea!'
     };
   }
 
@@ -199,7 +203,8 @@ export class CoreSystemModule {
         status: 'success',
         config: this.config.get(),
         section: 'all',
-        message: '📊 მთლიანი კონფიგურაცია'
+        message: '📊 მთლიანი კონფიგურაცია / Complete configuration',
+        development_mode: true
       };
     }
 
@@ -208,8 +213,8 @@ export class CoreSystemModule {
     if (configData === undefined) {
       return {
         status: 'error',
-        message: `კონფიგურაციის სექცია ვერ მოიძებნა: ${section}`,
-        available_sections: ['modules', 'ui_preferences', 'security', 'all']
+        message: `კონფიგურაციის სექცია ვერ მოიძებნა: ${section} / Configuration section not found: ${section}`,
+        available_sections: ['modules', 'ui_preferences', 'security', 'development', 'all']
       };
     }
 
@@ -217,7 +222,8 @@ export class CoreSystemModule {
       status: 'success',
       config: configData,
       section,
-      message: `📊 კონფიგურაციის სექცია: ${section}`
+      message: `📊 კონფიგურაციის სექცია: ${section} / Configuration section: ${section}`,
+      development_mode: true
     };
   }
 
@@ -231,16 +237,17 @@ export class CoreSystemModule {
       
       return {
         status: 'success',
-        message: `✅ კონფიგურაცია განახლდა: ${key}`,
+        message: `✅ კონფიგურაცია განახლდა: ${key} / Configuration updated: ${key}`,
         key,
         old_value: oldValue,
         new_value: value,
+        development_mode: true,
         timestamp: new Date().toISOString()
       };
     } catch (error) {
       return {
         status: 'error',
-        message: `❌ კონფიგურაციის განახლების შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`,
+        message: `❌ კონფიგურაციის განახლების შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'} / Configuration update error`,
         key,
         attempted_value: value
       };
@@ -253,11 +260,20 @@ export class CoreSystemModule {
     const oldState = this.config.isModuleEnabled(module);
     const newState = enabled !== undefined ? enabled : !oldState;
     
+    // Prevent disabling core system in development
+    if (module === 'core_system' && !newState) {
+      return {
+        status: 'warning',
+        message: '⚠️ ძირითადი სისტემის მოდული ვერ გამოირთვება განვითარების ფაზაში / Core system module cannot be disabled in development phase',
+        module,
+        current_state: oldState
+      };
+    }
+    
     this.config.toggleModule(module, newState);
     await this.config.save();
     
-    const georgian = this.config.getGeorgianInterface();
-    const action = newState ? 'ჩართულია' : 'გამორთულია';
+    const action = newState ? 'ჩართულია / enabled' : 'გამორთულია / disabled';
     
     return {
       status: 'success',
@@ -266,6 +282,7 @@ export class CoreSystemModule {
       old_state: oldState,
       new_state: newState,
       georgian_name: this.getModuleGeorgianName(module),
+      development_mode: true,
       available_modules: [
         'core_system',
         'file_system', 
@@ -288,18 +305,27 @@ export class CoreSystemModule {
       name,
       georgian_name: this.getModuleGeorgianName(name),
       enabled: config.enabled,
-      settings_count: Object.keys(config.settings || {}).length
+      settings_count: Object.keys(config.settings || {}).length,
+      development_ready: name !== 'advanced_features' // Advanced features not ready in dev
     }));
 
     const status = {
       status: 'success',
-      message: '📊 Marathon MCP Tool სტატუსი',
+      message: '📊 Marathon MCP Tool v1.0.0 Development Status / განვითარების სტატუსი',
+      version: '1.0.0',
+      edition: 'development',
       system: systemInfo,
       modules: moduleStatus,
       performance: {
         memory_usage: process.memoryUsage(),
         uptime: process.uptime(),
         node_version: process.version
+      },
+      development_info: {
+        phase: 'Core functionality implementation',
+        ready_modules: moduleStatus.filter(m => m.enabled && m.development_ready).length,
+        total_modules: moduleStatus.length,
+        debug_mode: true
       },
       timestamp: new Date().toISOString()
     };
@@ -310,7 +336,8 @@ export class CoreSystemModule {
         language: this.config.get('language'),
         theme: this.config.get('theme'),
         security_level: this.config.get('security_level'),
-        auto_backup: this.config.get('auto_backup')
+        auto_backup: this.config.get('auto_backup'),
+        development_mode: this.config.get('development.debug_mode')
       };
     }
 
@@ -344,6 +371,7 @@ export class CoreSystemModule {
       old_language: oldLanguage,
       new_language: language,
       available_languages: ['georgian', 'english'],
+      development_mode: true,
       batumi_signature: language === 'georgian' 
         ? '🌊 ბათუმური ხელწერით' 
         : '🌊 Created with Batumi spirit'
@@ -352,13 +380,13 @@ export class CoreSystemModule {
 
   private getModuleGeorgianName(module: string): string {
     const names = {
-      core_system: '🔧 ძირითადი სისტემა',
-      file_system: '📁 ფაილების მენეჯმენტი',
-      git_repository: '🐙 Git რეპოზიტორიები',
-      memory_knowledge: '🧠 მეხსიერება და ცოდნა',
-      system_process: '⚙️ სისტემა და პროცესები',
-      documentation: '📚 დოკუმენტაცია და კონტენტი',
-      advanced_features: '🚀 გაფართოებული ფუნქციები'
+      core_system: '🔧 ძირითადი სისტემა / Core System',
+      file_system: '📁 ფაილების მენეჯმენტი / File Management',
+      git_repository: '🐙 Git რეპოზიტორიები / Git Repositories',
+      memory_knowledge: '🧠 მეხსიერება და ცოდნა / Memory and Knowledge',
+      system_process: '⚙️ სისტემა და პროცესები / System and Processes',
+      documentation: '📚 დოკუმენტაცია და კონტენტი / Documentation and Content',
+      advanced_features: '🚀 გაფართოებული ფუნქციები (განვითარება) / Advanced Features (Development)'
     };
     
     return names[module as keyof typeof names] || module;
