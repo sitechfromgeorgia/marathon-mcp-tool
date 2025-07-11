@@ -25,7 +25,7 @@ import {
 import { MarathonConfig } from './config/marathon-config.js';
 import { MarathonLogger } from './utils/logger.js';
 
-// Module imports - ყველა 7 მოდული
+// Module imports
 import { CoreSystemModule } from './modules/core-system/index.js';
 import { FileSystemModule } from './modules/file-system/index.js';
 import { GitRepositoryModule } from './modules/git-repository/index.js';
@@ -68,7 +68,7 @@ class MarathonMCPServer {
     this.logger.info('🇬🇪 ქართული ინტერფეისი ჩართულია');
     this.logger.info('🌊 ბათუმური ხელწერით შექმნილია სიყვარულით');
 
-    // Initialize all 7 modules - ყველა მოდული
+    // Initialize all modules
     this.modules.set('core', new CoreSystemModule(this.config, this.logger));
     this.modules.set('filesystem', new FileSystemModule(this.config, this.logger));
     this.modules.set('git', new GitRepositoryModule(this.config, this.logger));
@@ -78,8 +78,6 @@ class MarathonMCPServer {
     this.modules.set('advanced', new AdvancedFeaturesModule(this.config, this.logger));
 
     this.logger.info('✅ ყველა მოდული ჩატვირთულია (7/7)');
-    this.logger.info('🎯 80+ ფუნქცია მზადაა ქართული ინტერფეისით');
-    this.logger.info('⚡ Universal Edition - ერთი ხელსაწყო, ყველა შესაძლებლობა!');
   }
 
   private setupHandlers(): void {
@@ -95,13 +93,7 @@ class MarathonMCPServer {
         }
       }
 
-      const enabledModules = Object.entries(this.config.get('modules'))
-        .filter(([_, config]) => config.enabled)
-        .map(([name, _]) => name);
-
-      this.logger.info(`📊 ჩატვირთულია ${tools.length} ფუნქცია ${enabledModules.length} მოდულიდან`);
-      this.logger.info(`🇬🇪 ქართული ინტერფეისი: ${this.config.get('language') === 'georgian' ? 'ჩართული' : 'გამორთული'}`);
-      
+      this.logger.info(`📊 ჩატვირთულია ${tools.length} ფუნქცია`);
       return { tools };
     });
 
@@ -111,7 +103,7 @@ class MarathonMCPServer {
 
       this.logger.info(`🔧 მუშავდება: ${name}`);
 
-      // Handle symbol commands first (prioritize advanced features)
+      // Handle symbol commands first
       if (this.isSymbolCommand(name)) {
         return await this.handleSymbolCommand(name, args);
       }
@@ -122,11 +114,11 @@ class MarathonMCPServer {
           try {
             const result = await module.handleTool(name, args);
             if (result) {
-              this.logger.info(`✅ წარმატებით შესრულდა: ${name} [${moduleName}]`);
+              this.logger.info(`✅ წარმატებით შესრულდა: ${name}`);
               return result;
             }
           } catch (error) {
-            this.logger.error(`❌ შეცდომა ${name}-ში [${moduleName}]:`, error);
+            this.logger.error(`❌ შეცდომა ${name}-ში:`, error);
             throw new McpError(
               ErrorCode.InternalError,
               `შეცდომა ფუნქციის შესრულებისას: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'}`
@@ -150,7 +142,6 @@ class MarathonMCPServer {
   private async handleSymbolCommand(name: string, args: any): Promise<any> {
     const advancedModule = this.modules.get('advanced');
     if (advancedModule && advancedModule.handleSymbolCommand) {
-      this.logger.info(`⚡ სიმბოლური ბრძანება: ${name}`);
       return await advancedModule.handleSymbolCommand(name, args);
     }
     
@@ -163,27 +154,14 @@ class MarathonMCPServer {
   public async start(): Promise<void> {
     const transport = new StdioServerTransport();
     
-    // Load configuration
-    await this.config.load();
-    
-    // Georgian startup messages
     this.logger.info('🚀 მარათონი იწყება!');
-    this.logger.info('🎯 80+ ფუნქცია მზადაა მუშაობისთვის:');
-    this.logger.info('   🔧 6 ძირითადი სისტემის ფუნქცია');
-    this.logger.info('   📁 15 ფაილების მენეჯმენტის ფუნქცია');
-    this.logger.info('   🐙 20 Git რეპოზიტორიების ფუნქცია');
-    this.logger.info('   🧠 10 მეხსიერება და ცოდნის ფუნქცია');
-    this.logger.info('   ⚙️ 8 სისტემა და პროცესების ფუნქცია');
-    this.logger.info('   📚 6 დოკუმენტაციის ფუნქცია');
-    this.logger.info('   🚀 15 გაფართოებული ფუნქცია');
+    this.logger.info('🎯 80+ ფუნქცია მზადაა მუშაობისთვის');
     this.logger.info('⚡ Universal Edition ჩართულია');
-    this.logger.info('🌊 ბათუმური ხელწერით შექმნილი სიყვარულით');
 
     await this.server.connect(transport);
     
     this.logger.info('🔗 MCP Server წარმატებით დაკავშირდა');
     this.logger.info('🏔️ კავკასიონის მთების მოგარე და ღია ზღვის სისუფთავე');
-    this.logger.info('🇬🇪 მზადაა ქართული AI ეკოსისტემისთვის!');
   }
 }
 
@@ -193,26 +171,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   
   if (args.includes('--test')) {
     console.log('🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition');
-    console.log('🇬🇪 ქართული ინტერფეისი - 80+ ფუნქცია 7 კატეგორიაში');
+    console.log('🇬🇪 ქართული ინტერფეისი');
     console.log('✅ ტესტირება წარმატებულია!');
-    console.log('🌊 ბათუმური ხელწერით შექმნილი სიყვარულით');
     process.exit(0);
   }
 
   if (args.includes('--config')) {
     console.log('⚙️ კონფიგურაციის რეჟიმი');
-    console.log('📊 7 მოდული, 80+ ფუნქცია');
-    console.log('🇬🇪 ქართული ინტერფეისი მხარდაჭერით');
     // TODO: Implement config CLI
-    process.exit(0);
-  }
-
-  if (args.includes('--version')) {
-    console.log('Marathon MCP Tool v2.0.0 Universal Edition');
-    console.log('🇬🇪 ქართული ინტერფეისი');
-    console.log('🌊 ბათუმური ხელწერა');
-    console.log('🏔️ კავკასიონის მთების სიძლიერე');
-    console.log('⚡ ერთი ხელსაწყო - ყველა შესაძლებლობა!');
     process.exit(0);
   }
 
