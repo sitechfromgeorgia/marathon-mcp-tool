@@ -1,6 +1,9 @@
 /**
- * 🏃‍♂️ Marathon MCP Tool Configuration System
- * 🇬🇪 ქართული კონფიგურაციის სისტემა
+ * 🏃‍♂️ Marathon MCP Tool Configuration System v1.0.0
+ * 🇬🇪 ქართული კონფიგურაციის სისტემა / Georgian Configuration System
+ * 
+ * 🚧 Development Phase - Basic configuration implementation
+ * 🚧 განვითარების ფაზა - ძირითადი კონფიგურაციის განხორციელება
  */
 
 import { promises as fs } from 'fs';
@@ -43,6 +46,12 @@ export interface MarathonConfigData {
     audit_log: boolean;
     encrypt_memory: boolean;
   };
+  
+  development: {
+    debug_mode: boolean;
+    verbose_logging: boolean;
+    feature_flags: Record<string, boolean>;
+  };
 }
 
 export class MarathonConfig {
@@ -56,8 +65,8 @@ export class MarathonConfig {
 
   private getDefaultConfig(): MarathonConfigData {
     return {
-      version: '2.0.0',
-      edition: 'universal',
+      version: '1.0.0',
+      edition: 'development',
       language: 'georgian',
       theme: 'batumi_sunset',
       performance_mode: 'balanced',
@@ -68,7 +77,8 @@ export class MarathonConfig {
         core_system: {
           enabled: true,
           settings: {
-            auto_updates: true
+            auto_updates: false, // Disabled in development
+            development_mode: true
           }
         },
         file_system: {
@@ -85,14 +95,15 @@ export class MarathonConfig {
           settings: {
             default_branch: 'main',
             auto_commit_message: true,
-            require_pr_review: false
+            require_pr_review: false,
+            development_mode: true
           }
         },
         memory_knowledge: {
           enabled: true,
           settings: {
-            max_memory_size: '100MB',
-            knowledge_graph_depth: 5,
+            max_memory_size: '50MB', // Reduced for development
+            knowledge_graph_depth: 3, // Reduced for development
             auto_save_interval: 300
           }
         },
@@ -101,24 +112,24 @@ export class MarathonConfig {
           settings: {
             safe_commands_only: true,
             timeout_seconds: 30,
-            max_concurrent_processes: 10
+            max_concurrent_processes: 5 // Reduced for development
           }
         },
         documentation: {
           enabled: true,
           settings: {
             cache_docs: true,
-            auto_update_docs: true,
+            auto_update_docs: false, // Disabled in development
             preferred_language: 'georgian'
           }
         },
         advanced_features: {
-          enabled: true,
+          enabled: false, // Disabled in development phase
           settings: {
-            ai_assistance: true,
-            workflows: true,
-            integrations: true,
-            marathon_mode: true
+            ai_assistance: false,
+            workflows: false,
+            integrations: false,
+            marathon_mode: false
           }
         }
       },
@@ -133,25 +144,47 @@ export class MarathonConfig {
       security: {
         require_confirmation: ['delete', 'execute', 'push'],
         audit_log: true,
-        encrypt_memory: true
+        encrypt_memory: false // Disabled in development
+      },
+      
+      development: {
+        debug_mode: true,
+        verbose_logging: true,
+        feature_flags: {
+          symbol_commands: false,
+          advanced_ai: false,
+          cloud_sync: false,
+          analytics: false
+        }
       }
     };
   }
 
   public async load(): Promise<void> {
     try {
+      // Ensure config directory exists
       const configDir = join(homedir(), '.marathon-mcp');
       await fs.mkdir(configDir, { recursive: true });
 
+      // Try to load existing config
       try {
         const configData = await fs.readFile(this.configPath, 'utf-8');
         const loadedConfig = JSON.parse(configData);
+        
+        // Merge with defaults to ensure all fields exist
         this.config = { ...this.getDefaultConfig(), ...loadedConfig };
+        
+        // Force development settings
+        this.config.version = '1.0.0';
+        this.config.edition = 'development';
+        this.config.development.debug_mode = true;
+        this.config.modules.advanced_features.enabled = false;
       } catch (error) {
+        // Config doesn't exist, create it
         await this.save();
       }
     } catch (error) {
-      console.warn('⚠️ კონფიგურაციის ჩატვირთვის შეცდომა, ნაგულისხმევი პარამეტრები:', error);
+      console.warn('⚠️ კონფიგურაციის ჩატვირთვის შეცდომა, ნაგულისხმევი პარამეტრები: / Configuration loading error, default parameters:', error);
     }
   }
 
@@ -166,7 +199,7 @@ export class MarathonConfig {
         'utf-8'
       );
     } catch (error) {
-      console.error('❌ კონფიგურაციის შენახვის შეცდომა:', error);
+      console.error('❌ კონფიგურაციის შენახვის შეცდომა: / Configuration save error:', error);
       throw error;
     }
   }
@@ -219,44 +252,44 @@ export class MarathonConfig {
 
   public getGeorgianInterface(): Record<string, string> {
     return {
-      // Core System
-      'marathon_test_connection': 'კავშირის ტესტირება',
-      'marathon_get_config': 'კონფიგურაციის ნახვა',
-      'marathon_set_config': 'კონფიგურაციის ცვლილება',
-      'marathon_module_toggle': 'მოდულების ჩართვა/გამორთვა',
-      'marathon_get_status': 'სისტემის სტატუსი',
-      'marathon_language_switch': 'ენის ცვლილება',
+      // Core System / ძირითადი სისტემა
+      'marathon_test_connection': 'კავშირის ტესტირება / Connection testing',
+      'marathon_get_config': 'კონფიგურაციის ნახვა / View configuration',
+      'marathon_set_config': 'კონფიგურაციის ცვლილება / Change configuration',
+      'marathon_module_toggle': 'მოდულების ჩართვა/გამორთვა / Toggle modules',
+      'marathon_get_status': 'სისტემის სტატუსი / System status',
+      'marathon_language_switch': 'ენის ცვლილება / Language switch',
       
-      // File System
-      'marathon_read_file': 'ფაილის წაკითხვა',
-      'marathon_write_file': 'ფაილში ჩაწერა',
-      'marathon_edit_file': 'ფაილის რედაქტირება',
-      'marathon_create_directory': 'დირექტორიის შექმნა',
-      'marathon_list_directory': 'დირექტორიის სია',
-      'marathon_search_files': 'ფაილების ძიება',
+      // File System / ფაილების სისტემა
+      'marathon_read_file': 'ფაილის წაკითხვა / Read file',
+      'marathon_write_file': 'ფაილში ჩაწერა / Write to file',
+      'marathon_edit_file': 'ფაილის რედაქტირება / Edit file',
+      'marathon_create_directory': 'დირექტორიის შექმნა / Create directory',
+      'marathon_list_directory': 'დირექტორიის სია / List directory',
+      'marathon_search_files': 'ფაილების ძიება / Search files',
       
-      // Git Repository
-      'marathon_git_create_repo': 'რეპოზიტორიის შექმნა',
-      'marathon_git_create_pr': 'Pull Request-ის შექმნა',
-      'marathon_git_create_issue': 'Issue-ის შექმნა',
+      // Git Repository / Git რეპოზიტორიები
+      'marathon_git_create_repo': 'რეპოზიტორიის შექმნა / Create repository',
+      'marathon_git_create_pr': 'Pull Request-ის შექმნა / Create Pull Request',
+      'marathon_git_create_issue': 'Issue-ის შექმნა / Create issue',
       
-      // Memory & Knowledge
-      'marathon_memory_save': 'ინფორმაციის შენახვა',
-      'marathon_memory_load': 'ინფორმაციის ჩატვირთვა',
-      'marathon_kb_create_entities': 'ენტითების შექმნა',
+      // Memory & Knowledge / მეხსიერება და ცოდნა
+      'marathon_memory_save': 'ინფორმაციის შენახვა / Save information',
+      'marathon_memory_load': 'ინფორმაციის ჩატვირთვა / Load information',
+      'marathon_kb_create_entities': 'ენტითების შექმნა / Create entities',
       
-      // System & Process
-      'marathon_execute_command': 'ბრძანების შესრულება',
-      'marathon_list_processes': 'პროცესების სია',
+      // System & Process / სისტემა და პროცესები
+      'marathon_execute_command': 'ბრძანების შესრულება / Execute command',
+      'marathon_list_processes': 'პროცესების სია / List processes',
       
-      // Documentation
-      'marathon_fetch_docs': 'დოკუმენტაციის მიღება',
-      'marathon_search_docs': 'დოკუმენტაციაში ძიება',
+      // Documentation / დოკუმენტაცია
+      'marathon_fetch_docs': 'დოკუმენტაციის მიღება / Fetch documentation',
+      'marathon_search_docs': 'დოკუმენტაციაში ძიება / Search documentation',
       
-      // Advanced Features
-      'marathon_smart_execute': 'AI-powered ბრძანების შესრულება',
-      'marathon_ai_assistant': 'ინტელექტუალური დამხმარე',
-      'marathon_symbol_command': 'სიმბოლური ბრძანებები'
+      // Advanced Features (Development) / გაფართოებული ფუნქციები (განვითარება)
+      'marathon_smart_execute': 'AI-powered ბრძანების შესრულება (განვითარება) / AI-powered command execution (development)',
+      'marathon_ai_assistant': 'ინტელექტუალური დამხმარე (განვითარება) / AI assistant (development)',
+      'marathon_symbol_command': 'სიმბოლური ბრძანებები (განვითარება) / Symbol commands (development)'
     };
   }
 
@@ -266,24 +299,31 @@ export class MarathonConfig {
       edition: this.config.edition,
       language: this.config.language,
       theme: this.config.theme,
+      development_mode: this.config.development.debug_mode,
       modules_enabled: Object.entries(this.config.modules)
         .filter(([_, config]) => config.enabled)
         .map(([name, _]) => name),
       total_functions: this.getTotalFunctionCount(),
       georgian_interface: this.config.language === 'georgian',
-      batumi_signature: '🌊 ბათუმური ხელწერით შექმნილია სიყვარულით'
+      batumi_signature: '🌊 ბათუმური ხელწერით შექმნილია სიყვარულით / Created with Batumi style and love',
+      development_status: {
+        debug_enabled: this.config.development.debug_mode,
+        verbose_logging: this.config.development.verbose_logging,
+        feature_flags: this.config.development.feature_flags
+      }
     };
   }
 
   private getTotalFunctionCount(): number {
+    // Function counts for v1.0.0 development phase
     const counts = {
       core_system: 6,
-      file_system: 15,
-      git_repository: 20,
-      memory_knowledge: 10,
-      system_process: 8,
-      documentation: 6,
-      advanced_features: 15
+      file_system: 12, // Reduced from 15
+      git_repository: 15, // Reduced from 20
+      memory_knowledge: 8, // Reduced from 10
+      system_process: 6, // Reduced from 8
+      documentation: 4, // Reduced from 6
+      advanced_features: 0 // Disabled in development
     };
 
     return Object.entries(this.config.modules)
