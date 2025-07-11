@@ -62,10 +62,8 @@ export class MarathonLogger {
       function: functionName
     };
 
-    // Add to buffer
     this.logBuffer.push(entry);
 
-    // Console output
     const georgianLevel = this.getGeorgianLogLevel(level);
     const modulePrefix = module ? `[${module}] ` : '';
     const functionPrefix = functionName ? `${functionName}: ` : '';
@@ -76,7 +74,6 @@ export class MarathonLogger {
       console.log('📊 დამატებითი ინფორმაცია:', data);
     }
 
-    // Flush buffer if needed
     if (this.logBuffer.length >= this.maxBufferSize) {
       await this.flushBuffer();
     }
@@ -131,7 +128,6 @@ export class MarathonLogger {
     try {
       const logFile = join(this.logPath, `marathon-${new Date().toISOString().split('T')[0]}.log`);
       
-      // Check file size and rotate if needed
       await this.rotateLogsIfNeeded(logFile);
       
       const logLines = this.logBuffer.map(entry => {
@@ -165,7 +161,6 @@ export class MarathonLogger {
     const recentEntries = [...this.logBuffer];
     
     if (recentEntries.length < limit) {
-      // Try to read from today's log file
       try {
         const todayLogFile = join(this.logPath, `marathon-${new Date().toISOString().split('T')[0]}.log`);
         const logContent = await fs.readFile(todayLogFile, 'utf-8');
@@ -206,12 +201,10 @@ export class MarathonLogger {
       log_directory: this.logPath
     };
 
-    // Count by level
     for (const log of recentLogs) {
       stats.by_level[log.level] = (stats.by_level[log.level] || 0) + 1;
     }
 
-    // Count by module
     for (const log of recentLogs) {
       if (log.module) {
         stats.by_module[log.module] = (stats.by_module[log.module] || 0) + 1;
@@ -222,10 +215,8 @@ export class MarathonLogger {
   }
 
   public async cleanup(): Promise<void> {
-    // Flush remaining buffer
     await this.flushBuffer();
     
-    // Clean up old log files (keep last 30 days)
     try {
       const files = await fs.readdir(this.logPath);
       const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);

@@ -140,19 +140,14 @@ export class MarathonConfig {
 
   public async load(): Promise<void> {
     try {
-      // Ensure config directory exists
       const configDir = join(homedir(), '.marathon-mcp');
       await fs.mkdir(configDir, { recursive: true });
 
-      // Try to load existing config
       try {
         const configData = await fs.readFile(this.configPath, 'utf-8');
         const loadedConfig = JSON.parse(configData);
-        
-        // Merge with defaults to ensure all fields exist
         this.config = { ...this.getDefaultConfig(), ...loadedConfig };
       } catch (error) {
-        // Config doesn't exist, create it
         await this.save();
       }
     } catch (error) {
@@ -281,7 +276,6 @@ export class MarathonConfig {
   }
 
   private getTotalFunctionCount(): number {
-    // Approximation based on enabled modules
     const counts = {
       core_system: 6,
       file_system: 15,
