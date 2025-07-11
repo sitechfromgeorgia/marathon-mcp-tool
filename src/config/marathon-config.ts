@@ -1,9 +1,9 @@
 /**
- * 🏃‍♂️ Marathon MCP Tool Configuration System v1.0.0
+ * 🏃‍♂️ Marathon MCP Tool Configuration System v1.0.0 Enhanced
  * 🇬🇪 ქართული კონფიგურაციის სისტემა / Georgian Configuration System
  * 
- * 🚧 Development Phase - Basic configuration implementation
- * 🚧 განვითარების ფაზა - ძირითადი კონფიგურაციის განხორციელება
+ * 🚀 Enhanced Edition - All features activated!
+ * 🚀 გაფართოებული ვერსია - ყველა ფუნქცია ჩართულია!
  */
 
 import { promises as fs } from 'fs';
@@ -66,7 +66,7 @@ export class MarathonConfig {
   private getDefaultConfig(): MarathonConfigData {
     return {
       version: '1.0.0',
-      edition: 'development',
+      edition: 'enhanced', // 🚀 Enhanced Edition activated!
       language: 'georgian',
       theme: 'batumi_sunset',
       performance_mode: 'balanced',
@@ -77,8 +77,8 @@ export class MarathonConfig {
         core_system: {
           enabled: true,
           settings: {
-            auto_updates: false, // Disabled in development
-            development_mode: true
+            auto_updates: false,
+            enhanced_mode: true // 🚀 Enhanced features
           }
         },
         file_system: {
@@ -96,15 +96,16 @@ export class MarathonConfig {
             default_branch: 'main',
             auto_commit_message: true,
             require_pr_review: false,
-            development_mode: true
+            enhanced_mode: true // 🚀 Enhanced features
           }
         },
         memory_knowledge: {
           enabled: true,
           settings: {
-            max_memory_size: '50MB', // Reduced for development
-            knowledge_graph_depth: 3, // Reduced for development
-            auto_save_interval: 300
+            max_memory_size: '200MB', // 🚀 Increased for enhanced mode
+            knowledge_graph_depth: 5, // 🚀 Increased for enhanced mode
+            auto_save_interval: 120, // 🚀 More frequent auto-save
+            sqlite_enabled: true // 🚀 SQLite integration
           }
         },
         system_process: {
@@ -112,24 +113,30 @@ export class MarathonConfig {
           settings: {
             safe_commands_only: true,
             timeout_seconds: 30,
-            max_concurrent_processes: 5 // Reduced for development
+            max_concurrent_processes: 10, // 🚀 Increased for enhanced mode
+            enhanced_monitoring: true // 🚀 Enhanced monitoring
           }
         },
         documentation: {
           enabled: true,
           settings: {
             cache_docs: true,
-            auto_update_docs: false, // Disabled in development
-            preferred_language: 'georgian'
+            auto_update_docs: true, // 🚀 Enabled in enhanced mode
+            preferred_language: 'georgian',
+            enhanced_search: true // 🚀 Enhanced search
           }
         },
         advanced_features: {
-          enabled: false, // Disabled in development phase
+          enabled: true, // 🚀 ACTIVATED!
           settings: {
-            ai_assistance: false,
-            workflows: false,
-            integrations: false,
-            marathon_mode: false
+            symbol_commands: true, // 🚀 Symbol Commands (---, +++, etc.)
+            marathon_mode: true, // 🚀 Marathon Mode
+            ai_assistance: true, // 🚀 Basic AI
+            sqlite_memory: true, // 🚀 SQLite Memory
+            analytics: true, // 🚀 Basic Analytics
+            workflows: false, // Future feature
+            integrations: false, // Future feature
+            cloud_sync: false // Future feature
           }
         }
       },
@@ -144,17 +151,20 @@ export class MarathonConfig {
       security: {
         require_confirmation: ['delete', 'execute', 'push'],
         audit_log: true,
-        encrypt_memory: false // Disabled in development
+        encrypt_memory: false // Keep disabled for now
       },
       
       development: {
-        debug_mode: true,
-        verbose_logging: true,
+        debug_mode: false, // 🚀 Production ready
+        verbose_logging: false, // 🚀 Production ready
         feature_flags: {
-          symbol_commands: false,
-          advanced_ai: false,
-          cloud_sync: false,
-          analytics: false
+          symbol_commands: true, // 🚀 ENABLED
+          marathon_mode: true, // 🚀 ENABLED
+          sqlite_memory: true, // 🚀 ENABLED
+          analytics: true, // 🚀 ENABLED
+          advanced_ai: false, // Future (v1.1.0)
+          cloud_sync: false, // Future (v1.2.0)
+          web_dashboard: false // Future (v2.0.0)
         }
       }
     };
@@ -174,11 +184,11 @@ export class MarathonConfig {
         // Merge with defaults to ensure all fields exist
         this.config = { ...this.getDefaultConfig(), ...loadedConfig };
         
-        // Force development settings
+        // Force enhanced settings
         this.config.version = '1.0.0';
-        this.config.edition = 'development';
-        this.config.development.debug_mode = true;
-        this.config.modules.advanced_features.enabled = false;
+        this.config.edition = 'enhanced';
+        this.config.development.debug_mode = false;
+        this.config.modules.advanced_features.enabled = true;
       } catch (error) {
         // Config doesn't exist, create it
         await this.save();
@@ -286,44 +296,48 @@ export class MarathonConfig {
       'marathon_fetch_docs': 'დოკუმენტაციის მიღება / Fetch documentation',
       'marathon_search_docs': 'დოკუმენტაციაში ძიება / Search documentation',
       
-      // Advanced Features (Development) / გაფართოებული ფუნქციები (განვითარება)
-      'marathon_smart_execute': 'AI-powered ბრძანების შესრულება (განვითარება) / AI-powered command execution (development)',
-      'marathon_ai_assistant': 'ინტელექტუალური დამხმარე (განვითარება) / AI assistant (development)',
-      'marathon_symbol_command': 'სიმბოლური ბრძანებები (განვითარება) / Symbol commands (development)'
+      // 🚀 Enhanced Features - ACTIVATED! / გაფართოებული ფუნქციები - ჩართული!
+      'marathon_symbol_command': 'სიმბოლური ბრძანებები (---, +++, ...) / Symbol commands',
+      'marathon_mode_activate': 'მარათონ რეჟიმის ჩართვა / Activate Marathon Mode',
+      'marathon_mode_deactivate': 'მარათონ რეჟიმის გამორთვა / Deactivate Marathon Mode',
+      'marathon_analytics_report': 'ანალიტიკის რეპორტი / Analytics report',
+      'marathon_sqlite_status': 'SQLite მდგომარეობა / SQLite status',
+      'marathon_auto_save': 'ავტომატური შენახვა / Auto save'
     };
   }
 
   public getSystemInfo(): Record<string, any> {
     return {
       version: this.config.version,
-      edition: this.config.edition,
+      edition: this.config.edition, // 🚀 "enhanced"
       language: this.config.language,
       theme: this.config.theme,
-      development_mode: this.config.development.debug_mode,
+      enhanced_mode: this.config.edition === 'enhanced', // 🚀 Enhanced mode indicator
       modules_enabled: Object.entries(this.config.modules)
         .filter(([_, config]) => config.enabled)
         .map(([name, _]) => name),
       total_functions: this.getTotalFunctionCount(),
       georgian_interface: this.config.language === 'georgian',
       batumi_signature: '🌊 ბათუმური ხელწერით შექმნილია სიყვარულით / Created with Batumi style and love',
-      development_status: {
-        debug_enabled: this.config.development.debug_mode,
-        verbose_logging: this.config.development.verbose_logging,
-        feature_flags: this.config.development.feature_flags
+      enhanced_features: { // 🚀 Enhanced features status
+        symbol_commands: this.config.development.feature_flags.symbol_commands,
+        marathon_mode: this.config.development.feature_flags.marathon_mode,
+        sqlite_memory: this.config.development.feature_flags.sqlite_memory,
+        analytics: this.config.development.feature_flags.analytics
       }
     };
   }
 
   private getTotalFunctionCount(): number {
-    // Function counts for v1.0.0 development phase
+    // Enhanced function counts for v1.0.0 enhanced edition
     const counts = {
       core_system: 6,
-      file_system: 12, // Reduced from 15
-      git_repository: 15, // Reduced from 20
-      memory_knowledge: 8, // Reduced from 10
-      system_process: 6, // Reduced from 8
-      documentation: 4, // Reduced from 6
-      advanced_features: 0 // Disabled in development
+      file_system: 15,
+      git_repository: 20,
+      memory_knowledge: 12, // 🚀 Increased with SQLite
+      system_process: 8,
+      documentation: 6,
+      advanced_features: 10 // 🚀 ACTIVATED! Symbol commands + Marathon Mode + Analytics
     };
 
     return Object.entries(this.config.modules)
@@ -331,5 +345,22 @@ export class MarathonConfig {
       .reduce((total, [name, _]) => {
         return total + (counts[name as keyof typeof counts] || 0);
       }, 0);
+  }
+
+  // 🚀 Enhanced feature getters
+  public isSymbolCommandsEnabled(): boolean {
+    return this.config.development.feature_flags.symbol_commands;
+  }
+
+  public isMarathonModeEnabled(): boolean {
+    return this.config.development.feature_flags.marathon_mode;
+  }
+
+  public isSQLiteEnabled(): boolean {
+    return this.config.development.feature_flags.sqlite_memory;
+  }
+
+  public isAnalyticsEnabled(): boolean {
+    return this.config.development.feature_flags.analytics;
   }
 }
