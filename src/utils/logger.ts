@@ -1,6 +1,9 @@
 /**
- * 🏃‍♂️ Marathon MCP Tool Logger System
- * 🇬🇪 ქართული ლოგირების სისტემა
+ * 🏃‍♂️ Marathon MCP Tool Logger System v1.0.0
+ * 🇬🇪 ქართული ლოგირების სისტემა / Georgian Logging System
+ * 
+ * 🚧 Development Phase - Enhanced logging for debugging
+ * 🚧 განვითარების ფაზა - გაძლიერებული ლოგირება დებაგისთვის
  */
 
 import { promises as fs } from 'fs';
@@ -23,6 +26,7 @@ export class MarathonLogger {
   private logBuffer: LogEntry[] = [];
   private readonly maxBufferSize = 100;
   private readonly maxLogFileSize = 10 * 1024 * 1024; // 10MB
+  private developmentMode: boolean = true;
 
   constructor() {
     this.logPath = join(homedir(), '.marathon-mcp', 'logs');
@@ -33,7 +37,7 @@ export class MarathonLogger {
     try {
       await fs.mkdir(this.logPath, { recursive: true });
     } catch (error) {
-      console.warn('⚠️ ლოგების დირექტორიის შექმნის შეცდომა:', error);
+      console.warn('⚠️ ლოგების დირექტორიის შექმნის შეცდომა: / Log directory creation error:', error);
     }
   }
 
@@ -44,10 +48,10 @@ export class MarathonLogger {
 
   private getGeorgianLogLevel(level: LogLevel): string {
     const levels = {
-      debug: '🔍 დებაგი',
-      info: 'ℹ️ ინფო',
-      warn: '⚠️ გაფრთხილება',
-      error: '❌ შეცდომა'
+      debug: '🔍 დებაგი / Debug',
+      info: 'ℹ️ ინფო / Info',
+      warn: '⚠️ გაფრთხილება / Warning',
+      error: '❌ შეცდომა / Error'
     };
     return levels[level] || level;
   }
@@ -62,25 +66,32 @@ export class MarathonLogger {
       function: functionName
     };
 
+    // Add to buffer
     this.logBuffer.push(entry);
 
+    // Console output with development enhancement
     const georgianLevel = this.getGeorgianLogLevel(level);
     const modulePrefix = module ? `[${module}] ` : '';
     const functionPrefix = functionName ? `${functionName}: ` : '';
+    const devPrefix = this.developmentMode ? '🚧 [DEV] ' : '';
     
-    console.log(`${georgianLevel} ${entry.timestamp} ${modulePrefix}${functionPrefix}${message}`);
+    console.log(`${devPrefix}${georgianLevel} ${entry.timestamp} ${modulePrefix}${functionPrefix}${message}`);
     
-    if (data) {
-      console.log('📊 დამატებითი ინფორმაცია:', data);
+    if (data && this.developmentMode) {
+      console.log('📊 დამატებითი ინფორმაცია / Additional info:', data);
     }
 
+    // Flush buffer if needed
     if (this.logBuffer.length >= this.maxBufferSize) {
       await this.flushBuffer();
     }
   }
 
   public async debug(message: string, data?: any, module?: string, functionName?: string): Promise<void> {
-    await this.log('debug', message, data, module, functionName);
+    // Always show debug in development mode
+    if (this.developmentMode) {
+      await this.log('debug', message, data, module, functionName);
+    }
   }
 
   public async info(message: string, data?: any, module?: string, functionName?: string): Promise<void> {
@@ -96,27 +107,50 @@ export class MarathonLogger {
   }
 
   public async logFunctionCall(functionName: string, args: any, module: string): Promise<void> {
+    const devMessage = this.developmentMode 
+      ? `ფუნქცია გამოიძახა (განვითარება): ${functionName} / Function called (development): ${functionName}`
+      : `ფუნქცია გამოიძახა: ${functionName} / Function called: ${functionName}`;
+    
     await this.info(
-      `ფუნქცია გამოიძახა: ${functionName}`,
-      { arguments: args },
+      devMessage,
+      { arguments: args, development_mode: this.developmentMode },
       module,
       functionName
     );
   }
 
   public async logFunctionResult(functionName: string, result: any, duration: number, module: string): Promise<void> {
+    const devMessage = this.developmentMode
+      ? `ფუნქცია შესრულდა (განვითარება): ${functionName} (${duration}ms) / Function completed (development): ${functionName} (${duration}ms)`
+      : `ფუნქცია შესრულდა: ${functionName} (${duration}ms) / Function completed: ${functionName} (${duration}ms)`;
+    
     await this.info(
-      `ფუნქცია შესრულდა: ${functionName} (${duration}ms)`,
-      { result_type: typeof result, success: true },
+      devMessage,
+      { 
+        result_type: typeof result, 
+        success: true, 
+        duration_ms: duration,
+        development_mode: this.developmentMode
+      },
       module,
       functionName
     );
   }
 
   public async logFunctionError(functionName: string, error: any, duration: number, module: string): Promise<void> {
+    const devMessage = this.developmentMode
+      ? `ფუნქციის შეცდომა (განვითარება): ${functionName} (${duration}ms) / Function error (development): ${functionName} (${duration}ms)`
+      : `ფუნქციის შეცდომა: ${functionName} (${duration}ms) / Function error: ${functionName} (${duration}ms)`;
+    
     await this.error(
-      `ფუნქციის შეცდომა: ${functionName} (${duration}ms)`,
-      { error: error instanceof Error ? error.message : error, success: false },
+      devMessage,
+      { 
+        error: error instanceof Error ? error.message : error, 
+        success: false, 
+        duration_ms: duration,
+        development_mode: this.developmentMode,
+        stack: this.developmentMode && error instanceof Error ? error.stack : undefined
+      },
       module,
       functionName
     );
@@ -126,22 +160,24 @@ export class MarathonLogger {
     if (this.logBuffer.length === 0) return;
 
     try {
-      const logFile = join(this.logPath, `marathon-${new Date().toISOString().split('T')[0]}.log`);
+      const logFile = join(this.logPath, `marathon-v1.0.0-${new Date().toISOString().split('T')[0]}.log`);
       
+      // Check file size and rotate if needed
       await this.rotateLogsIfNeeded(logFile);
       
       const logLines = this.logBuffer.map(entry => {
         const dataStr = entry.data ? ` | ${JSON.stringify(entry.data)}` : '';
         const moduleStr = entry.module ? ` [${entry.module}]` : '';
         const functionStr = entry.function ? ` ${entry.function}` : '';
+        const devStr = this.developmentMode ? ' [DEV]' : '';
         
-        return `${entry.timestamp} ${entry.level.toUpperCase()}${moduleStr}${functionStr}: ${entry.message}${dataStr}`;
+        return `${entry.timestamp}${devStr} ${entry.level.toUpperCase()}${moduleStr}${functionStr}: ${entry.message}${dataStr}`;
       }).join('\n') + '\n';
 
       await fs.appendFile(logFile, logLines, 'utf-8');
       this.logBuffer = [];
     } catch (error) {
-      console.warn('⚠️ ლოგების ჩაწერის შეცდომა:', error);
+      console.warn('⚠️ ლოგების ჩაწერის შეცდომა: / Log write error:', error);
     }
   }
 
@@ -161,8 +197,9 @@ export class MarathonLogger {
     const recentEntries = [...this.logBuffer];
     
     if (recentEntries.length < limit) {
+      // Try to read from today's log file
       try {
-        const todayLogFile = join(this.logPath, `marathon-${new Date().toISOString().split('T')[0]}.log`);
+        const todayLogFile = join(this.logPath, `marathon-v1.0.0-${new Date().toISOString().split('T')[0]}.log`);
         const logContent = await fs.readFile(todayLogFile, 'utf-8');
         
         const lines = logContent.trim().split('\n');
@@ -172,7 +209,7 @@ export class MarathonLogger {
           
           return {
             timestamp,
-            level: level.toLowerCase() as LogLevel,
+            level: level.toLowerCase().replace('[dev]', '').trim() as LogLevel,
             message: message || '',
           };
         });
@@ -198,13 +235,17 @@ export class MarathonLogger {
         .slice(-5)
         .map(log => ({ timestamp: log.timestamp, message: log.message })),
       buffer_size: this.logBuffer.length,
-      log_directory: this.logPath
+      log_directory: this.logPath,
+      development_mode: this.developmentMode,
+      version: '1.0.0'
     };
 
+    // Count by level
     for (const log of recentLogs) {
       stats.by_level[log.level] = (stats.by_level[log.level] || 0) + 1;
     }
 
+    // Count by module
     for (const log of recentLogs) {
       if (log.module) {
         stats.by_module[log.module] = (stats.by_module[log.module] || 0) + 1;
@@ -214,25 +255,33 @@ export class MarathonLogger {
     return stats;
   }
 
+  public setDevelopmentMode(enabled: boolean): void {
+    this.developmentMode = enabled;
+    this.info(`განვითარების რეჟიმი ${enabled ? 'ჩართულია' : 'გამორთულია'} / Development mode ${enabled ? 'enabled' : 'disabled'}`);
+  }
+
   public async cleanup(): Promise<void> {
+    // Flush remaining buffer
     await this.flushBuffer();
     
+    // Clean up old log files (keep last 30 days)
     try {
       const files = await fs.readdir(this.logPath);
       const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
       
       for (const file of files) {
-        if (file.startsWith('marathon-') && file.endsWith('.log')) {
+        if (file.startsWith('marathon-v1.0.0-') && file.endsWith('.log')) {
           const filePath = join(this.logPath, file);
           const stats = await fs.stat(filePath);
           
           if (stats.mtime.getTime() < thirtyDaysAgo) {
             await fs.unlink(filePath);
+            this.info(`ძველი ლოგ ფაილი წაიშალა: ${file} / Old log file deleted: ${file}`);
           }
         }
       }
     } catch (error) {
-      console.warn('⚠️ ძველი ლოგების წაშლის შეცდომა:', error);
+      console.warn('⚠️ ძველი ლოგების წაშლის შეცდომა: / Old logs cleanup error:', error);
     }
   }
 }
