@@ -1,17 +1,17 @@
-# 🏃‍♂️ Marathon MCP Tool v1.0.0 Development Edition
+# 🏃‍♂️ Marathon MCP Tool v1.0.0 - Windows Compatible Edition
 
 <div align="center">
 
 **ერთი ხელსაწყო - ყველა შესაძლებლობა! / One tool - all possibilities!**  
-**90+ ფუნქცია 7 კატეგორიაში / 90+ functions in 7 categories**
+**Georgian Interface with Windows Compatibility**
 
-🇬🇪 **ქართული ინტერფეისი / Georgian Interface** | 🌊 **ბათუმური ხელწერა / Batumi Style** | 🚧 **Development Edition**
+🇬🇪 **ქართული ინტერფეისი / Georgian Interface** | 🌊 **ბათუმური ხელწერა / Batumi Style** | 🪟 **Windows Compatible**
 
-[![Version](https://img.shields.io/badge/version-1.0.0--development-orange.svg)](https://github.com/sitechfromgeorgia/marathon-mcp-tool)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/sitechfromgeorgia/marathon-mcp-tool)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Georgian](https://img.shields.io/badge/ქართული-interface-red.svg)](#)
-[![Batumi](https://img.shields.io/badge/🌊-ბათუმური_ხელწერა-blue.svg)](#)
-[![Development](https://img.shields.io/badge/status-development-orange.svg)](#)
+[![Windows](https://img.shields.io/badge/🪟-Windows_Compatible-blue.svg)](#)
+[![Status](https://img.shields.io/badge/status-stable-green.svg)](#)
 
 *🏔️ კავკასიონის მთების სიძლიერით და შავი ზღვის სისუფთავით*  
 *🏔️ With the strength of Caucasus Mountains and the purity of Black Sea*
@@ -20,157 +20,268 @@
 
 ---
 
-## 🚧 Development Edition Status | განვითარების ვერსიის მდგომარეობა
+## 🌟 Overview | მიმოხილვა
 
-> **🚧 DEVELOPMENT PHASE - CORE FUNCTIONALITY ACTIVE**  
-> **🚧 განვითარების ფაზა - ძირითადი ფუნქციონალი აქტიური**
+**Marathon MCP Tool** is a powerful, bilingual (Georgian/English) Model Context Protocol (MCP) server that provides seamless integration between AI assistants and system operations. Built with love in Batumi, Georgia, this tool offers a unique Georgian interface while maintaining full Windows compatibility.
 
-### ✅ Currently Working (v1.0.0):
-- **🔧 Core System**: Connection testing, configuration management
-- **📁 File System**: Read/write operations, directory management  
-- **🧠 Basic Memory**: Simple information storage
-- **📚 Documentation**: Documentation generation tools
-- **⚙️ System Process**: Safe mode command execution
-- **🐙 Git Repository**: Simulated GitHub operations
+**მარათონ MCP ხელსაწყო** არის ძლიერი, ორენოვანი (ქართული/ინგლისური) მოდელის კონტექსტის პროტოკოლის (MCP) სერვერი, რომელიც უზრუნველყოფს უწყვეტ ინტეგრაციას AI ასისტენტებსა და სისტემურ ოპერაციებს შორის. შექმნილია სიყვარულით ბათუმში, საქართველოში.
 
-### 🚧 Built but Disabled (Ready for v1.1.0):
-- **🎯 Symbol Commands**: ---, +++, ..., ***, ###, @@@ (BUILT BUT DISABLED)
-- **🏃‍♂️ Marathon Mode**: Auto-save, session recovery (BUILT BUT DISABLED)  
-- **🗄️ SQLite Memory**: Persistent storage (BUILT BUT DISABLED)
-- **📊 Analytics**: Usage tracking and insights (BUILT BUT DISABLED)
+### ✨ Key Features | ძირითადი ფუნქციები
 
-### ❌ Future Features (v1.2.0+):
-- **🤖 AI Intelligence**: Local NLP processing
-- **☁️ Cloud Sync**: Optional cloud backup
-- **🌐 Web Dashboard**: Browser interface
-- **📱 Mobile Access**: Progressive Web App
+- **🇬🇪 Native Georgian Interface** - Full Georgian language support / სრული ქართული ენის მხარდაჭერა
+- **🪟 Windows Compatible** - Optimized for Windows environments / Windows-ის გარემოზე ოპტიმიზებული  
+- **🔧 5 Core Functions** - Essential operations ready to use / 5 ძირითადი ფუნქცია მზადაა გამოსაყენებლად
+- **💾 Simple Memory** - Built-in data storage system / ჩაშენებული მონაცემების შენახვის სისტემა
+- **🌊 Batumi Style** - Designed with Georgian aesthetics / ქართული ესთეტიკით დიზაინი
+- **⚡ Fast & Stable** - Lightweight and reliable / მსუბუქი და საიმედო
 
 ---
 
-## 🎯 Planned Symbol Commands | დაგეგმილი სიმბოლური ბრძანებები
+## 🚀 Quick Start | სწრაფი დაწყება
 
-### Coming in v1.1.0:
-```
----  →  Reset Session / სესიის განულება (PLANNED)
-+++  →  Marathon Mode / მარათონ რეჟიმი (PLANNED)
-...  →  Continue Task / ამოცანის გაგრძელება (PLANNED)
-***  →  Emergency Save / გადაუდებელი შენახვა (PLANNED)
-###  →  Deep Analysis / ღრმა ანალიზი (PLANNED)
-@@@  →  Expert Mode / ექსპერტული რეჟიმი (PLANNED)
-```
+### Prerequisites | პირობები
+- **Node.js 18+** 
+- **Windows 10/11** (recommended / რეკომენდებული)
+- **Claude Desktop** or compatible MCP client
 
-**Note**: Symbol commands are built but not yet activated / სიმბოლური ბრძანებები აშენებულია მაგრამ ჯერ არ არის აქტივირებული
+### Installation | ინსტალაცია
 
----
-
-## 🏃‍♂️ Marathon Mode (Coming Soon) | მარათონ რეჟიმი (მალე)
-
-**Perfect for long-term projects / იდეალური გრძელვადიანი პროექტებისთვის**
-
-### Planned Features for v1.1.0:
-- **Auto-save every 2 minutes** / ავტო-შენახვა ყოველ 2 წუთში
-- **Session recovery** / სესიის აღდგენა  
-- **Project tracking** / პროექტის ტრექინგი
-- **Context preservation** / კონტექსტის შენარჩუნება
-- **Progress monitoring** / პროგრესის მონიტორინგი
-
-### Current Status:
+1. **Clone the repository / რეპოზიტორიის კლონირება:**
 ```bash
-# Coming in v1.1.0
-marathon_symbol_command --symbol "+++"
-# Currently returns: Feature not yet activated
+git clone https://github.com/sitechfromgeorgia/marathon-mcp-tool.git
+cd marathon-mcp-tool
 ```
 
----
-
-## 🗄️ SQLite Integration (Coming Soon) | SQLite ინტეგრაცია (მალე)
-
-**Persistent memory across sessions / მუდმივი მეხსიერება სესიებს შორის**
-
-### Planned Database Tables for v1.1.0:
-- **memory** - Key-value storage / გასაღები-მნიშვნელობა
-- **sessions** - Session tracking / სესიების ტრექინგი
-- **symbol_commands** - Command history / ბრძანებების ისტორია
-- **marathon_sessions** - Marathon tracking / მარათონის ტრექინგი
-- **checkpoints** - Auto-save points / ავტო-შენახვის წერტილები
-- **analytics_events** - Usage analytics / გამოყენების ანალიტიკა
-
-### Current Status:
+2. **Install dependencies / დამოკიდებულებების ინსტალაცია:**
 ```bash
-# Coming in v1.1.0  
-marathon_sqlite_status --detailed true
-# Currently returns: SQLite features not yet activated
+npm install
 ```
 
----
-
-## 📊 Analytics & Insights (Coming Soon) | ანალიტიკა და ანალიზი (მალე)
-
-**Track your productivity / თვალყური ადევნეთ თქვენს პროდუქტიულობას**
-
-### Planned Reports for v1.1.0:
-- **Function usage statistics** / ფუნქციების გამოყენების სტატისტიკა
-- **Performance metrics** / შესრულების მეტრიკები
-- **Batumi insights** / ბათუმური ანალიზი
-- **Session quality assessment** / სესიის ხარისხის შეფასება
-
-### Current Status:
+3. **Build the project / პროექტის აშენება:**
 ```bash
-# Coming in v1.1.0
-marathon_analytics_report --period "today" --detailed true
-# Currently returns: Analytics features not yet activated
+npm run build
+```
+
+4. **Test the installation / ინსტალაციის ტესტირება:**
+```bash
+npm run marathon:test
+```
+
+### Configuration | კონფიგურაცია
+
+Add to your Claude Desktop config (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "marathon-mcp-tool": {
+      "command": "node",
+      "args": ["C:\\path\\to\\marathon-mcp-tool\\dist\\index.js"],
+      "env": {
+        "MARATHON_LANGUAGE": "georgian",
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
 ```
 
 ---
 
-## 📋 Current Module System | მიმდინარე მოდულური სისტემა
+## 🛠️ Available Functions | ხელმისაწვდომი ფუნქციები
 
-### 🔧 1. Core System (6 functions) ✅ ACTIVE
+### 1. 🔧 Connection Test | კავშირის ტესტი
 ```
-✅ marathon_test_connection     - კავშირის ტესტირება / Connection testing
-✅ marathon_health_check        - ჯანმრთელობის შემოწმება / Health check  
-✅ marathon_simple_memory       - მარტივი მეხსიერება / Simple memory
-✅ marathon_get_config          - კონფიგურაციის ნახვა / View configuration
-✅ marathon_module_status       - მოდულების სტატუსი / Module status
-✅ marathon_language_switch     - ენის ცვლილება (ქართული/English) / Language switch
+marathon_test_connection
+```
+- Tests the MCP connection and system status
+- კავშირისა და სისტემის სტატუსის ტესტირება
+
+### 2. 💾 Simple Memory | მარტივი მეხსიერება  
+```
+marathon_simple_memory
+```
+- Store, retrieve, and manage data
+- მონაცემების შენახვა, ამოღება და მართვა
+- Actions: `save`, `load`, `list`, `clear`
+
+### 3. 🏥 Health Check | ჯანმრთელობის შემოწმება
+```
+marathon_health_check  
+```
+- System diagnostics and performance metrics
+- სისტემის დიაგნოსტიკა და შესრულების მეტრიკები
+
+### 4. ⚙️ Configuration | კონფიგურაცია
+```
+marathon_get_config
+```
+- View current tool configuration
+- მიმდინარე ხელსაწყოს კონფიგურაციის ნახვა
+
+### 5. 🌐 Language Switch | ენის ცვლილება
+```
+marathon_language_switch
+```
+- Switch between Georgian and English
+- ქართულსა და ინგლისურს შორის გადართვა
+- Options: `georgian`, `english`, `auto`
+
+---
+
+## 💡 Usage Examples | გამოყენების მაგალითები
+
+### Basic Connection Test | ძირითადი კავშირის ტესტი
+```javascript
+// Test the connection
+marathon_test_connection({
+  message: "Hello from Batumi!"
+})
 ```
 
-### 📁 2. File System Management (15 functions) ✅ ACTIVE
-```
-📖 Read Operations:
-✅ marathon_read_file           - ფაილის წაკითხვა / Read file
-✅ marathon_read_multiple_files - მრავალი ფაილის წაკითხვა / Read multiple files
-✅ marathon_get_file_info       - ფაილის ინფორმაცია / File information
+### Memory Operations | მეხსიერების ოპერაციები
+```javascript
+// Save data / მონაცემების შენახვა
+marathon_simple_memory({
+  action: "save",
+  key: "project_info",
+  data: "Marathon MCP Tool project details"
+})
 
-✏️ Write Operations:
-✅ marathon_write_file          - ფაილში ჩაწერა / Write to file
-✅ marathon_edit_file           - ფაილის რედაქტირება / Edit file
-✅ marathon_edit_block          - ბლოკური რედაქტირება / Block editing
+// Load data / მონაცემების ჩატვირთვა  
+marathon_simple_memory({
+  action: "load",
+  key: "project_info"
+})
 
-📂 Directory Management:
-✅ marathon_create_directory    - დირექტორიის შექმნა / Create directory
-✅ marathon_list_directory      - დირექტორიის სია / List directory
-✅ marathon_directory_tree      - დირექტორიის ხე / Directory tree
-✅ marathon_move_file           - ფაილის გადატანა / Move file
-
-🔍 Search Operations:
-✅ marathon_search_files        - ფაილების ძიება / Search files
-✅ marathon_search_code         - კოდის ძიება / Search code
-✅ marathon_allowed_directories - ნებადართული დირექტორიები / Allowed directories
+// List all keys / ყველა გასაღების სია
+marathon_simple_memory({
+  action: "list"
+})
 ```
 
-### 🐙 3. Git & Repository Management (20 functions) ✅ SIMULATED
+### Language Switching | ენის ცვლილება
+```javascript
+// Switch to Georgian / ქართულზე გადართვა
+marathon_language_switch({
+  language: "georgian"
+})
+
+// Switch to English / ინგლისურზე გადართვა
+marathon_language_switch({
+  language: "english"
+})
 ```
-📚 Repository Operations:
-✅ marathon_git_create_repo     - რეპოზიტორიის შექმნა / Create repository (SIMULATED)
-✅ marathon_git_search_repos    - რეპოზიტორიების ძიება / Search repositories
-✅ marathon_git_fork_repo       - რეპოზიტორიის ფორკი / Fork repository
 
-📄 File Operations:
-✅ marathon_git_get_file        - ფაილის მიღება GitHub-დან / Get file from GitHub
-✅ marathon_git_create_file     - ფაილის შექმნა/განახლება / Create/update file
-✅ marathon_git_push_files      - ფაილების push-ი / Push files
+---
 
-🌿 Branch Management:
-✅ marathon_git_create_branch   - ბრენჩის შექმნა / Create branch
-✅ marathon_git_list_commits    - კომიტების სია / List commits
+## 🔧 Development | განვითარება
+
+### Scripts | სკრიპტები
+```bash
+npm run build          # Build TypeScript to JavaScript
+npm run dev            # Run in development mode  
+npm run test           # Run tests
+npm run marathon:test  # Test Marathon functionality
+npm run clean          # Clean build directory
+npm run watch          # Watch for changes
+```
+
+### Project Structure | პროექტის სტრუქტურა
+```
+marathon-mcp-tool/
+├── src/
+│   └── index.ts       # Main server file
+├── dist/              # Compiled JavaScript
+├── package.json       # Dependencies and scripts  
+├── tsconfig.json      # TypeScript configuration
+└── README.md          # This file
+```
+
+---
+
+## 🌊 Georgian Interface Features | ქართული ინტერფეისის ფუნქციები
+
+The Marathon MCP Tool provides native Georgian language support with:
+
+- **Bilingual responses** - All functions return both Georgian and English text
+- **Georgian command descriptions** - Native language interface  
+- **Cultural context** - Batumi and Georgian references throughout
+- **Unicode safety** - Windows-compatible Georgian text rendering
+
+მარათონ MCP ხელსაწყო უზრუნველყოფს ქართული ენის მხარდაჭერას:
+
+- **ორენოვანი პასუხები** - ყველა ფუნქცია აბრუნებს ქართულ და ინგლისურ ტექსტს
+- **ქართული ბრძანებების აღწერა** - მშობლიური ენის ინტერფეისი
+- **კულტურული კონტექსტი** - ბათუმისა და საქართველოს მინიშნებები
+- **Unicode უსაფრთხოება** - Windows-თან თავსებადი ქართული ტექსტის რენდერინგი
+
+---
+
+## 🛡️ Windows Compatibility | Windows-თან თავსებადობა
+
+This version specifically addresses Windows compatibility issues:
+
+- **UTF-8 Encoding** - Proper Unicode handling for Georgian text
+- **JSON Parsing** - Safe JSON operations without Unicode errors  
+- **Process Management** - Windows-optimized process handling
+- **Error Handling** - Graceful fallbacks for Windows-specific issues
+- **Safe Logging** - Console output that works reliably on Windows
+
+ეს ვერსია სპეციალურად წყვეტს Windows-თან თავსებადობის პრობლემებს:
+
+- **UTF-8 კოდირება** - ქართული ტექსტის სწორი Unicode დამუშავება
+- **JSON ანალიზი** - Unicode შეცდომების გარეშე JSON ოპერაციები
+- **პროცესების მართვა** - Windows-ზე ოპტიმიზებული პროცესების დამუშავება
+- **შეცდომების დამუშავება** - Windows-ის სპეციფიკური პრობლემების შემთხვევაში მსუბუქი დაბრუნება
+
+---
+
+## 🏔️ About Georgia | საქართველოს შესახებ
+
+This project is proudly created in **Batumi, Georgia** 🇬🇪 - a beautiful coastal city on the Black Sea. The tool reflects Georgian culture and language while providing world-class functionality.
+
+**Batumi** (ბათუმი) is known for:
+- Beautiful Black Sea coastline / ლამაზი შავი ზღვის სანაპირო
+- Modern architecture and ancient culture / თანამედროვე არქიტექტურა და ძველი კულტურა  
+- Warm Georgian hospitality / თბილი ქართული სტუმარმოყვარეობა
+- Bridge between Europe and Asia / ხიდი ევროპასა და აზიას შორის
+
+---
+
+## 📝 License | ლიცენზია
+
+MIT License - Feel free to use, modify, and distribute.
+
+---
+
+## 🤝 Contributing | წვლილი
+
+Contributions are welcome! Please feel free to submit issues and pull requests.
+
+წვლილი მიღებული იქნება სიამოვნებით! გთხოვთ, თავისუფლად წარადგინოთ პრობლემები და pull request-ები.
+
+### Guidelines | მითითებები
+- Maintain bilingual (Georgian/English) support
+- Follow existing code style  
+- Test on Windows environments
+- Respect Georgian cultural elements
+
+---
+
+## 📞 Support | მხარდაჭერა
+
+- **GitHub Issues**: [Report bugs or request features](https://github.com/sitechfromgeorgia/marathon-mcp-tool/issues)
+- **Email**: sitech.georgia@gmail.com
+- **Location**: Batumi, Georgia 🇬🇪
+
+---
+
+<div align="center">
+
+**Made with ❤️ in Batumi, Georgia**  
+**შექმნილია ❤️-ით ბათუმში, საქართველოში**
+
+*🌊 From the shores of the Black Sea to the world / შავი ზღვის ნაპირებიდან მთელ მსოფლიოში*
+
+</div>
