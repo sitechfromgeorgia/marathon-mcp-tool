@@ -1,197 +1,28 @@
 # 🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition
 
-<div align="center">
+## 🇬🇪 ქართული აღწერა
 
-**ერთი ხელსაწყო - ყველა შესაძლებლობა!**  
-**80+ ფუნქცია 7 კატეგორიაში**
+**Marathon MCP Tool** არის უნივერსალური Model Context Protocol (MCP) ხელსაწყო, შექმნილი Claude AI-სთან მუშაობისთვის. ეს არის ერთი ხელსაწყო ყველა შესაძლებლობით - 80+ ფუნქცია 7 კატეგორიაში.
 
-🇬🇪 **ქართული ინტერფეისი** | 🌊 **ბათუმური ხელწერა** | ⚡ **Universal Edition**
+### ✨ მთავარი თავისებურებები
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/sitechfromgeorgia/marathon-mcp-tool)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Georgian](https://img.shields.io/badge/ქართული-interface-red.svg)](#)
-[![Batumi](https://img.shields.io/badge/🌊-ბათუმური_ხელწერა-blue.svg)](#)
+- 🇬🇪 **ქართული ინტერფეისი** - სრული ქართული ენის მხარდაჭერა
+- 🌊 **ბათუმური ხელწერა** - შექმნილია სიყვარულით ბათუმში
+- 🔧 **7 მოდული** - სრული ფუნქციონალით
+- ⚡ **80+ ფუნქცია** - ყველა საჭირო ხელსაწყო
+- 🎯 **უნივერსალური რეჟიმი** - ყველაფერი ერთ პაკეტში
 
-*🏔️ კავკასიონის მთების სიძლიერით და შავი ზღვის სისუფთავით*
+### 📦 მოდულები
 
-</div>
+1. **🔧 ძირითადი სისტემა** - კონფიგურაცია და მართვა
+2. **📁 ფაილების მენეჯმენტი** - ფაილებთან მუშაობა
+3. **🐙 Git რეპოზიტორიები** - ვერსიის კონტროლი
+4. **🧠 მეხსიერება და ცოდნა** - ინფორმაციის შენახვა
+5. **⚙️ სისტემა და პროცესები** - სისტემური ფუნქციები
+6. **📚 დოკუმენტაცია** - კონტენტის მართვა
+7. **🚀 გაფართოებული ფუნქციები** - AI და ავტომატიზაცია
 
----
-
-## 🌟 მთავარი მახასიათებლები
-
-- **🎛️ მოსანიშნი მოდულური სისტემა** - ყველა მოდული ცალ-ცალკე ჩარ/თის შესაძლებლობით
-- **⚡ 80+ ფუნქცია 7 კატეგორიაში** - სრული ეკოსისტემა AI ასისტენტისთვის
-- **🇬🇪 სრული ქართული ინტერფეისი** - ყველა ფუნქცია ქართულ ენაზე
-- **🌊 ბათუმური ხელწერა** - სიყვარულით შექმნილი საქართველოში
-- **⚙️ სმარტ კონფიგურაცია** - მოიწყობება თქვენს საჭიროებაზე
-- **🔧 სიმბოლური ბრძანებები** - სწრაფი წვდომა (---, +++, ..., ***, ###, @@@)
-
----
-
-## 📋 მოდულური სისტემა
-
-### 🔧 1. Core System (ძირითადი სისტემა)
-```
-✅ marathon_test_connection     - კავშირის ტესტირება
-✅ marathon_get_config          - კონფიგურაციის ნახვა
-✅ marathon_set_config          - კონფიგურაციის ცვლილება
-✅ marathon_module_toggle       - მოდულების ჩართვა/გამორთვა
-✅ marathon_get_status          - სისტემის სტატუსი
-✅ marathon_language_switch     - ენის ცვლილება (ქართული/English)
-```
-
-### 📁 2. File System Management (ფაილების მენეჯმენტი)
-```
-📖 Read Operations:
-✅ marathon_read_file           - ფაილის წაკითხვა
-✅ marathon_read_multiple_files - მრავალი ფაილის წაკითხვა
-✅ marathon_get_file_info       - ფაილის ინფორმაცია
-
-✏️ Write Operations:
-✅ marathon_write_file          - ფაილში ჩაწერა
-✅ marathon_edit_file           - ფაილის რედაქტირება
-✅ marathon_edit_block          - ბლოკური რედაქტირება
-
-📂 Directory Management:
-✅ marathon_create_directory    - დირექტორიის შექმნა
-✅ marathon_list_directory      - დირექტორიის სია
-✅ marathon_directory_tree      - დირექტორიის ხე
-✅ marathon_move_file           - ფაილის გადატანა
-
-🔍 Search Operations:
-✅ marathon_search_files        - ფაილების ძიება
-✅ marathon_search_code         - კოდის ძიება
-✅ marathon_allowed_directories - ნებადართული დირექტორიები
-```
-
-### 🐙 3. Git & Repository Management (Git რეპოზიტორიები)
-```
-📚 Repository Operations:
-✅ marathon_git_create_repo     - რეპოზიტორიის შექმნა
-✅ marathon_git_search_repos    - რეპოზიტორიების ძიება
-✅ marathon_git_fork_repo       - რეპოზიტორიის ფორკი
-
-📄 File Operations:
-✅ marathon_git_get_file        - ფაილის მიღება GitHub-დან
-✅ marathon_git_create_file     - ფაილის შექმნა/განახლება
-✅ marathon_git_push_files      - ფაილების push-ი
-
-🌿 Branch Management:
-✅ marathon_git_create_branch   - ბრენჩის შექმნა
-✅ marathon_git_list_commits    - კომიტების სია
-
-🔀 Pull Requests:
-✅ marathon_git_create_pr       - Pull Request-ის შექმნა
-✅ marathon_git_merge_pr        - Pull Request-ის მერჯი
-✅ marathon_git_review_pr       - Pull Request-ის განხილვა
-✅ marathon_git_pr_status       - Pull Request-ის სტატუსი
-
-🐛 Issues Management:
-✅ marathon_git_create_issue    - Issue-ის შექმნა
-✅ marathon_git_update_issue    - Issue-ის განახლება
-✅ marathon_git_list_issues     - Issue-ების სია
-
-🔍 Advanced Search:
-✅ marathon_git_search_code     - კოდის ძიება
-✅ marathon_git_search_issues   - Issue-ების ძიება
-✅ marathon_git_search_users    - მომხმარებლების ძიება
-```
-
-### 🧠 4. Memory & Knowledge Management (მეხსიერება და ცოდნა)
-```
-💾 Simple Memory:
-✅ marathon_memory_save         - ინფორმაციის შენახვა
-✅ marathon_memory_load         - ინფორმაციის ჩატვირთვა
-✅ marathon_memory_list         - მეხსიერების სია
-
-🕸️ Knowledge Graph:
-✅ marathon_kb_create_entities  - ენტითების შექმნა
-✅ marathon_kb_create_relations - კავშირების შექმნა
-✅ marathon_kb_add_observations - დაკვირვებების დამატება
-✅ marathon_kb_search_nodes     - ნოუდების ძიება
-✅ marathon_kb_read_graph       - მთლიანი გრაფის წაკითხვა
-✅ marathon_kb_delete_entities  - ენტითების წაშლა
-✅ marathon_kb_delete_relations - კავშირების წაშლა
-```
-
-### ⚙️ 5. System & Process Management (სისტემა და პროცესები)
-```
-💻 Command Execution:
-✅ marathon_execute_command     - ბრძანების შესრულება
-✅ marathon_read_output         - შედეგის წაკითხვა
-✅ marathon_force_terminate     - ძალით შეწყვეტა
-
-📊 Process Management:
-✅ marathon_list_processes      - პროცესების სია
-✅ marathon_kill_process        - პროცესის დაკვლა
-✅ marathon_list_sessions       - სესიების სია
-
-⚙️ System Configuration:
-✅ marathon_get_system_config   - სისტემის კონფიგურაცია
-✅ marathon_set_system_config   - კონფიგურაციის ცვლილება
-```
-
-### 📚 6. Documentation & Content (დოკუმენტაცია და კონტენტი)
-```
-📖 Documentation Access:
-✅ marathon_fetch_docs          - დოკუმენტაციის მიღება
-✅ marathon_search_docs         - დოკუმენტაციაში ძიება
-
-🌐 Web Content:
-✅ marathon_fetch_url_content   - URL კონტენტის მიღება
-✅ marathon_web_scraping        - ვებ საიტების scraping
-
-🎨 Content Generation:
-✅ marathon_generate_markdown   - Markdown-ის გენერაცია
-✅ marathon_export_content      - კონტენტის ექსპორტი
-```
-
-### 🚀 7. Advanced Features (გაფართოებული ფუნქციები)
-```
-🤖 AI-Powered:
-✅ marathon_smart_execute       - AI-powered ბრძანების შესრულება
-✅ marathon_ai_assistant        - ინტელექტუალური დამხმარე
-✅ marathon_workflow_create     - workflows-ის შექმნა
-
-⚡ Symbol Commands:
-✅ marathon_symbol_command      - სიმბოლური ბრძანებები
-                                (---, +++, ..., ***, ###, @@@)
-
-🔗 Integration:
-✅ marathon_integration_hub     - სხვა MCP tools-თან ინტეგრაცია
-✅ marathon_cloud_sync          - ღრუბლოვან სერვისებთან სინქრონიზაცია
-
-📊 Analytics & Security:
-✅ marathon_analytics           - გამოყენების ანალიტიკა
-✅ marathon_security_check      - უსაფრთხოების შემოწმება
-✅ marathon_backup_restore      - backup/restore სისტემა
-```
-
----
-
-## 🚀 სწრაფი დაწყება
-
-### ინსტალაცია
-
-```bash
-# რეპოზიტორიის კლონირება
-git clone https://github.com/sitechfromgeorgia/marathon-mcp-tool.git
-cd marathon-mcp-tool
-
-# დამოკიდებულებების ინსტალაცია
-npm install
-
-# პროეკტის აშენება
-npm run build
-
-# ტესტირება
-npm run marathon:test
-```
-
-### Claude Desktop კონფიგურაცია
-
-Claude Desktop-ის `claude_desktop_config.json` ფაილში დაამატეთ:
+### 🚀 გამოყენება Claude Desktop-ში
 
 ```json
 {
@@ -201,258 +32,198 @@ Claude Desktop-ის `claude_desktop_config.json` ფაილში დაა�
       "args": ["path/to/marathon-mcp-tool/dist/index.js"],
       "env": {
         "MARATHON_MODE": "universal",
-        "MARATHON_LANGUAGE": "georgian",
-        "MARATHON_THEME": "batumi_sunset"
+        "MARATHON_LANGUAGE": "georgian"
       }
     }
   }
 }
 ```
 
-### პირველი ტესტი
-
-Claude Desktop-ში გამოსცადეთ:
-
-```
-marathon_test_connection
-```
-
-თუ ყველაფერი სწორადაა კონფიგურირებული, მიიღებთ:
-
-```
-🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition
-🇬🇪 კავშირი წარმატებულია!
-🌊 ბათუმის შავი ზღვის ტალღებისგან მისალმება!
-```
-
 ---
 
-## ⚡ სიმბოლური ბრძანებები
+## 🇬🇧 English Description
 
-Marathon MCP Tool აქვს უნიკალური სიმბოლური ბრძანებების სისტემა:
+**Marathon MCP Tool** is a universal Model Context Protocol (MCP) tool designed for working with Claude AI. It's one tool with all capabilities - 80+ functions across 7 categories.
 
-| სიმბოლო | ფუნქცია | აღწერა |
-|---------|---------|---------|
-| `---` | სისტემის restart | კონტექსტის ჩატვირთვა და restart |
-| `+++` | კომპლექსური ტასკი | AI-powered complex task execution |
-| `...` | ინფორმაციის შენახვა | მეხსიერებაში ინფორმაციის შენახვა |
-| `***` | მარათონ რეჟიმი | ხანგრძლივი ტასკების მენეჯმენტი |
-| `###` | კონფიგურაცია | სისტემის კონფიგურაციის ცვლილება |
-| `@@@` | ინტეგრაცია | სხვა სისტემებთან სწრაფი კავშირი |
+### ✨ Key Features
 
-### გამოყენების მაგალითები:
+- 🇬🇪 **Georgian Interface** - Full Georgian language support
+- 🌊 **Batumi Craftsmanship** - Created with love in Batumi, Georgia
+- 🔧 **7 Modules** - Complete functionality coverage
+- ⚡ **80+ Functions** - All essential tools included
+- 🎯 **Universal Mode** - Everything in one package
 
+### 📦 Modules
+
+1. **🔧 Core System** - Configuration and management
+2. **📁 File Management** - File system operations
+3. **🐙 Git Repositories** - Version control integration
+4. **🧠 Memory & Knowledge** - Information storage and retrieval
+5. **⚙️ System & Processes** - System-level functions
+6. **📚 Documentation** - Content management
+7. **🚀 Advanced Features** - AI assistance and automation
+
+### 🛠️ Installation & Setup
+
+1. **Clone the repository:**
 ```bash
-# სისტემის სტატუსის შემოწმება
-marathon_get_status
-
-# ფაილის წაკითხვა
-marathon_read_file /path/to/file.txt
-
-# GitHub რეპოზიტორიის შექმნა
-marathon_git_create_repo my-awesome-project
-
-# სიმბოლური ბრძანება
-marathon_symbol_command +++
+git clone https://github.com/sitechfromgeorgia/marathon-mcp-tool.git
+cd marathon-mcp-tool
 ```
 
----
+2. **Install dependencies:**
+```bash
+npm install
+```
 
-## ⚙️ კონფიგურაცია
+3. **Build the project:**
+```bash
+npm run build
+```
 
-### ძირითადი კონფიგურაცია
-
+4. **Configure Claude Desktop:**
+Add to your `claude_desktop_config.json`:
 ```json
 {
-  "version": "2.0.0",
-  "edition": "universal",
-  "language": "georgian",
-  "theme": "batumi_sunset",
-  "performance_mode": "balanced",
-  "auto_backup": true,
-  "security_level": "standard"
+  "mcpServers": {
+    "marathon-mcp-tool": {
+      "command": "node",
+      "args": ["path/to/marathon-mcp-tool/dist/index.js"],
+      "cwd": "path/to/marathon-mcp-tool",
+      "env": {
+        "MARATHON_MODE": "universal",
+        "MARATHON_LANGUAGE": "georgian",
+        "MARATHON_THEME": "batumi_sunset",
+        "NODE_ENV": "production"
+      }
+    }
+  }
 }
 ```
 
-### მოდულების კონფიგურაცია
+5. **Restart Claude Desktop** and enjoy!
 
+### 🔧 Available Functions
+
+#### Core System Module (6 functions)
+- `marathon_test_connection` - Test connection and system status
+- `marathon_get_config` - Get current configuration
+- `marathon_set_config` - Update configuration
+- `marathon_module_toggle` - Enable/disable modules
+- `marathon_get_status` - Get system status
+- `marathon_language_switch` - Switch interface language
+
+#### File System Module (15 functions)
+- File reading, writing, and editing operations
+- Directory management and navigation
+- File search and content search
+- Path validation and security checks
+
+#### Git Repository Module (10+ functions)
+- Repository status and management
+- Commit and push operations
+- Branch management
+- GitHub integration
+
+#### Memory & Knowledge Module (10 functions)
+- Information storage and retrieval
+- Knowledge graph operations
+- Entity management
+- Memory search and filtering
+
+#### System Process Module (8 functions)
+- Safe command execution
+- Process monitoring and management
+- System information gathering
+- Resource usage monitoring
+
+#### Documentation Module (6 functions)
+- Documentation fetching and parsing
+- Content search and indexing
+- README generation
+- Multi-language support
+
+#### Advanced Features Module (15+ functions)
+- AI-powered command execution
+- Intelligent assistance
+- Symbol-based commands
+- Workflow automation
+
+### 🎨 Configuration Options
+
+The tool supports extensive configuration through:
+- Environment variables
+- JSON configuration files
+- Runtime parameter changes
+- Module-specific settings
+
+### 🔧 Development & Troubleshooting
+
+#### Building from Source
 ```bash
-# მოდულის ჩართვა
-marathon_module_toggle file_system true
+# Clean build
+npm run clean
+npm run build
 
-# მოდულის გამორთვა  
-marathon_module_toggle git_repository false
+# Development mode
+npm run dev
 
-# ყველა მოდულის სტატუსი
-marathon_get_status --detailed
+# Watch mode
+npm run watch
+
+# Type checking
+npm run check
 ```
 
-### ენის ცვლილება
-
+#### Testing
 ```bash
-# ქართულზე გადასვლა
-marathon_language_switch georgian
+# Test connection
+npm run marathon:test
 
-# ინგლისურზე გადასვლა
-marathon_language_switch english
+# Configuration check
+npm run marathon:config
 ```
 
----
+#### Common Issues
 
-## 🛡️ უსაფრთხოება
+1. **"Server disconnected" error:**
+   - Check if the path in configuration is correct
+   - Ensure the project is built (`npm run build`)
+   - Verify Node.js version (>=18.0.0)
 
-Marathon MCP Tool აქვს მრავალშრიანი უსაფრთხოების სისტემა:
+2. **Module import errors:**
+   - Run `npm install` to ensure all dependencies
+   - Check TypeScript compilation with `npm run check`
 
-- **🔐 File System Protection** - მხოლოდ ნებადართულ დირექტორიებზე წვდომა
-- **🛡️ Command Validation** - ყველა ბრძანების ვალიდაცია
-- **📝 Audit Logging** - სრული ქმედებების ლოგირება
-- **🔒 Backup System** - ავტომატური backup-ები
-- **⚠️ Confirmation Prompts** - საშიში ოპერაციების დადასტურება
+3. **Permission issues:**
+   - Ensure proper file permissions for the dist directory
+   - Check environment variables
 
-### უსაფრთხოების შემოწმება
+### 🌊 Batumi Philosophy
 
-```bash
-marathon_security_check
-```
+This tool is crafted with the spirit of Batumi - the beautiful coastal city of Georgia. Like the waves of the Black Sea, it brings constant innovation and refreshing functionality to your AI workflow.
 
----
+### 📈 Version History
 
-## 📊 ანალიტიკა და მონიტორინგი
+- **v2.0.0** - Universal Edition with 7 modules and 80+ functions
+- **v1.0.x** - Initial release with basic functionality
 
-### სისტემის სტატისტიკა
+### 🤝 Contributing
 
-```bash
-# მთლიანი სტატისტიკა
-marathon_get_status --detailed
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-# გამოყენების ანალიტიკა
-marathon_analytics
+### 📞 Support
 
-# მეხსიერების სტატისტიკა
-marathon_memory_list
-```
+- 🐛 **Issues:** [GitHub Issues](https://github.com/sitechfromgeorgia/marathon-mcp-tool/issues)
+- 📧 **Email:** sitech.georgia@gmail.com
+- 🌐 **Website:** [SiTech from Georgia](https://github.com/sitechfromgeorgia)
 
-### შესაძლებლობების მონიტორინგი
+### 📄 License
 
-- **📈 Usage Statistics** - ფუნქციების გამოყენების ანალიტიკა
-- **⏱️ Performance Metrics** - სისწრაფის მეტრიკები
-- **🔍 Error Tracking** - შეცდომების ტრეკინგი
-- **💾 Memory Usage** - მეხსიერების გამოყენება
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🔗 ინტეგრაციები
+**🌊 Created with ❤️ in Batumi, Georgia by SiTech**
 
-Marathon MCP Tool ეუღებს თანამშრომლობას სხვა MCP tools-თან:
-
-### მხარდაჭერილი ინტეგრაციები
-
-- **🗂️ @modelcontextprotocol/server-filesystem** - File operations
-- **🐙 GitHub MCP** - Git repository management  
-- **🧠 Memory MCP** - Persistent memory
-- **⚙️ Desktop Commander** - System operations
-- **📚 Documentation MCP** - Documentation access
-
-### კასტომ ინტეგრაციები
-
-```bash
-# ინტეგრაციების ჰაბი
-marathon_integration_hub
-
-# ღრუბლოვანი სერვისები
-marathon_cloud_sync
-```
-
----
-
-## 🌊 ბათუმური ხელწერა
-
-Marathon MCP Tool შექმნილია **სიყვარულით ბათუმში, საქართველოში** 🇬🇪
-
-### ჩვენი ღირებულებები:
-
-- **🏔️ კავკასიონის მთების სიძლიერე** - მყარი და საიმედო
-- **🌊 შავი ზღვის სისუფთავე** - სუფთა და ლამაზი კოდი
-- **🍇 ქართული ტრადიციები** - ღირებულებების პატივისცემა
-- **☕ ქართული ყავის ენერგია** - ენთუზიაზმი და მონდომება
-
----
-
-## 🤝 წვლილი
-
-ღია წყაროების პროექტია და მოვიწვევთ კონტრიბუციას!
-
-### როგორ შეიძლება წვლილის შეტანა:
-
-1. **🍴 Fork** - პროექტის fork-ი
-2. **🌿 Branch** - ახალი feature branch-ის შექმნა
-3. **💻 Code** - კოდის დაწერა ბათუმური ხელწერით
-4. **🧪 Test** - ტესტების ჩატარება
-5. **📝 PR** - Pull Request-ის შექმნა
-
-### კონტრიბუციის წესები:
-
-- **🇬🇪 ქართული კომენტარები** კოდში
-- **🌊 ბათუმური სტილი** - სუფთა და ლამაზი
-- **✅ ტესტების კოვერაჟი** - მინიმუმ 80%
-- **📚 დოკუმენტაცია** - ყოველი ფუნქციისთვის
-
----
-
-## 🐛 შეცდომების რეპორტი
-
-თუ შეცდომა გაგახვდათ:
-
-1. **🔍 შეამოწმეთ** [არსებული Issues](https://github.com/sitechfromgeorgia/marathon-mcp-tool/issues)
-2. **📝 შექმენით ახალი Issue** დეტალური აღწერით
-3. **🏷️ დაამატეთ მისაბმელი ლეიბლები**
-4. **📋 თან დართეთ** ლოგები და კონფიგურაცია
-
----
-
-## 🗺️ დაგეგმილი ფუნქციები
-
-### v2.1.0 - Q1 2025
-- **🤖 AI Enhancement** - გაუმჯობესებული AI ფუნქციები
-- **🌐 Multi-language Support** - მრავალენოვანი მხარდაჭერა
-- **⚡ Performance Optimizations** - შესრულების ოპტიმიზაცია
-
-### v2.2.0 - Q2 2025
-- **👥 Collaboration Features** - გუნდური მუშაობის ფუნქციები
-- **☁️ Cloud Integration** - ღრუბლოვანი ინტეგრაციები
-- **📱 Mobile Support** - მობილური მხარდაჭერა
-
-### v3.0.0 - Q3 2025
-- **🧠 Advanced AI** - პროდვინული AI შესაძლებლობები
-- **🌍 Global Platform** - გლობალური პლატფორმა
-- **🏢 Enterprise Features** - კორპორაციული ფუნქციები
-
----
-
-## 📄 ლიცენზია
-
-MIT License - იხილეთ [LICENSE](LICENSE) ფაილი დეტალებისთვის.
-
----
-
-## 📞 კონტაქტი
-
-- **🌐 Website**: [https://acura.ge](https://acura.ge)
-- **📧 Email**: sitech.georgia@gmail.com
-- **🐙 GitHub**: [@sitechfromgeorgia](https://github.com/sitechfromgeorgia)
-- **🌊 Location**: ბათუმი, საქართველო 🇬🇪
-
----
-
-<div align="center">
-
-**🏃‍♂️ Marathon MCP Tool - ერთი ხელსაწყო, ყველა შესაძლებლობა!**
-
-*🌊 შექმნილია სიყვარულით ბათუმში, საქართველოში* 🇬🇪
-
-*🏔️ კავკასიონის მთების სიძლიერითა და შავი ზღვის სისუფთავით*
-
-[![Star](https://img.shields.io/github/stars/sitechfromgeorgia/marathon-mcp-tool?style=social)](https://github.com/sitechfromgeorgia/marathon-mcp-tool)
-[![Follow](https://img.shields.io/github/followers/sitechfromgeorgia?style=social)](https://github.com/sitechfromgeorgia/marathon-mcp-tool)
-
-</div>
+*"ღია ზღვის ტალღებისგან ახალი ტექნოლოგიები" - "New technologies from the open sea waves"*
