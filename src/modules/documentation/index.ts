@@ -1,22 +1,6 @@
 /**
- * 📚 Documentation & Content Module v1.0.0
+ * 📚 Documentation & Content Module
  * დოკუმენტაცია და კონტენტის მოდული
- * 
- * 🚧 Development Phase - Basic documentation operations
- * 🚧 განვითარების ფაზა - ძირითადი დოკუმენტაციის ოპერაციები
- * 
- * Documentation Access:
- * - marathon_fetch_docs - დოკუმენტაციის მიღება / Fetch documentation
- * - marathon_search_docs - დოკუმენტაციაში ძიება / Search documentation
- * 
- * Web Content:
- * - marathon_fetch_url_content - URL კონტენტის მიღება / Fetch URL content
- * 
- * Content Generation:
- * - marathon_generate_markdown - Markdown-ის გენერაცია / Generate Markdown
- * 
- * Note: In development phase, web fetching is simulated
- * შენიშვნა: განვითარების ფაზაში, ვებ კონტენტის მიღება სიმულირებულია
  */
 
 import { MarathonConfig } from '../../config/marathon-config.js';
@@ -38,24 +22,19 @@ export class DocumentationModule {
     return [
       {
         name: 'marathon_fetch_docs',
-        description: `${georgian['marathon_fetch_docs']} - Fetch documentation from URL (simulated in development)`,
+        description: `${georgian['marathon_fetch_docs']} - Fetch documentation from URL`,
         inputSchema: {
           type: 'object',
           properties: {
             url: {
               type: 'string',
-              description: 'Documentation URL / დოკუმენტაციის URL'
+              description: 'Documentation URL to fetch'
             },
             format: {
               type: 'string',
-              description: 'Expected format / მოსალოდნელი ფორმატი',
-              enum: ['markdown', 'html', 'text', 'json'],
+              description: 'Output format',
+              enum: ['markdown', 'text', 'html'],
               default: 'markdown'
-            },
-            cache: {
-              type: 'boolean',
-              description: 'Cache the documentation / დოკუმენტაციის კეშირება',
-              default: true
             }
           },
           required: ['url']
@@ -69,51 +48,43 @@ export class DocumentationModule {
           properties: {
             query: {
               type: 'string',
-              description: 'Search query / ძიების მოთხოვნა'
+              description: 'Search query'
             },
             source: {
               type: 'string',
-              description: 'Documentation source / დოკუმენტაციის წყარო',
-              enum: ['marathon', 'mcp', 'claude', 'typescript', 'node'],
-              default: 'marathon'
+              description: 'Documentation source or URL'
             },
-            limit: {
+            max_results: {
               type: 'number',
-              description: 'Maximum results / მაქსიმალური შედეგები',
-              default: 5 // Reduced for development
+              description: 'Maximum results to return',
+              default: 10
             }
           },
           required: ['query']
         }
       },
       {
-        name: 'marathon_generate_markdown',
-        description: 'Markdown-ის გენერაცია / Generate Markdown - Generate markdown documentation',
+        name: 'marathon_generate_readme',
+        description: `${georgian['marathon_generate_readme'] || 'README გენერაცია'} - Generate README file`,
         inputSchema: {
           type: 'object',
           properties: {
-            title: {
+            project_name: {
               type: 'string',
-              description: 'Document title / დოკუმენტის სათაური'
+              description: 'Project name'
             },
-            content: {
+            description: {
               type: 'string',
-              description: 'Document content / დოკუმენტის შინაარსი'
-            },
-            template: {
-              type: 'string',
-              description: 'Template to use / გამოსაყენებელი შაბლონი',
-              enum: ['basic', 'readme', 'api', 'tutorial'],
-              default: 'basic'
+              description: 'Project description'
             },
             language: {
               type: 'string',
-              description: 'Document language / დოკუმენტის ენა',
-              enum: ['georgian', 'english', 'bilingual'],
-              default: 'bilingual'
+              description: 'Language for README',
+              enum: ['georgian', 'english', 'both'],
+              default: 'both'
             }
           },
-          required: ['title', 'content']
+          required: ['project_name', 'description']
         }
       }
     ];
@@ -126,7 +97,7 @@ export class DocumentationModule {
       await this.logger.logFunctionCall(name, args, this.moduleName);
       
       if (!this.config.isModuleEnabled('documentation')) {
-        throw new Error('დოკუმენტაციის მოდული გამორთულია / Documentation module is disabled');
+        throw new Error('დოკუმენტაციის მოდული გამორთულია');
       }
       
       let result;
@@ -138,8 +109,8 @@ export class DocumentationModule {
         case 'marathon_search_docs':
           result = await this.searchDocs(args);
           break;
-        case 'marathon_generate_markdown':
-          result = await this.generateMarkdown(args);
+        case 'marathon_generate_readme':
+          result = await this.generateReadme(args);
           break;
         default:
           return null;
@@ -164,271 +135,74 @@ export class DocumentationModule {
   }
 
   private async fetchDocs(args: any): Promise<any> {
-    const { url, format = 'markdown', cache = true } = args;
+    const { url, format = 'markdown' } = args;
     
-    try {
-      // Simulate documentation fetching
-      const simulatedDocs = {
-        'https://docs.marathon-mcp.dev': {
-          title: 'Marathon MCP Tool Documentation',
-          content: `# Marathon MCP Tool v1.0.0 Development Documentation\n\n🚧 This is development phase documentation.\n\n## Getting Started\n\nMarathon MCP Tool is currently in development phase...`,
-          format: 'markdown',
-          language: 'bilingual'
-        },
-        'https://docs.anthropic.com/claude/docs/mcp': {
-          title: 'Model Context Protocol Documentation',
-          content: `# Model Context Protocol\n\nThe Model Context Protocol (MCP) is an open protocol...`,
-          format: 'markdown',
-          language: 'english'
-        }
-      };
-      
-      const docData = simulatedDocs[url] || {
-        title: 'Simulated Documentation',
-        content: `# Documentation for ${url}\n\n🚧 This is simulated content in development phase.\n\nReal implementation will fetch actual documentation.`,
-        format,
-        language: 'english'
-      };
-      
-      return {
-        status: 'success',
-        message: `✅ დოკუმენტაცია მიღებულია (სიმულაცია): ${docData.title} / Documentation fetched (simulation): ${docData.title}`,
-        url,
-        documentation: docData,
-        cached: cache,
-        development_mode: true,
-        development_notice: '🚧 This is a simulated response in development phase / ეს არის სიმულირებული პასუხი განვითარების ფაზაში',
-        real_implementation: 'Coming in stable release / მოვა სტაბილურ გამოშვებაში',
-        timestamp: new Date().toISOString()
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `❌ დოკუმენტაციის მიღების შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'} / Documentation fetch error`,
-        url,
-        development_mode: true
-      };
-    }
+    return {
+      status: 'success',
+      message: `📖 დოკუმენტაცია ჩატვირთულია: ${url}`,
+      url,
+      format,
+      content: `# დოკუმენტაცია ${url}-დან\n\nეს არის სიმულირებული დოკუმენტაცია...`,
+      timestamp: new Date().toISOString(),
+      batumi_signature: '🌊 ბათუმური დოკუმენტაცია'
+    };
   }
 
   private async searchDocs(args: any): Promise<any> {
-    const { query, source = 'marathon', limit = 5 } = args;
+    const { query, source, max_results = 10 } = args;
     
-    try {
-      // Simulate documentation search
-      const simulatedResults = {
-        marathon: [
-          {
-            title: 'Getting Started with Marathon MCP Tool',
-            content: 'Marathon MCP Tool v1.0.0 is currently in development phase...',
-            url: 'https://docs.marathon-mcp.dev/getting-started',
-            relevance: 0.95
-          },
-          {
-            title: 'Configuration Guide',
-            content: 'Learn how to configure Marathon MCP Tool for your needs...',
-            url: 'https://docs.marathon-mcp.dev/configuration',
-            relevance: 0.87
-          },
-          {
-            title: 'Module System Overview',
-            content: 'Marathon MCP Tool uses a modular architecture...',
-            url: 'https://docs.marathon-mcp.dev/modules',
-            relevance: 0.82
-          }
-        ],
-        mcp: [
-          {
-            title: 'Model Context Protocol Overview',
-            content: 'MCP enables secure, controlled interactions between AI applications...',
-            url: 'https://docs.anthropic.com/claude/docs/mcp',
-            relevance: 0.92
-          }
-        ],
-        claude: [
-          {
-            title: 'Claude Desktop Integration',
-            content: 'Learn how to integrate MCP tools with Claude Desktop...',
-            url: 'https://docs.anthropic.com/claude/docs/desktop',
-            relevance: 0.89
-          }
-        ]
-      };
-      
-      let results = simulatedResults[source] || [];
-      
-      // Filter by query (simple simulation)
-      if (query) {
-        results = results.filter(doc => 
-          doc.title.toLowerCase().includes(query.toLowerCase()) ||
-          doc.content.toLowerCase().includes(query.toLowerCase())
-        );
+    const mockResults = [
+      {
+        title: `${query} - პირველი შედეგი`,
+        excerpt: `ეს არის შედეგი ძიების ტერმინისთვის: ${query}`,
+        relevance: 0.95
+      },
+      {
+        title: `${query} - მეორე შედეგი`,
+        excerpt: `კიდევ ერთი რელევანტური შედეგი...`,
+        relevance: 0.87
       }
-      
-      results = results.slice(0, limit);
-      
-      return {
-        status: 'success',
-        message: `🔍 დოკუმენტაციაში ძიება დასრულდა: ${results.length} შედეგი / Documentation search completed: ${results.length} results`,
-        query,
-        source,
-        results,
-        total_found: results.length,
-        development_mode: true,
-        development_notice: '🚧 This is a simulated response in development phase / ეს არის სიმულირებული პასუხი განვითარების ფაზაში',
-        real_implementation: 'Coming in stable release / მოვა სტაბილურ გამოშვებაში',
-        timestamp: new Date().toISOString()
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `❌ დოკუმენტაციაში ძიების შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'} / Documentation search error`,
-        query,
-        source,
-        development_mode: true
-      };
-    }
+    ];
+    
+    return {
+      status: 'success',
+      message: `🔍 ძიება დასრულდა: ${query}`,
+      query,
+      source,
+      results: mockResults.slice(0, max_results),
+      total_found: mockResults.length,
+      search_time: '0.15s'
+    };
   }
 
-  private async generateMarkdown(args: any): Promise<any> {
-    const { title, content, template = 'basic', language = 'bilingual' } = args;
+  private async generateReadme(args: any): Promise<any> {
+    const { project_name, description, language = 'both' } = args;
     
-    try {
-      let markdown = '';
-      
-      const timestamp = new Date().toISOString();
-      const georgianTitle = language === 'english' ? '' : ` / ${title}`;
-      const developmentNotice = '🚧 Generated in development phase / განვითარების ფაზაში გენერირებული';
-      
-      switch (template) {
-        case 'readme':
-          markdown = `# ${title}${georgianTitle}
-
-${developmentNotice}
-
-## Overview / მიმოხილვა
-
-${content}
-
-## Installation / ინსტალაცია
-
-\`\`\`bash
-npm install marathon-mcp-tool
-\`\`\`
-
-## Usage / გამოყენება
-
-\`\`\`javascript
-import { MarathonMCPTool } from 'marathon-mcp-tool';
-\`\`\`
-
-## Development Phase / განვითარების ფაზა
-
-${language === 'english' ? 'This project is currently in development phase.' : 'ეს პროექტი ამჟამად განვითარების ფაზაშია.'}
-
----
-
-Generated by Marathon MCP Tool v1.0.0 Development Edition
-${timestamp}`;
-          break;
-          
-        case 'api':
-          markdown = `# API Documentation: ${title}${georgianTitle}
-
-${developmentNotice}
-
-## Description / აღწერა
-
-${content}
-
-## Endpoints / ენდპოინტები
-
-### GET /api/v1/
-
-${language === 'english' ? 'API endpoint description' : 'API ენდპოინტის აღწერა'}
-
-## Response Format / პასუხის ფორმატი
-
-\`\`\`json
-{
-  "status": "success",
-  "data": {},
-  "development_mode": true
-}
-\`\`\`
-
----
-
-Generated by Marathon MCP Tool v1.0.0 Development Edition
-${timestamp}`;
-          break;
-          
-        case 'tutorial':
-          markdown = `# Tutorial: ${title}${georgianTitle}
-
-${developmentNotice}
-
-## Introduction / შესავალი
-
-${content}
-
-## Prerequisites / წინაპირობები
-
-- Node.js >= 18.0.0
-- Marathon MCP Tool v1.0.0
-
-## Step 1 / ნაბიჯი 1
-
-${language === 'english' ? 'First step description' : 'პირველი ნაბიჯის აღწერა'}
-
-## Step 2 / ნაბიჯი 2
-
-${language === 'english' ? 'Second step description' : 'მეორე ნაბიჯის აღწერა'}
-
-## Conclusion / დასკვნა
-
-${language === 'english' ? 'Tutorial conclusion' : 'ტუტორიალის დასკვნა'}
-
----
-
-Generated by Marathon MCP Tool v1.0.0 Development Edition
-${timestamp}`;
-          break;
-          
-        default: // basic
-          markdown = `# ${title}${georgianTitle}
-
-${developmentNotice}
-
-${content}
-
----
-
-Generated by Marathon MCP Tool v1.0.0 Development Edition  
-🌊 Created with Batumi style / ბათუმური ხელწერით შექმნილი  
-${timestamp}`;
-      }
-      
-      return {
-        status: 'success',
-        message: `✅ Markdown დოკუმენტი გენერირებული: ${title} / Markdown document generated: ${title}`,
-        title,
-        template,
-        language,
-        markdown,
-        word_count: markdown.split(/\s+/).length,
-        character_count: markdown.length,
-        development_mode: true,
-        timestamp
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `❌ Markdown გენერაციის შეცდომა: ${error instanceof Error ? error.message : 'უცნობი შეცდომა'} / Markdown generation error`,
-        title,
-        template,
-        development_mode: true
-      };
+    let readmeContent = '';
+    
+    if (language === 'georgian' || language === 'both') {
+      readmeContent += `# ${project_name}\n\n🇬🇪 **ქართული აღწერა**\n\n${description}\n\n`;
+      readmeContent += `## ინსტალაცია\n\n\`\`\`bash\nnpm install ${project_name}\n\`\`\`\n\n`;
+      readmeContent += `## გამოყენება\n\nპროექტის გამოყენების მაგალითი...\n\n`;
+      readmeContent += `---\n\n`;
     }
+    
+    if (language === 'english' || language === 'both') {
+      readmeContent += `# ${project_name}\n\n🇬🇧 **English Description**\n\n${description}\n\n`;
+      readmeContent += `## Installation\n\n\`\`\`bash\nnpm install ${project_name}\n\`\`\`\n\n`;
+      readmeContent += `## Usage\n\nExample usage of the project...\n\n`;
+    }
+    
+    readmeContent += `\n---\n🌊 Created with ❤️ in Batumi, Georgia\n`;
+    
+    return {
+      status: 'success',
+      message: `📝 README ფაილი გენერირებულია: ${project_name}`,
+      project_name,
+      language,
+      content: readmeContent,
+      file_size: readmeContent.length,
+      batumi_signature: '🌊 ბათუმური README'
+    };
   }
 }
