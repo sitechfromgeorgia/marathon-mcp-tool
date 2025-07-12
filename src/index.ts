@@ -52,6 +52,9 @@ class MarathonMCPServer {
         },
       }
     );
+
+    // Setup handlers immediately
+    this.setupHandlers();
   }
 
   private async initialize(): Promise<void> {
@@ -62,7 +65,6 @@ class MarathonMCPServer {
     this.log('Georgian interface enabled / ქართული ინტერფეისი ჩართულია');
     this.log('Windows compatible mode / Windows-თან თავსებადი რეჟიმი');
     
-    this.setupHandlers();
     this.isInitialized = true;
   }
 
