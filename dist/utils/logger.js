@@ -29,16 +29,4 @@ export class MarathonLogger {
   success(message, ...args) {
     console.error(`✅ წარმატება ${new Date().toLocaleString('ka-GE')} ${message}`, ...args);
   }
-
-  setLogLevel(level) {
-    this.logLevel = level;
-  }
-
-  georgian(message, ...args) {
-    console.error(`🇬🇪 ${message}`, ...args);
-  }
-
-  batumi(message, ...args) {
-    console.error(`🌊 ბათუმი: ${message}`, ...args);
-  }
 }
