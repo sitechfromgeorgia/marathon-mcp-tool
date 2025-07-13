@@ -23,7 +23,7 @@ export class MarathonConfig {
         core_system: { enabled: true },
         file_system: { enabled: true },
         git_repository: { enabled: true },
-        memory_knowledge: { enabled: true },  // NOW ENABLED!
+        memory_knowledge: { enabled: false },
         system_process: { enabled: true },
         documentation: { enabled: true },
         advanced_features: { enabled: true }
@@ -53,25 +53,5 @@ export class MarathonConfig {
 
   getVersion() {
     return this.data.version || '2.0.0';
-  }
-
-  getEdition() {
-    return this.data.edition || 'universal';
-  }
-
-  getAllModules() {
-    return this.data.modules;
-  }
-
-  enableModule(moduleName) {
-    if (this.data.modules[moduleName]) {
-      this.data.modules[moduleName].enabled = true;
-    }
-  }
-
-  disableModule(moduleName) {
-    if (this.data.modules[moduleName]) {
-      this.data.modules[moduleName].enabled = false;
-    }
   }
 }
