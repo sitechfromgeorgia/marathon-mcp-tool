@@ -1,83 +1,115 @@
 # 🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition
 
-## ✅ **STATUS: FULLY FUNCTIONAL v2.0** 
-**All core functions tested and working perfectly! Ready for production use.**
+## 🎉 **STATUS: PRODUCTION READY - ALL MODULES DEPLOYED!** 
+**✅ Complete functional product with 11 tools across 7 modules!**  
+**🇬🇪 ბათუმური ხელწერით შექმნილი სიყვარულით - Created with love in Batumi!**
 
-🇬🇪 **Context Management Edition** now available in `dist/context-edition.js`
+---
+
+## 🌟 **What's New in v2.0.0**
+
+- 🆕 **7 Complete Modules** - All functional and tested
+- ⚡ **11 Production Tools** - Ready for immediate use
+- 🇬🇪 **Full Georgian Interface** - Beautiful native language support
+- 🌊 **Batumi Theme** - Elegant coastal design philosophy
+- 🧠 **Memory & Knowledge System** - Session persistence and context management
+- 📦 **ES Module Format** - Modern JavaScript architecture
+- 🚀 **Zero Compilation Errors** - Production-ready codebase
 
 ---
 
 ## 🇬🇪 ქართული აღწერა
 
-**Marathon MCP Tool** არის უნივერსალური Model Context Protocol (MCP) ხელსაწყო, შექმნილი Claude AI-სთან მუშაობისთვის. ეს არის ერთი ხელსაწყო ყველა შესაძლებლობით - 80+ ფუნქცია 7 კატეგორიაში.
+**Marathon MCP Tool v2.0.0** არის სრული ფუნქციონალის Model Context Protocol (MCP) ხელსაწყო Claude AI-სთვის. ეს არის ერთი უნივერსალური ხელსაწყო ყველა შესაძლებლობით.
 
 ### ✨ მთავარი თავისებურებები
 
 - 🇬🇪 **ქართული ინტერფეისი** - სრული ქართული ენის მხარდაჭერა
 - 🌊 **ბათუმური ხელწერა** - შექმნილია სიყვარულით ბათუმში
 - 🔧 **7 მოდული** - სრული ფუნქციონალით
-- ⚡ **80+ ფუნქცია** - ყველა საჭირო ხელსაწყო
+- ⚡ **11 ინსტრუმენტი** - ყველა საჭირო ხელსაწყო
+- 🧠 **მეხსიერების სისტემა** - სესიების შენახვა და გაგრძელება
 - 🎯 **უნივერსალური რეჟიმი** - ყველაფერი ერთ პაკეტში
-- 📊 **Context Management** - სესიების მართვა და გაგრძელება
 
-### 📦 მოდულები
+### 🏗️ მოდულები და ინსტრუმენტები
 
-1. **🔧 ძირითადი სისტემა** - კონფიგურაცია და მართვა
-2. **📁 ფაილების მენეჯმენტი** - ფაილებთან მუშაობა
-3. **🐙 Git რეპოზიტორიები** - ვერსიის კონტროლი
-4. **🧠 მეხსიერება და ცოდნა** - ინფორმაციის შენახვა
-5. **⚙️ სისტემა და პროცესები** - სისტემური ფუნქციები
-6. **📚 დოკუმენტაცია** - კონტენტის მართვა
-7. **🚀 გაფართოებული ფუნქციები** - AI და ავტომატიზაცია
+1. **📚 დოკუმენტაცია** (1 ინსტრუმენტი)
+   - `marathon_get_help` - დახმარების ინფორმაცია
 
-### 🚀 გამოყენება Claude Desktop-ში
+2. **🏃‍♂️ ძირითადი სისტემა** (2 ინსტრუმენტი)
+   - `marathon_test_connection` - კავშირის ტესტირება
+   - `marathon_get_status` - სისტემის სტატუსი
 
-**Context Management Edition (რეკომენდებული):**
-```json
-{
-  "mcpServers": {
-    "marathon-context-manager": {
-      "command": "node",
-      "args": ["path/to/marathon-mcp-tool/dist/context-edition.js"],
-      "cwd": "path/to/marathon-mcp-tool",
-      "env": {
-        "MARATHON_MODE": "universal",
-        "MARATHON_LANGUAGE": "georgian",
-        "MARATHON_THEME": "batumi_sunset",
-        "MARATHON_EDITION": "v2.0.0-context",
-        "NODE_ENV": "production"
-      }
-    }
-  }
-}
-```
+3. **📁 ფაილური სისტემა** (2 ინსტრუმენტი)
+   - `marathon_read_file` - ფაილის წაკითხვა
+   - `marathon_list_directory` - დირექტორიის სია
+
+4. **🐙 Git რეპოზიტორია** (1 ინსტრუმენტი)
+   - `marathon_git_status` - Git სტატუსი
+
+5. **💻 სისტემური პროცესები** (1 ინსტრუმენტი)
+   - `marathon_system_info` - სისტემური ინფორმაცია
+
+6. **⚡ გაფართოებული ფუნქციები** (1 ინსტრუმენტი)
+   - `marathon_symbol_command` - სიმბოლური ბრძანებები
+
+7. **🧠 მეხსიერება და ცოდნა** (3 ინსტრუმენტი)
+   - `marathon_simple_memory` - მარტივი მეხსიერება
+   - `marathon_knowledge_store` - ცოდნის შენახვა
+   - `marathon_session_context` - სესიის კონტექსტი
 
 ---
 
 ## 🇬🇧 English Description
 
-**Marathon MCP Tool** is a universal Model Context Protocol (MCP) tool designed for working with Claude AI. It's one tool with all capabilities - 80+ functions across 7 categories.
+**Marathon MCP Tool v2.0.0** is a complete functional Model Context Protocol (MCP) tool for Claude AI. It's one universal tool with all capabilities included.
 
 ### ✨ Key Features
 
-- 🇬🇪 **Georgian Interface** - Full Georgian language support
+- 🇬🇪 **Georgian Interface** - Full native language support
 - 🌊 **Batumi Craftsmanship** - Created with love in Batumi, Georgia
 - 🔧 **7 Modules** - Complete functionality coverage
-- ⚡ **80+ Functions** - All essential tools included
+- ⚡ **11 Tools** - All essential functions included
+- 🧠 **Memory System** - Session persistence and context management
 - 🎯 **Universal Mode** - Everything in one package
-- 📊 **Context Management** - Session tracking and continuation
 
-### 📦 Modules
+### 🏗️ Modules and Tools
 
-1. **🔧 Core System** - Configuration and management
-2. **📁 File Management** - File system operations
-3. **🐙 Git Repositories** - Version control integration
-4. **🧠 Memory & Knowledge** - Information storage and retrieval
-5. **⚙️ System & Processes** - System-level functions
-6. **📚 Documentation** - Content management
-7. **🚀 Advanced Features** - AI assistance and automation
+1. **📚 Documentation Module** (1 tool)
+   - `marathon_get_help` - Get help information
 
-### 🛠️ Installation & Setup
+2. **🏃‍♂️ Core System Module** (2 tools)
+   - `marathon_test_connection` - Test connection and system status
+   - `marathon_get_status` - Get comprehensive system status
+
+3. **📁 File System Module** (2 tools)
+   - `marathon_read_file` - Read file contents
+   - `marathon_list_directory` - List directory contents
+
+4. **🐙 Git Repository Module** (1 tool)
+   - `marathon_git_status` - Get Git repository status
+
+5. **💻 System Process Module** (1 tool)
+   - `marathon_system_info` - Get system information
+
+6. **⚡ Advanced Features Module** (1 tool)
+   - `marathon_symbol_command` - Process symbol commands (---, +++, etc.)
+
+7. **🧠 Memory Knowledge Module** (3 tools)
+   - `marathon_simple_memory` - Simple memory operations (save/load/list)
+   - `marathon_knowledge_store` - Knowledge storage and search
+   - `marathon_session_context` - Session context management
+
+---
+
+## 🛠️ Quick Installation Guide
+
+### 📋 Prerequisites
+- **Node.js** ≥ 18.0.0
+- **Claude Desktop** application installed
+- **Git** (for cloning the repository)
+
+### 🚀 5-Minute Setup
 
 1. **Clone the repository:**
 ```bash
@@ -90,25 +122,26 @@ cd marathon-mcp-tool
 npm install
 ```
 
-3. **Build the project:**
-```bash
-npm run build
-```
+3. **The dist folder is already built and ready!** ✅
+   - No compilation needed - production files included
+   - All modules are pre-built in ES format
 
 4. **Configure Claude Desktop:**
-Add to your `claude_desktop_config.json`:
+
+**Windows users** - Edit: `%APPDATA%\Claude\claude_desktop_config.json`  
+**Mac users** - Edit: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
 ```json
 {
   "mcpServers": {
-    "marathon-context-manager": {
+    "marathon-mcp-tool": {
       "command": "node",
-      "args": ["path/to/marathon-mcp-tool/dist/context-edition.js"],
-      "cwd": "path/to/marathon-mcp-tool",
+      "args": ["C:\\path\\to\\marathon-mcp-tool\\dist\\index.js"],
+      "cwd": "C:\\path\\to\\marathon-mcp-tool",
       "env": {
         "MARATHON_MODE": "universal",
         "MARATHON_LANGUAGE": "georgian",
         "MARATHON_THEME": "batumi_sunset",
-        "MARATHON_EDITION": "v2.0.0-context",
         "NODE_ENV": "production"
       }
     }
@@ -116,147 +149,309 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-5. **Restart Claude Desktop** and enjoy!
+**🔑 Important:** Replace `C:\\path\\to\\marathon-mcp-tool` with your actual path!
 
-### 🔧 Available Functions (Context Management Edition)
+5. **Restart Claude Desktop** and test:
+   - Try: "Test Marathon MCP connection"
+   - Or use any of the 11 tools directly!
 
-#### ✅ **Core Context Functions (8 functions - All Tested & Working)**
-- `marathon_test_connection` - Test connection and system status
-- `marathon_get_status` - Get comprehensive system status  
-- `marathon_context_start` - Start new context session
-- `marathon_context_save` - Save current context state
-- `marathon_context_load` - Load existing session
-- `marathon_generate_continuation` - Generate continuation prompts
-- `marathon_get_sessions` - List recent sessions
-- `marathon_symbol_command` - Process symbol commands (+++, ---, ***)
+### ✅ Verification
 
-#### File System Module (15 functions)
-- File reading, writing, and editing operations
-- Directory management and navigation
-- File search and content search
-- Path validation and security checks
-
-#### Git Repository Module (10+ functions)
-- Repository status and management
-- Commit and push operations
-- Branch management
-- GitHub integration
-
-#### Memory & Knowledge Module (10 functions)
-- Information storage and retrieval
-- Knowledge graph operations
-- Entity management
-- Memory search and filtering
-
-#### System Process Module (8 functions)
-- Safe command execution
-- Process monitoring and management
-- System information gathering
-- Resource usage monitoring
-
-#### Documentation Module (6 functions)
-- Documentation fetching and parsing
-- Content search and indexing
-- README generation
-- Multi-language support
-
-#### Advanced Features Module (15+ functions)
-- AI-powered command execution
-- Intelligent assistance
-- Symbol-based commands
-- Workflow automation
-
-### 🎨 Configuration Options
-
-The tool supports extensive configuration through:
-- Environment variables
-- JSON configuration files
-- Runtime parameter changes
-- Module-specific settings
-
-### 🔧 Development & Troubleshooting
-
-#### Building from Source
-```bash
-# Clean build
-npm run clean
-npm run build
-
-# Development mode
-npm run dev
-
-# Watch mode
-npm run watch
-
-# Type checking
-npm run check
+Test that everything works:
+```
+marathon_test_connection with message "Hello from Batumi!"
 ```
 
-#### Testing
-```bash
-# Test connection
-npm run marathon:test
+You should see a beautiful Georgian response confirming the tool is working! 🎉
 
-# Configuration check
-npm run marathon:config
+---
+
+## 📖 Complete Tool Reference
+
+### 🏃‍♂️ Core System Tools
+
+#### `marathon_test_connection`
+**Purpose:** Test connection and system status  
+**Parameters:** 
+- `message` (optional) - Test message
+
+**Example:**
+```
+marathon_test_connection with message "Testing from Claude!"
 ```
 
-#### Common Issues
+#### `marathon_get_status` 
+**Purpose:** Get comprehensive system status  
+**Parameters:** None
+
+**Example:**
+```
+marathon_get_status
+```
+
+### 📁 File System Tools
+
+#### `marathon_read_file`
+**Purpose:** Read file contents  
+**Parameters:**
+- `path` (required) - File path
+
+**Example:**
+```
+marathon_read_file with path "C:\\Users\\YourName\\Documents\\test.txt"
+```
+
+#### `marathon_list_directory`
+**Purpose:** List directory contents  
+**Parameters:**
+- `path` (required) - Directory path
+
+**Example:**
+```
+marathon_list_directory with path "C:\\Users\\YourName\\Documents"
+```
+
+### 🧠 Memory & Knowledge Tools
+
+#### `marathon_simple_memory`
+**Purpose:** Simple memory operations  
+**Parameters:**
+- `action` (required) - save, load, list, clear
+- `key` (for save/load) - Memory key
+- `data` (for save) - Data to save
+
+**Examples:**
+```
+marathon_simple_memory with action "save", key "my_notes", data "Important information here"
+marathon_simple_memory with action "load", key "my_notes"
+marathon_simple_memory with action "list"
+```
+
+#### `marathon_knowledge_store`
+**Purpose:** Knowledge storage and search  
+**Parameters:**
+- `action` (required) - store, search, get_all
+- `topic` (for store) - Knowledge topic
+- `content` (for store) - Content to store
+- `query` (for search) - Search query
+
+**Examples:**
+```
+marathon_knowledge_store with action "store", topic "AI_Tips", content "Useful AI prompting techniques"
+marathon_knowledge_store with action "search", query "AI"
+```
+
+#### `marathon_session_context`
+**Purpose:** Session context management  
+**Parameters:**
+- `action` (required) - save_context, load_context, clear_context
+- `context_data` (for save) - Context to save
+
+**Examples:**
+```
+marathon_session_context with action "save_context", context_data "Working on project X, completed steps 1-3"
+marathon_session_context with action "load_context"
+```
+
+### 🐙 Git Tools
+
+#### `marathon_git_status`
+**Purpose:** Get Git repository status  
+**Parameters:**
+- `path` (optional) - Repository path
+
+**Example:**
+```
+marathon_git_status with path "C:\\path\\to\\your\\repo"
+```
+
+### 💻 System Tools
+
+#### `marathon_system_info`
+**Purpose:** Get system information  
+**Parameters:** None
+
+**Example:**
+```
+marathon_system_info
+```
+
+### ⚡ Advanced Tools
+
+#### `marathon_symbol_command`
+**Purpose:** Process symbol commands  
+**Parameters:**
+- `command` (required) - Symbol command (---, +++, etc.)
+
+**Example:**
+```
+marathon_symbol_command with command "+++"
+```
+
+### 📚 Documentation Tools
+
+#### `marathon_get_help`
+**Purpose:** Get help information  
+**Parameters:**
+- `topic` (optional) - Help topic
+
+**Example:**
+```
+marathon_get_help with topic "memory"
+```
+
+---
+
+## 🔧 Advanced Configuration
+
+### Environment Variables
+
+```bash
+MARATHON_MODE=universal          # Operation mode
+MARATHON_LANGUAGE=georgian       # Interface language  
+MARATHON_THEME=batumi_sunset     # Visual theme
+NODE_ENV=production             # Environment
+```
+
+### Custom Configuration File
+
+Create `marathon-config.json` in the project root:
+```json
+{
+  "version": "2.0.0",
+  "edition": "universal",
+  "language": "georgian",
+  "theme": "batumi_sunset",
+  "performance_mode": "balanced",
+  "auto_backup": true,
+  "security_level": "standard"
+}
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues & Solutions
 
 1. **"Server disconnected" error:**
-   - Check if the path in configuration is correct
-   - Ensure the project is built (`npm run build`)
-   - Verify Node.js version (>=18.0.0)
-   - Use correct working directory (`cwd`) in config
+   - ✅ Check path in Claude config is correct
+   - ✅ Ensure Node.js ≥ 18.0.0 is installed
+   - ✅ Verify all files are in dist/ folder
+   - ✅ Use absolute paths in configuration
 
-2. **Module import errors:**
-   - Run `npm install` to ensure all dependencies
-   - Check TypeScript compilation with `npm run check`
+2. **"Module not found" errors:**
+   - ✅ Run `npm install` to ensure dependencies
+   - ✅ Check that dist/modules/ folder exists
+   - ✅ Verify file permissions
 
-3. **Permission issues:**
-   - Ensure proper file permissions for the dist directory
-   - Check environment variables
+3. **Georgian text not displaying:**
+   - ✅ Ensure UTF-8 encoding in terminal
+   - ✅ Check MARATHON_LANGUAGE environment variable
+   - ✅ Restart Claude Desktop after config changes
 
-4. **CLI Detection Issues (Fixed in v2.0):**
-   - Windows path compatibility resolved
-   - Proper import.meta.url handling
+4. **Memory functions not working:**
+   - ✅ Check that memory module is loaded
+   - ✅ Verify sufficient disk space
+   - ✅ Ensure proper permissions for file operations
 
-### 🌊 Batumi Philosophy
+### Debug Mode
 
-This tool is crafted with the spirit of Batumi - the beautiful coastal city of Georgia. Like the waves of the Black Sea, it brings constant innovation and refreshing functionality to your AI workflow.
+Enable detailed logging:
+```json
+{
+  "env": {
+    "MARATHON_MODE": "universal",
+    "MARATHON_LANGUAGE": "georgian", 
+    "MARATHON_THEME": "batumi_sunset",
+    "NODE_ENV": "development",
+    "DEBUG": "marathon:*"
+  }
+}
+```
 
-### 📈 Version History
+### Getting Help
 
-- **v2.0.0** - Context Management Edition - FULLY FUNCTIONAL ✅
-  - Fixed CLI detection issues
-  - Added comprehensive context management
-  - All 8 core functions tested and working
-  - Georgian interface fully operational
-- **v1.0.x** - Initial release with basic functionality
-
-### 🎯 **Latest Update (July 2025)**
-- ✅ **All functions tested and verified working**
-- ✅ **Windows compatibility issues resolved**
-- ✅ **Context Management system operational**
-- ✅ **Georgian interface fully functional**
-- ✅ **Session tracking and continuation working**
-
-### 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-### 📞 Support
-
-- 🐛 **Issues:** [GitHub Issues](https://github.com/sitechfromgeorgia/marathon-mcp-tool/issues)
+- 🐛 **GitHub Issues:** [Report Issues](https://github.com/sitechfromgeorgia/marathon-mcp-tool/issues)
 - 📧 **Email:** sitech.georgia@gmail.com
-- 🌐 **Website:** [SiTech from Georgia](https://github.com/sitechfromgeorgia)
+- 📚 **Documentation:** Use `marathon_get_help` tool
+- 🇬🇪 **Georgian Support:** Full native language assistance
 
-### 📄 License
+---
+
+## 🌊 About Batumi Philosophy
+
+This tool embodies the spirit of Batumi - Georgia's beautiful coastal city where the Caucasus Mountains meet the Black Sea. Like the eternal dance of waves and mountains, Marathon MCP Tool brings together power and elegance, tradition and innovation.
+
+**"ღია ზღვის ტალღებისგან ახალი ტექნოლოგიები"**  
+*"New technologies from the open sea waves"*
+
+---
+
+## 🎯 Version History
+
+### v2.0.0 (July 2025) - Universal Edition ✅
+- **🎉 Complete Production Release**
+- ✅ All 7 modules fully functional
+- ✅ 11 tools tested and working
+- ✅ Georgian interface perfected
+- ✅ Memory & knowledge system operational  
+- ✅ ES Module format implemented
+- ✅ Zero compilation errors
+- ✅ Ready for immediate use
+
+### v1.x.x - Development Versions
+- Initial prototypes and testing versions
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! 🎉
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Setup
+
+```bash
+# Clone and setup
+git clone https://github.com/sitechfromgeorgia/marathon-mcp-tool.git
+cd marathon-mcp-tool
+npm install
+
+# Development commands
+npm run dev        # Development mode
+npm run build      # Build for production
+npm run test       # Run tests
+npm run lint       # Code linting
+```
+
+---
+
+## 📄 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
+
+Free for personal and commercial use! 🎉
+
+---
+
+## 🌟 Acknowledgments
+
+- 🇬🇪 **Georgian AI Community** - For inspiration and support
+- 🌊 **City of Batumi** - For the beautiful coastal inspiration
+- 🏔️ **Caucasus Mountains** - For the strength and resilience
+- ⚡ **Claude AI Team** - For the amazing MCP protocol
+- 🤝 **Open Source Community** - For tools and libraries
 
 ---
 
 **🌊 Created with ❤️ in Batumi, Georgia by SiTech**
 
-*"ღია ზღვის ტალღებისგან ახალი ტექნოლოგიები" - "New technologies from the open sea waves"*
+*Marathon MCP Tool v2.0.0 Universal Edition - ბათუმური ხელწერით შექმნილი სიყვარულით!*
+
+**Ready to run the marathon with Claude AI? Let's go! 🏃‍♂️🇬🇪**
