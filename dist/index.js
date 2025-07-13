@@ -1,11 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 🏃‍♂️ Marathon MCP Tool v2.0.0 - FULL VERSION WITH MEMORY
- * 🇬🇪 ბათუმური ხელწერით და სიყვარულით შექმნილი
- * 
- * 11 tools, 7 modules, full functionality
- * ES Module format, production ready
+ * 🏃‍♂️ Marathon MCP Tool - FULL VERSION WITH MEMORY
  */
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -53,73 +49,57 @@ class MarathonMCPServer {
     this.modules.set('filesystem', fsModule);
     this.modules.set('git', gitModule);
     this.modules.set('advanced', advancedModule);
-    this.modules.set('memory', memoryModule);
+    this.modules.set('memory', memoryModule); // MEMORY MODULE INCLUDED!
 
-    this.logger.info('ყველა მოდული ინიციალიზებულია (Memory-თი ერთად!)');
+    this.logger.info('🏃‍♂️ All 7 Marathon MCP modules loaded with memory!');
   }
 
   setupHandlers() {
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
-      const tools = [];
+      await this.initializeModules();
 
-      for (const [moduleName, module] of this.modules) {
-        if (module.getTools && typeof module.getTools === 'function') {
-          try {
-            const moduleTools = await module.getTools();
-            tools.push(...moduleTools);
-          } catch (error) {
-            this.logger.error(`Error getting tools from ${moduleName}:`, error);
-          }
-        }
+      const allTools = [];
+      
+      // Collect tools from all modules
+      for (const [name, module] of this.modules) {
+        const moduleTools = await module.getTools();
+        allTools.push(...moduleTools);
       }
 
-      this.logger.info(`ჩატვირთულია ${tools.length} ფუნქცია`);
-      return { tools };
+      this.logger.info(`🎯 Marathon MCP registered ${allTools.length} tools across ${this.modules.size} modules`);
+      
+      return { tools: allTools };
     });
-    
+
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
-      this.logger.info(`მუშავდება: ${name}`);
+      
+      this.logger.info(`🔧 Tool called: ${name}`);
 
+      // Route to appropriate module
       for (const [moduleName, module] of this.modules) {
-        if (module.handleTool && typeof module.handleTool === 'function') {
-          try {
-            const result = await module.handleTool(name, args);
-            if (result) {
-              this.logger.info(`წარმატებით შესრულდა: ${name}`);
-              return result;
-            }
-          } catch (error) {
-            this.logger.error(`შეცდომა ${name}-ში:`, error);
-            return {
-              content: [{
-                type: 'text',
-                text: `შეცდომა: ${error.message}`
-              }]
-            };
+        try {
+          const result = await module.handleToolCall(name, args);
+          if (result !== null) {
+            this.logger.info(`✅ Tool ${name} executed successfully by ${moduleName} module`);
+            return result;
           }
+        } catch (error) {
+          this.logger.error(`❌ Error in ${moduleName} module for tool ${name}:`, error);
+          throw error;
         }
       }
 
-      throw new Error(`Unknown tool: ${name}`);
+      throw new Error(`❌ Unknown tool: ${name}`);
     });
   }
 
-  async start() {
-    this.logger.info('Marathon MCP Tool v2.0.0 იწყება... (მეხსიერებით!)');
-
-    await this.initializeModules();
-    
+  async run() {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    
-    this.logger.info('Server მზადაა! 🏃‍♂️🇬🇪');
+    this.logger.info('🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition დაშვებულია! 🇬🇪');
   }
 }
 
-// Start the server
 const server = new MarathonMCPServer();
-server.start().catch((error) => {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-});
+server.run().catch(console.error);
