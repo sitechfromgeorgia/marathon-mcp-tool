@@ -1,5 +1,12 @@
 # 🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition
 
+## ✅ **STATUS: FULLY FUNCTIONAL v2.0** 
+**All core functions tested and working perfectly! Ready for production use.**
+
+🇬🇪 **Context Management Edition** now available in `dist/context-edition.js`
+
+---
+
 ## 🇬🇪 ქართული აღწერა
 
 **Marathon MCP Tool** არის უნივერსალური Model Context Protocol (MCP) ხელსაწყო, შექმნილი Claude AI-სთან მუშაობისთვის. ეს არის ერთი ხელსაწყო ყველა შესაძლებლობით - 80+ ფუნქცია 7 კატეგორიაში.
@@ -11,6 +18,7 @@
 - 🔧 **7 მოდული** - სრული ფუნქციონალით
 - ⚡ **80+ ფუნქცია** - ყველა საჭირო ხელსაწყო
 - 🎯 **უნივერსალური რეჟიმი** - ყველაფერი ერთ პაკეტში
+- 📊 **Context Management** - სესიების მართვა და გაგრძელება
 
 ### 📦 მოდულები
 
@@ -24,15 +32,20 @@
 
 ### 🚀 გამოყენება Claude Desktop-ში
 
+**Context Management Edition (რეკომენდებული):**
 ```json
 {
   "mcpServers": {
-    "marathon-mcp-tool": {
+    "marathon-context-manager": {
       "command": "node",
-      "args": ["path/to/marathon-mcp-tool/dist/index.js"],
+      "args": ["path/to/marathon-mcp-tool/dist/context-edition.js"],
+      "cwd": "path/to/marathon-mcp-tool",
       "env": {
         "MARATHON_MODE": "universal",
-        "MARATHON_LANGUAGE": "georgian"
+        "MARATHON_LANGUAGE": "georgian",
+        "MARATHON_THEME": "batumi_sunset",
+        "MARATHON_EDITION": "v2.0.0-context",
+        "NODE_ENV": "production"
       }
     }
   }
@@ -52,6 +65,7 @@
 - 🔧 **7 Modules** - Complete functionality coverage
 - ⚡ **80+ Functions** - All essential tools included
 - 🎯 **Universal Mode** - Everything in one package
+- 📊 **Context Management** - Session tracking and continuation
 
 ### 📦 Modules
 
@@ -86,14 +100,15 @@ Add to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "marathon-mcp-tool": {
+    "marathon-context-manager": {
       "command": "node",
-      "args": ["path/to/marathon-mcp-tool/dist/index.js"],
+      "args": ["path/to/marathon-mcp-tool/dist/context-edition.js"],
       "cwd": "path/to/marathon-mcp-tool",
       "env": {
         "MARATHON_MODE": "universal",
         "MARATHON_LANGUAGE": "georgian",
         "MARATHON_THEME": "batumi_sunset",
+        "MARATHON_EDITION": "v2.0.0-context",
         "NODE_ENV": "production"
       }
     }
@@ -103,15 +118,17 @@ Add to your `claude_desktop_config.json`:
 
 5. **Restart Claude Desktop** and enjoy!
 
-### 🔧 Available Functions
+### 🔧 Available Functions (Context Management Edition)
 
-#### Core System Module (6 functions)
+#### ✅ **Core Context Functions (8 functions - All Tested & Working)**
 - `marathon_test_connection` - Test connection and system status
-- `marathon_get_config` - Get current configuration
-- `marathon_set_config` - Update configuration
-- `marathon_module_toggle` - Enable/disable modules
-- `marathon_get_status` - Get system status
-- `marathon_language_switch` - Switch interface language
+- `marathon_get_status` - Get comprehensive system status  
+- `marathon_context_start` - Start new context session
+- `marathon_context_save` - Save current context state
+- `marathon_context_load` - Load existing session
+- `marathon_generate_continuation` - Generate continuation prompts
+- `marathon_get_sessions` - List recent sessions
+- `marathon_symbol_command` - Process symbol commands (+++, ---, ***)
 
 #### File System Module (15 functions)
 - File reading, writing, and editing operations
@@ -190,6 +207,7 @@ npm run marathon:config
    - Check if the path in configuration is correct
    - Ensure the project is built (`npm run build`)
    - Verify Node.js version (>=18.0.0)
+   - Use correct working directory (`cwd`) in config
 
 2. **Module import errors:**
    - Run `npm install` to ensure all dependencies
@@ -199,14 +217,29 @@ npm run marathon:config
    - Ensure proper file permissions for the dist directory
    - Check environment variables
 
+4. **CLI Detection Issues (Fixed in v2.0):**
+   - Windows path compatibility resolved
+   - Proper import.meta.url handling
+
 ### 🌊 Batumi Philosophy
 
 This tool is crafted with the spirit of Batumi - the beautiful coastal city of Georgia. Like the waves of the Black Sea, it brings constant innovation and refreshing functionality to your AI workflow.
 
 ### 📈 Version History
 
-- **v2.0.0** - Universal Edition with 7 modules and 80+ functions
+- **v2.0.0** - Context Management Edition - FULLY FUNCTIONAL ✅
+  - Fixed CLI detection issues
+  - Added comprehensive context management
+  - All 8 core functions tested and working
+  - Georgian interface fully operational
 - **v1.0.x** - Initial release with basic functionality
+
+### 🎯 **Latest Update (July 2025)**
+- ✅ **All functions tested and verified working**
+- ✅ **Windows compatibility issues resolved**
+- ✅ **Context Management system operational**
+- ✅ **Georgian interface fully functional**
+- ✅ **Session tracking and continuation working**
 
 ### 🤝 Contributing
 
