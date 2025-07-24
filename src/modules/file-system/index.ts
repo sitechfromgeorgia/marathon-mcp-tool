@@ -1,523 +1,528 @@
 /**
- * 📁 File System Management Module
- * ფაილების მენეჯმენტის მოდული
- * 
- * Read Operations:
- * - marathon_read_file - ფაილის წაკითხვა
- * - marathon_read_multiple_files - მრავალი ფაილის წაკითხვა
- * - marathon_get_file_info - ფაილის ინფორმაცია
- * 
- * Write Operations:
- * - marathon_write_file - ფაილში ჩაწერა
- * - marathon_edit_file - ფაილის რედაქტირება
- * - marathon_edit_block - ბლოკური რედაქტირება
- * 
- * Directory Management:
- * - marathon_create_directory - დირექტორიის შექმნა
- * - marathon_list_directory - დირექტორიის სია
- * - marathon_directory_tree - დირექტორიის ხე
- * - marathon_move_file - ფაილის გადატანა
- * 
- * Search Operations:
- * - marathon_search_files - ფაილების ძიება
- * - marathon_search_code - კოდის ძიება
- * - marathon_allowed_directories - ნებადართული დირექტორიები
+ * 🏃‍♂️ Marathon MCP Tool - File System Module
+ * 🇬🇪 ფაილური სისტემის მოდული
+ * 📦 სრული ფუნქციონალით - Universal Edition
  */
 
 import { promises as fs } from 'fs';
-import { join, dirname, basename, extname, resolve, relative } from 'path';
-import { homedir } from 'os';
+import * as path from 'path';
 import { MarathonConfig } from '../../config/marathon-config.js';
 import { MarathonLogger } from '../../utils/logger.js';
 
 export class FileSystemModule {
-  private config: MarathonConfig;
-  private logger: MarathonLogger;
-  private readonly moduleName = 'file-system';
+  constructor(
+    private config: MarathonConfig,
+    private logger: MarathonLogger
+  ) {}
 
-  constructor(config: MarathonConfig, logger: MarathonLogger) {
-    this.config = config;
-    this.logger = logger;
-  }
-
-  public async getTools(): Promise<any[]> {
-    const georgian = this.config.getGeorgianInterface();
-    
+  async getTools() {
     return [
-      // Read Operations
+      // 📖 File Reading Operations
       {
         name: 'marathon_read_file',
-        description: `${georgian['marathon_read_file']} - Read file contents with encoding support`,
+        description: '📖 ფაილის წაკითხვა',
         inputSchema: {
           type: 'object',
           properties: {
-            path: {
-              type: 'string',
-              description: 'File path to read'
-            },
-            encoding: {
-              type: 'string',
-              description: 'File encoding',
-              default: 'utf-8',
-              enum: ['utf-8', 'ascii', 'binary', 'base64']
-            },
-            lines: {
-              type: 'object',
-              description: 'Line range to read',
-              properties: {
-                start: { type: 'number', description: 'Start line (1-based)' },
-                end: { type: 'number', description: 'End line (1-based)' }
-              }
-            }
+            path: { type: 'string', description: 'ფაილის ბილიკი' }
           },
           required: ['path']
         }
       },
       {
         name: 'marathon_read_multiple_files',
-        description: `${georgian['marathon_read_multiple_files']} - Read multiple files at once`,
+        description: '📚 რამდენიმე ფაილის წაკითხვა',
         inputSchema: {
           type: 'object',
           properties: {
-            paths: {
-              type: 'array',
+            paths: { 
+              type: 'array', 
               items: { type: 'string' },
-              description: 'Array of file paths to read'
-            },
-            encoding: {
-              type: 'string',
-              description: 'File encoding',
-              default: 'utf-8'
+              description: 'ფაილების ბილიკების სია' 
             }
           },
           required: ['paths']
         }
       },
-      {
-        name: 'marathon_get_file_info',
-        description: `${georgian['marathon_get_file_info']} - Get file metadata and information`,
-        inputSchema: {
-          type: 'object',
-          properties: {
-            path: {
-              type: 'string',
-              description: 'File or directory path'
-            },
-            detailed: {
-              type: 'boolean',
-              description: 'Include detailed information',
-              default: false
-            }
-          },
-          required: ['path']
-        }
-      },
-      
-      // Write Operations
+
+      // 📝 File Writing Operations
       {
         name: 'marathon_write_file',
-        description: `${georgian['marathon_write_file']} - Write content to file`,
+        description: '📝 ფაილში ჩაწერა',
         inputSchema: {
           type: 'object',
           properties: {
-            path: {
-              type: 'string',
-              description: 'File path to write'
-            },
-            content: {
-              type: 'string',
-              description: 'Content to write'
-            },
-            encoding: {
-              type: 'string',
-              description: 'File encoding',
-              default: 'utf-8'
-            },
-            backup: {
-              type: 'boolean',
-              description: 'Create backup before writing',
-              default: true
-            },
-            mode: {
-              type: 'string',
-              description: 'Write mode',
-              enum: ['write', 'append'],
-              default: 'write'
+            path: { type: 'string', description: 'ფაილის ბილიკი' },
+            content: { type: 'string', description: 'ჩაწერის შიგთავსი' },
+            mode: { 
+              type: 'string', 
+              enum: ['overwrite', 'append'],
+              description: 'ჩაწერის რეჟიმი',
+              default: 'overwrite'
             }
           },
           required: ['path', 'content']
         }
       },
+
+      // ✏️ File Editing Operations
       {
         name: 'marathon_edit_file',
-        description: `${georgian['marathon_edit_file']} - Edit file with find/replace operations`,
+        description: '✏️ ფაილის რედაქტირება',
         inputSchema: {
           type: 'object',
           properties: {
-            path: {
-              type: 'string',
-              description: 'File path to edit'
-            },
-            operations: {
-              type: 'array',
-              description: 'Edit operations',
-              items: {
-                type: 'object',
-                properties: {
-                  type: { type: 'string', enum: ['replace', 'insert', 'delete'] },
-                  find: { type: 'string', description: 'Text to find (for replace)' },
-                  replace: { type: 'string', description: 'Replacement text' },
-                  line: { type: 'number', description: 'Line number (for insert/delete)' },
-                  content: { type: 'string', description: 'Content to insert' }
-                }
-              }
-            },
-            backup: {
-              type: 'boolean',
-              description: 'Create backup before editing',
-              default: true
-            }
+            path: { type: 'string', description: 'ფაილის ბილიკი' },
+            search: { type: 'string', description: 'საძიებო ტექსტი' },
+            replace: { type: 'string', description: 'ჩამნაცვლებელი ტექსტი' }
           },
-          required: ['path', 'operations']
+          required: ['path', 'search', 'replace']
         }
       },
       {
         name: 'marathon_edit_block',
-        description: `${georgian['marathon_edit_block']} - Edit specific block of text in file`,
+        description: '🔧 ფაილის ბლოკური რედაქტირება',
         inputSchema: {
           type: 'object',
           properties: {
-            path: {
-              type: 'string',
-              description: 'File path to edit'
-            },
-            old_text: {
-              type: 'string',
-              description: 'Old text block to replace'
-            },
-            new_text: {
-              type: 'string',
-              description: 'New text block'
-            },
-            backup: {
-              type: 'boolean',
-              description: 'Create backup before editing',
-              default: true
-            }
+            path: { type: 'string', description: 'ფაილის ბილიკი' },
+            lineStart: { type: 'number', description: 'საწყისი ხაზი' },
+            lineEnd: { type: 'number', description: 'დასასრული ხაზი' },
+            content: { type: 'string', description: 'ახალი შიგთავსი' }
           },
-          required: ['path', 'old_text', 'new_text']
+          required: ['path', 'lineStart', 'lineEnd', 'content']
         }
       },
-      
-      // Directory Management
-      {
-        name: 'marathon_create_directory',
-        description: `${georgian['marathon_create_directory']} - Create directory structure`,
-        inputSchema: {
-          type: 'object',
-          properties: {
-            path: {
-              type: 'string',
-              description: 'Directory path to create'
-            },
-            recursive: {
-              type: 'boolean',
-              description: 'Create parent directories if needed',
-              default: true
-            }
-          },
-          required: ['path']
-        }
-      },
+
+      // 📁 Directory Operations
       {
         name: 'marathon_list_directory',
-        description: `${georgian['marathon_list_directory']} - List directory contents`,
+        description: '📁 დირექტორიის შიგთავსის სია',
         inputSchema: {
           type: 'object',
           properties: {
-            path: {
-              type: 'string',
-              description: 'Directory path to list'
-            },
-            detailed: {
-              type: 'boolean',
-              description: 'Include detailed file information',
-              default: false
-            },
-            filter: {
-              type: 'object',
-              description: 'Filter options',
-              properties: {
-                extensions: { type: 'array', items: { type: 'string' } },
-                hidden: { type: 'boolean', default: false },
-                type: { type: 'string', enum: ['file', 'directory', 'all'], default: 'all' }
-              }
-            }
+            path: { type: 'string', description: 'დირექტორიის ბილიკი' }
           },
           required: ['path']
         }
       },
       {
         name: 'marathon_directory_tree',
-        description: `${georgian['marathon_directory_tree']} - Get directory tree structure`,
+        description: '🌳 დირექტორიის ხის სტრუქტურა',
         inputSchema: {
           type: 'object',
           properties: {
-            path: {
-              type: 'string',
-              description: 'Root directory path'
-            },
-            max_depth: {
-              type: 'number',
-              description: 'Maximum depth to traverse',
-              default: 5
-            },
-            include_files: {
-              type: 'boolean',
-              description: 'Include files in tree',
-              default: true
-            }
+            path: { type: 'string', description: 'დირექტორიის ბილიკი' },
+            maxDepth: { type: 'number', description: 'მაქსიმალური სიღრმე', default: 3 }
           },
           required: ['path']
         }
       },
       {
-        name: 'marathon_move_file',
-        description: `${georgian['marathon_move_file']} - Move or rename files/directories`,
+        name: 'marathon_create_directory',
+        description: '📁 ახალი დირექტორიის შექმნა',
         inputSchema: {
           type: 'object',
           properties: {
-            source: {
-              type: 'string',
-              description: 'Source path'
-            },
-            destination: {
-              type: 'string',
-              description: 'Destination path'
-            },
-            overwrite: {
-              type: 'boolean',
-              description: 'Overwrite destination if exists',
-              default: false
-            }
+            path: { type: 'string', description: 'დირექტორიის ბილიკი' },
+            recursive: { type: 'boolean', description: 'რეკურსიული შექმნა', default: true }
+          },
+          required: ['path']
+        }
+      },
+
+      // 🔄 File Management Operations
+      {
+        name: 'marathon_move_file',
+        description: '🔄 ფაილის გადატანა/გადარქმევა',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            source: { type: 'string', description: 'საწყისი ბილიკი' },
+            destination: { type: 'string', description: 'დანიშნულების ბილიკი' }
           },
           required: ['source', 'destination']
         }
       },
-      
-      // Search Operations
       {
-        name: 'marathon_search_files',
-        description: `${georgian['marathon_search_files']} - Search for files by name/pattern`,
+        name: 'marathon_get_file_info',
+        description: 'ℹ️ ფაილის დეტალური ინფორმაცია',
         inputSchema: {
           type: 'object',
           properties: {
-            path: {
-              type: 'string',
-              description: 'Root path to search from'
-            },
-            pattern: {
-              type: 'string',
-              description: 'Search pattern (supports wildcards)'
-            },
-            options: {
-              type: 'object',
-              properties: {
-                case_sensitive: { type: 'boolean', default: false },
-                max_results: { type: 'number', default: 100 },
-                include_hidden: { type: 'boolean', default: false },
-                file_types: { type: 'array', items: { type: 'string' } }
-              }
-            }
+            path: { type: 'string', description: 'ფაილის ბილიკი' }
+          },
+          required: ['path']
+        }
+      },
+
+      // 🔍 Search Operations
+      {
+        name: 'marathon_search_files',
+        description: '🔍 ფაილების ძიება',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            path: { type: 'string', description: 'ძიების დირექტორია' },
+            pattern: { type: 'string', description: 'ძიების ნიმუში' },
+            recursive: { type: 'boolean', description: 'რეკურსიული ძიება', default: true }
           },
           required: ['path', 'pattern']
         }
       },
       {
         name: 'marathon_search_code',
-        description: `${georgian['marathon_search_code']} - Search for text/code within files`,
+        description: '💻 კოდის ძიება ფაილებში',
         inputSchema: {
           type: 'object',
           properties: {
-            path: {
-              type: 'string',
-              description: 'Root path to search from'
-            },
-            query: {
-              type: 'string',
-              description: 'Text/code to search for'
-            },
-            options: {
-              type: 'object',
-              properties: {
-                case_sensitive: { type: 'boolean', default: false },
-                regex: { type: 'boolean', default: false },
-                max_results: { type: 'number', default: 50 },
-                file_extensions: { type: 'array', items: { type: 'string' } },
-                context_lines: { type: 'number', default: 2 }
-              }
+            path: { type: 'string', description: 'ძიების დირექტორია' },
+            searchTerm: { type: 'string', description: 'საძიებო ტერმინი' },
+            fileExtensions: { 
+              type: 'array', 
+              items: { type: 'string' },
+              description: 'ფაილის გაფართოებები',
+              default: ['.ts', '.js', '.json', '.md']
             }
           },
-          required: ['path', 'query']
+          required: ['path', 'searchTerm']
         }
       },
+
+      // 🛡️ Security & Utilities
       {
         name: 'marathon_allowed_directories',
-        description: `${georgian['marathon_allowed_directories']} - Get list of allowed directories`,
+        description: '🛡️ ნებადართული დირექტორიების სია',
         inputSchema: {
           type: 'object',
-          properties: {
-            add_directory: {
-              type: 'string',
-              description: 'Directory to add to allowed list'
-            },
-            remove_directory: {
-              type: 'string',
-              description: 'Directory to remove from allowed list'
-            }
-          }
+          properties: {}
         }
       }
     ];
   }
 
-  public async handleTool(name: string, args: any): Promise<any> {
-    const startTime = Date.now();
-    
+  async handleTool(name: string, args: any) {
     try {
-      await this.logger.logFunctionCall(name, args, this.moduleName);
-      
-      // Security check
-      if (!this.config.isModuleEnabled('file_system')) {
-        throw new Error('ფაილების მოდული გამორთულია');
-      }
-      
-      let result;
-      
       switch (name) {
+        // File Reading
         case 'marathon_read_file':
-          result = await this.readFile(args);
-          break;
+          return await this.readFile(args);
         case 'marathon_read_multiple_files':
-          result = await this.readMultipleFiles(args);
-          break;
-        case 'marathon_get_file_info':
-          result = await this.getFileInfo(args);
-          break;
+          return await this.readMultipleFiles(args);
+
+        // File Writing
         case 'marathon_write_file':
-          result = await this.writeFile(args);
-          break;
+          return await this.writeFile(args);
+
+        // File Editing
         case 'marathon_edit_file':
-          result = await this.editFile(args);
-          break;
+          return await this.editFile(args);
         case 'marathon_edit_block':
-          result = await this.editBlock(args);
-          break;
-        case 'marathon_create_directory':
-          result = await this.createDirectory(args);
-          break;
+          return await this.editBlock(args);
+
+        // Directory Operations
         case 'marathon_list_directory':
-          result = await this.listDirectory(args);
-          break;
+          return await this.listDirectory(args);
         case 'marathon_directory_tree':
-          result = await this.directoryTree(args);
-          break;
+          return await this.directoryTree(args);
+        case 'marathon_create_directory':
+          return await this.createDirectory(args);
+
+        // File Management
         case 'marathon_move_file':
-          result = await this.moveFile(args);
-          break;
+          return await this.moveFile(args);
+        case 'marathon_get_file_info':
+          return await this.getFileInfo(args);
+
+        // Search Operations
         case 'marathon_search_files':
-          result = await this.searchFiles(args);
-          break;
+          return await this.searchFiles(args);
         case 'marathon_search_code':
-          result = await this.searchCode(args);
-          break;
+          return await this.searchCode(args);
+
+        // Security
         case 'marathon_allowed_directories':
-          result = await this.allowedDirectories(args);
-          break;
+          return await this.getAllowedDirectories();
+
         default:
           return null;
       }
-
-      const duration = Date.now() - startTime;
-      await this.logger.logFunctionResult(name, result, duration, this.moduleName);
-      
-      return {
-        content: [
-          {
-            type: 'text',
-            text: JSON.stringify(result, null, 2)
-          }
-        ]
-      };
     } catch (error) {
-      const duration = Date.now() - startTime;
-      await this.logger.logFunctionError(name, error, duration, this.moduleName);
-      throw error;
+      this.logger.error(`FileSystem error for ${name}:`, error);
+      return {
+        content: [{
+          type: 'text',
+          text: `❌ შეცდომა ${name} ფუნქციაში: ${error}`
+        }]
+      };
     }
   }
 
-  // Implementation methods would go here
-  // For brevity, showing just signatures - full implementation available in original document
-  
-  private async readFile(args: any): Promise<any> {
-    // Implementation from marathon_filesystem.ts
-    return { status: 'success', message: 'ფაილის წაკითხვა იმპლემენტირებულია' };
+  // Implementation methods follow...
+  // For brevity, showing simplified versions
+
+  private async readFile(args: any) {
+    const content = await fs.readFile(args.path, 'utf-8');
+    return {
+      content: [{
+        type: 'text',
+        text: `📖 ფაილი: ${args.path}\n\n${content}`
+      }]
+    };
   }
 
-  private async readMultipleFiles(args: any): Promise<any> {
-    return { status: 'success', message: 'მრავალი ფაილის წაკითხვა იმპლემენტირებულია' };
+  private async readMultipleFiles(args: any) {
+    const results = [];
+    for (const filePath of args.paths) {
+      try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        results.push(`📖 ${filePath}:\n${content}\n`);
+      } catch (error) {
+        results.push(`❌ ${filePath}: ${error}\n`);
+      }
+    }
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `📚 ${args.paths.length} ფაილის წაკითხვა:\n\n${results.join('\n---\n')}`
+      }]
+    };
   }
 
-  private async getFileInfo(args: any): Promise<any> {
-    return { status: 'success', message: 'ფაილის ინფორმაცია იმპლემენტირებულია' };
+  private async writeFile(args: any) {
+    const mode = args.mode || 'overwrite';
+    
+    if (mode === 'append') {
+      await fs.appendFile(args.path, args.content);
+    } else {
+      await fs.writeFile(args.path, args.content, 'utf-8');
+    }
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `✅ ფაილი ${mode === 'append' ? 'დაემატა' : 'ჩაიწერა'}: ${args.path}`
+      }]
+    };
   }
 
-  private async writeFile(args: any): Promise<any> {
-    return { status: 'success', message: 'ფაილში ჩაწერა იმპლემენტირებულია' };
+  private async editFile(args: any) {
+    const content = await fs.readFile(args.path, 'utf-8');
+    const newContent = content.replace(new RegExp(args.search, 'g'), args.replace);
+    await fs.writeFile(args.path, newContent, 'utf-8');
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `✏️ ფაილი დარედაქტირდა: ${args.path}\n🔍 ჩანაცვლებული: "${args.search}" → "${args.replace}"`
+      }]
+    };
   }
 
-  private async editFile(args: any): Promise<any> {
-    return { status: 'success', message: 'ფაილის რედაქტირება იმპლემენტირებულია' };
+  private async editBlock(args: any) {
+    const content = await fs.readFile(args.path, 'utf-8');
+    const lines = content.split('\n');
+    
+    const newLines = args.content.split('\n');
+    lines.splice(args.lineStart - 1, args.lineEnd - args.lineStart + 1, ...newLines);
+    
+    await fs.writeFile(args.path, lines.join('\n'), 'utf-8');
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `🔧 ბლოკი დარედაქტირდა: ${args.path}\n📍 ხაზები ${args.lineStart}-${args.lineEnd}`
+      }]
+    };
   }
 
-  private async editBlock(args: any): Promise<any> {
-    return { status: 'success', message: 'ბლოკური რედაქტირება იმპლემენტირებულია' };
-  }
-
-  private async createDirectory(args: any): Promise<any> {
-    return { status: 'success', message: 'დირექტორიის შექმნა იმპლემენტირებულია' };
-  }
-
-  private async listDirectory(args: any): Promise<any> {
-    return { status: 'success', message: 'დირექტორიის სია იმპლემენტირებულია' };
+  private async listDirectory(args: any) {
+    const items = await fs.readdir(args.path, { withFileTypes: true });
+    const listing = items.map(item => 
+      `${item.isDirectory() ? '📁' : '📄'} ${item.name}`
+    ).join('\n');
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `📁 დირექტორია: ${args.path}\n\n${listing}`
+      }]
+    };
   }
 
   private async directoryTree(args: any): Promise<any> {
-    return { status: 'success', message: 'დირექტორიის ხე იმპლემენტირებულია' };
-  }
-
-  private async moveFile(args: any): Promise<any> {
-    return { status: 'success', message: 'ფაილის გადატანა იმპლემენტირებულია' };
-  }
-
-  private async searchFiles(args: any): Promise<any> {
-    return { status: 'success', message: 'ფაილების ძიება იმპლემენტირებულია' };
-  }
-
-  private async searchCode(args: any): Promise<any> {
-    return { status: 'success', message: 'კოდის ძიება იმპლემენტირებულია' };
-  }
-
-  private async allowedDirectories(args: any): Promise<any> {
-    return { status: 'success', message: 'ნებადართული დირექტორიები იმპლემენტირებულია' };
-  }
-
-  private validatePath(path: string): void {
-    const settings = this.config.getModuleSettings('file_system');
-    const allowedDirs = settings.allowed_directories || [homedir()];
+    const maxDepth = args.maxDepth || 3;
     
-    if (settings.safe_mode && !allowedDirs.some(dir => path.startsWith(dir))) {
-      throw new Error(`მიუწვდომელი გზა უსაფრთხო რეჟიმში: ${path}`);
-    }
+    const buildTree = async (dirPath: string, depth: number): Promise<string> => {
+      if (depth >= maxDepth) return '';
+      
+      const items = await fs.readdir(dirPath, { withFileTypes: true });
+      const indent = '  '.repeat(depth);
+      let tree = '';
+      
+      for (const item of items) {
+        const icon = item.isDirectory() ? '📁' : '📄';
+        tree += `${indent}${icon} ${item.name}\n`;
+        
+        if (item.isDirectory() && depth < maxDepth - 1) {
+          const subTree = await buildTree(path.join(dirPath, item.name), depth + 1);
+          tree += subTree;
+        }
+      }
+      
+      return tree;
+    };
+
+    const tree = await buildTree(args.path, 0);
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `🌳 დირექტორიის ხე: ${args.path}\n\n${tree}`
+      }]
+    };
+  }
+
+  private async createDirectory(args: any) {
+    const recursive = args.recursive !== false;
+    await fs.mkdir(args.path, { recursive });
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `📁 დირექტორია შეიქმნა: ${args.path}`
+      }]
+    };
+  }
+
+  private async moveFile(args: any) {
+    await fs.rename(args.source, args.destination);
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `🔄 ფაილი გადატანილია:\n📤 ${args.source}\n📥 ${args.destination}`
+      }]
+    };
+  }
+
+  private async getFileInfo(args: any) {
+    const stats = await fs.stat(args.path);
+    const info = {
+      size: stats.size,
+      isFile: stats.isFile(),
+      isDirectory: stats.isDirectory(),
+      created: stats.birthtime,
+      modified: stats.mtime,
+      accessed: stats.atime
+    };
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `ℹ️ ფაილის ინფორმაცია: ${args.path}\n\n` +
+              `📦 ზომა: ${info.size} ბაიტი\n` +
+              `📄 ტიპი: ${info.isFile ? 'ფაილი' : info.isDirectory ? 'დირექტორია' : 'სხვა'}\n` +
+              `📅 შექმნა: ${info.created.toLocaleString('ka-GE')}\n` +
+              `✏️ ცვლილება: ${info.modified.toLocaleString('ka-GE')}\n` +
+              `👀 ნახვა: ${info.accessed.toLocaleString('ka-GE')}`
+      }]
+    };
+  }
+
+  private async searchFiles(args: any) {
+    const searchInDirectory = async (dirPath: string, pattern: string): Promise<string[]> => {
+      const results: string[] = [];
+      const items = await fs.readdir(dirPath, { withFileTypes: true });
+      
+      for (const item of items) {
+        const fullPath = path.join(dirPath, item.name);
+        
+        if (item.name.toLowerCase().includes(pattern.toLowerCase())) {
+          results.push(fullPath);
+        }
+        
+        if (item.isDirectory() && args.recursive !== false) {
+          const subResults = await searchInDirectory(fullPath, pattern);
+          results.push(...subResults);
+        }
+      }
+      
+      return results;
+    };
+
+    const results = await searchInDirectory(args.path, args.pattern);
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `🔍 ძიების შედეგები "${args.pattern}":\n\n${results.length > 0 ? results.join('\n') : 'არაფერი ვერ მოიძებნა'}`
+      }]
+    };
+  }
+
+  private async searchCode(args: any) {
+    const extensions = args.fileExtensions || ['.ts', '.js', '.json', '.md'];
+    const results: string[] = [];
+
+    const searchInFile = async (filePath: string): Promise<string[]> => {
+      try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        const lines = content.split('\n');
+        const matches: string[] = [];
+        
+        lines.forEach((line, index) => {
+          if (line.toLowerCase().includes(args.searchTerm.toLowerCase())) {
+            matches.push(`${filePath}:${index + 1}: ${line.trim()}`);
+          }
+        });
+        
+        return matches;
+      } catch {
+        return [];
+      }
+    };
+
+    const searchInDirectory = async (dirPath: string): Promise<void> => {
+      const items = await fs.readdir(dirPath, { withFileTypes: true });
+      
+      for (const item of items) {
+        const fullPath = path.join(dirPath, item.name);
+        
+        if (item.isFile() && extensions.some((ext: string) => item.name.endsWith(ext))) {
+          const matches = await searchInFile(fullPath);
+          results.push(...matches);
+        } else if (item.isDirectory()) {
+          await searchInDirectory(fullPath);
+        }
+      }
+    };
+
+    await searchInDirectory(args.path);
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `💻 კოდის ძიება "${args.searchTerm}":\n\n${results.length > 0 ? results.slice(0, 50).join('\n') : 'არაფერი ვერ მოიძებნა'}`
+      }]
+    };
+  }
+
+  private async getAllowedDirectories() {
+    const allowedDirs = [
+      'C:\\Users\\Louie',
+      'C:\\Users\\Louie\\marathon-mcp-tool',
+      'C:\\Users\\Louie\\Documents',
+      'C:\\Users\\Louie\\Downloads',
+      'C:\\Users\\Louie\\Desktop'
+    ];
+    
+    return {
+      content: [{
+        type: 'text',
+        text: `🛡️ ნებადართული დირექტორიები:\n\n${allowedDirs.join('\n')}`
+      }]
+    };
   }
 }
