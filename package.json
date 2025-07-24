@@ -1,7 +1,7 @@
 {
   "name": "marathon-mcp-tool",
   "version": "2.0.0",
-  "description": "🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition - ერთი ხელსაწყო, ყველა შესაძლებლობა! 80+ ფუნქცია 7 კატეგორიაში. 🇬🇪 ქართული ინტერფეისი, ბათუმური ხელწერა.",
+  "description": "🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition - ერთი ხელსაწყო, ყველა შესაძლებლობა! 80+ ფუნქცია 8 კატეგორიაში. 🇬🇪 ქართული ინტერფეისი, ბათუმური ხელწერა.",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
@@ -18,7 +18,7 @@
     "build:clean": "npm run clean && npm run build",
     "watch": "tsc --watch",
     "check": "tsc --noEmit",
-    "postinstall": "npm run build"
+    "postinstall": "echo 'Build skipped during install'"
   },
   "keywords": [
     "mcp",
@@ -36,7 +36,9 @@
     "knowledge",
     "system",
     "process",
-    "documentation"
+    "documentation",
+    "advanced-features",
+    "enhanced-files"
   ],
   "author": {
     "name": "SiTech from Georgia",
