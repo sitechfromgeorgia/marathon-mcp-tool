@@ -4,7 +4,7 @@
  * 🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition
  * 
  * ერთი ხელსაწყო - ყველა შესაძლებლობა!
- * 80+ ფუნქცია 7 კატეგორიაში
+ * 80+ ფუნქცია 8 მოდულში
  * 
  * 🇬🇪 ქართული ინტერფეისი
  * 🌊 ბათუმური ხელწერა და სიყვარული
@@ -25,7 +25,7 @@ import {
 import { MarathonConfig } from './config/marathon-config.js';
 import { MarathonLogger } from './utils/logger.js';
 
-// Module imports
+// Module imports - 8 powerful modules
 import { CoreSystemModule } from './modules/core-system/index.js';
 import { FileSystemModule } from './modules/file-system/index.js';
 import { GitRepositoryModule } from './modules/git-repository/index.js';
@@ -33,6 +33,7 @@ import { MemoryKnowledgeModule } from './modules/memory-knowledge/index.js';
 import { SystemProcessModule } from './modules/system-process/index.js';
 import { DocumentationModule } from './modules/documentation/index.js';
 import { AdvancedFeaturesModule } from './modules/advanced-features/index.js';
+import { EnhancedFilesModule } from './modules/enhanced-files/index.js';
 
 class MarathonMCPServer {
   private server: Server;
@@ -68,7 +69,7 @@ class MarathonMCPServer {
     this.logger.info('🇬🇪 ქართული ინტერფეისი ჩართულია');
     this.logger.info('🌊 ბათუმური ხელწერით შექმნილია სიყვარულით');
 
-    // Initialize all modules
+    // Initialize all 8 modules
     this.modules.set('core', new CoreSystemModule(this.config, this.logger));
     this.modules.set('filesystem', new FileSystemModule(this.config, this.logger));
     this.modules.set('git', new GitRepositoryModule(this.config, this.logger));
@@ -76,8 +77,10 @@ class MarathonMCPServer {
     this.modules.set('system', new SystemProcessModule(this.config, this.logger));
     this.modules.set('docs', new DocumentationModule(this.config, this.logger));
     this.modules.set('advanced', new AdvancedFeaturesModule(this.config, this.logger));
+    this.modules.set('enhanced-files', new EnhancedFilesModule(this.config, this.logger));
 
-    this.logger.info('✅ ყველა მოდული ჩატვირთულია (7/7)');
+    this.logger.info('✅ ყველა მოდული ჩატვირთულია (8/8)');
+    this.logger.info('⚡ 80+ ფუნქცია მზადაა მუშაობისთვის');
   }
 
   private setupHandlers(): void {
@@ -88,8 +91,12 @@ class MarathonMCPServer {
       // Collect tools from all modules
       for (const [moduleName, module] of this.modules) {
         if (module.getTools && typeof module.getTools === 'function') {
-          const moduleTools = await module.getTools();
-          tools.push(...moduleTools);
+          try {
+            const moduleTools = await module.getTools();
+            tools.push(...moduleTools);
+          } catch (error) {
+            this.logger.error(`Error loading tools from ${moduleName}:`, error);
+          }
         }
       }
 
@@ -161,7 +168,7 @@ class MarathonMCPServer {
     await this.server.connect(transport);
     
     this.logger.info('🔗 MCP Server წარმატებით დაკავშირდა');
-    this.logger.info('🏔️ კავკასიონის მთების მოგარე და ღია ზღვის სისუფთავე');
+    this.logger.info('🏔️ კავკასიონის მთების სიძლიერე და ღია ზღვის სისუფთავე');
   }
 }
 
