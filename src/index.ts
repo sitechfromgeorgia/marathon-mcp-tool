@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * 🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition
+ * 🏃‍♂️ Marathon MCP Tool v1.0.0 Stable Working Edition
  * 
  * ერთი ხელსაწყო - ყველა შესაძლებლობა!
- * 80+ ფუნქცია 8 მოდულში
+ * 55+ ფუნქცია 5 მოდულში
  * 
  * 🇬🇪 ქართული ინტერფეისი
  * 🌊 ბათუმური ხელწერა და სიყვარული
@@ -25,12 +25,9 @@ import {
 import { MarathonConfig } from './config/marathon-config.js';
 import { MarathonLogger } from './utils/logger.js';
 
-// Module imports - 8 powerful modules
+// Module imports - 5 stable modules
 import { CoreSystemModule } from './modules/core-system/index.js';
-import { FileSystemModule } from './modules/file-system/index.js';
-import { GitRepositoryModule } from './modules/git-repository/index.js';
 import { MemoryKnowledgeModule } from './modules/memory-knowledge/index.js';
-import { SystemProcessModule } from './modules/system-process/index.js';
 import { DocumentationModule } from './modules/documentation/index.js';
 import { AdvancedFeaturesModule } from './modules/advanced-features/index.js';
 import { EnhancedFilesModule } from './modules/enhanced-files/index.js';
@@ -45,7 +42,7 @@ class MarathonMCPServer {
     this.server = new Server(
       {
         name: 'marathon-mcp-tool',
-        version: '2.0.0',
+        version: '1.0.0',
       },
       {
         capabilities: {
@@ -65,22 +62,19 @@ class MarathonMCPServer {
   }
 
   private initializeModules(): void {
-    this.logger.info('🏃‍♂️ იწყება Marathon MCP Tool v2.0.0 Universal Edition...');
+    this.logger.info('🏃‍♂️ იწყება Marathon MCP Tool v1.0.0 Stable Working Edition...');
     this.logger.info('🇬🇪 ქართული ინტერფეისი ჩართულია');
     this.logger.info('🌊 ბათუმური ხელწერით შექმნილია სიყვარულით');
 
-    // Initialize all 8 modules
+    // Initialize 5 stable modules
     this.modules.set('core', new CoreSystemModule(this.config, this.logger));
-    this.modules.set('filesystem', new FileSystemModule(this.config, this.logger));
-    this.modules.set('git', new GitRepositoryModule(this.config, this.logger));
     this.modules.set('memory', new MemoryKnowledgeModule(this.config, this.logger));
-    this.modules.set('system', new SystemProcessModule(this.config, this.logger));
     this.modules.set('docs', new DocumentationModule(this.config, this.logger));
     this.modules.set('advanced', new AdvancedFeaturesModule(this.config, this.logger));
-    this.modules.set('enhanced-files', new EnhancedFilesModule(this.config, this.logger));
+    this.modules.set('files', new EnhancedFilesModule(this.config, this.logger));
 
-    this.logger.info('✅ ყველა მოდული ჩატვირთულია (8/8)');
-    this.logger.info('⚡ 80+ ფუნქცია მზადაა მუშაობისთვის');
+    this.logger.info('✅ ყველა მოდული ჩატვირთულია (5/5)');
+    this.logger.info('⚡ 55+ ფუნქცია მზადაა მუშაობისთვის');
   }
 
   private setupHandlers(): void {
@@ -162,8 +156,8 @@ class MarathonMCPServer {
     const transport = new StdioServerTransport();
     
     this.logger.info('🚀 მარათონი იწყება!');
-    this.logger.info('🎯 80+ ფუნქცია მზადაა მუშაობისთვის');
-    this.logger.info('⚡ Universal Edition ჩართულია');
+    this.logger.info('🎯 55+ ფუნქცია მზადაა მუშაობისთვის');
+    this.logger.info('⚡ Stable Working Edition ჩართულია');
 
     await this.server.connect(transport);
     
@@ -177,7 +171,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
   
   if (args.includes('--test')) {
-    console.log('🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition');
+    console.log('🏃‍♂️ Marathon MCP Tool v1.0.0 Stable Working Edition');
     console.log('🇬🇪 ქართული ინტერფეისი');
     console.log('✅ ტესტირება წარმატებულია!');
     process.exit(0);
