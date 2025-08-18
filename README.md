@@ -1,177 +1,178 @@
-# 🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition
+# 🏃‍♂️ Marathon MCP Tool v1.0.0 Stable Working Edition
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/sitechfromgeorgia/marathon-mcp-tool)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
-[![Made in Georgia](https://img.shields.io/badge/made%20in-🇬🇪%20Georgia-red.svg)](https://github.com/sitechfromgeorgia)
+## ერთი ხელსაწყო - ყველა შესაძლებლობა! | One Tool - All Possibilities!
 
-**ერთი ხელსაწყო - ყველა შესაძლებლობა!** 80+ ფუნქცია 8 კატეგორიაში. 🇬🇪 ქართული ინტერფეისი, ბათუმური ხელწერა.
+**Marathon MCP Tool** არის მძლავრი Model Context Protocol (MCP) ინსტრუმენტი Claude Desktop-ისთვის, რომელიც გთავაზობთ 55+ სრულყოფილ ფუნქციას 5 სტაბილურ მოდულში.
 
-## 🌟 მთავარი მახასიათებლები
+**Marathon MCP Tool** is a powerful Model Context Protocol (MCP) instrument for Claude Desktop, offering 55+ complete functions across 5 stable modules.
 
-### 📦 8 სრული მოდული
-- **🔧 Core System** (10 ფუნქცია) - სისტემური მართვა და კონფიგურაცია
-- **📁 File System** (10 ფუნქცია) - ფაილური სისტემის სრული მართვა
-- **🔄 Git Repository** (10 ფუნქცია) - Git რეპოზიტორიის მენეჯმენტი
-- **🧠 Memory Knowledge** (10 ფუნქცია) - მეხსიერება და ცოდნის ბაზა
-- **⚙️ System Process** (10 ფუნქცია) - პროცესთა მართვა და მონიტორინგი
-- **📚 Documentation** (10 ფუნქცია) - დოკუმენტაციის ავტომატიზაცია
-- **🚀 Advanced Features** (20+ ფუნქცია) - დამატებითი ფუნქციონალი
-- **📁 Enhanced Files** (10 ფუნქცია) - გაუმჯობესებული ფაილური ოპერაციები
+### 🌟 ძირითადი უპირატესობები | Key Features
 
-### ✨ უნიკალური თვისებები
-- 🇬🇪 **ბათუმური ხელწერა** - ქართული ინტერფეისი
-- 🏃‍♂️ **Marathon Speed** - სწრაფი და ეფექტური
-- 🌊 **Universal Edition** - ყველასთვის ხელმისაწვდომი
-- 🎯 **80+ ფუნქცია** - ყოვლისმომცველი ფუნქციონალი
+- ✅ **55+ Working Functions** | **55+ მუშა ფუნქცია**
+- 🇬🇪 **Full Georgian Interface** | **სრული ქართული ინტერფეისი**
+- 🌊 **Batumi Signature** | **ბათუმური ხელწერა** 
+- 🧠 **AI-Powered Analysis** | **AI-ზე დაფუძნებული ანალიზი**
+- 📁 **Real File Operations** | **რეალური ფაილური ოპერაციები**
+- 🔄 **Session Management** | **სესიის მართვა**
+- ⚡ **Stable & Fast** | **სტაბილური და სწრაფი**
 
-## 🚀 სწრაფი დაწყება
+## 📦 მოდულური სტრუქტურა | Module Structure
 
-### 1. ინსტალაცია
+### 🔧 Core System (6 functions)
+- Connection testing and system status
+- Configuration management
+- Language switching (Georgian/English)
+- Performance monitoring
+
+### 🧠 Memory & Knowledge (12 functions)
+- Simple memory operations
+- Knowledge graph management
+- Entity and relationship creation
+- Advanced search capabilities
+
+### 📚 Documentation & AI (10 functions)
+- Document fetching and parsing
+- AI content generation
+- Georgian/English translation
+- Content analysis and summarization
+
+### 🚀 Advanced Features (15 functions)
+- Symbol command processing
+- Session management
+- Smart analysis and suggestions
+- Workflow automation
+
+### 📁 Enhanced Files (12 functions)
+- Intelligent file operations
+- Project structure management
+- Batch processing
+- Advanced search and organization
+
+## 🚀 Quick Setup | სწრაფი ინსტალაცია
+
+### 1️⃣ Installation | ინსტალაცია
+
 ```bash
+# Clone the repository
 git clone https://github.com/sitechfromgeorgia/marathon-mcp-tool.git
 cd marathon-mcp-tool
+
+# Install dependencies
 npm install
+
+# Build the project
 npm run build
-```
 
-### 2. გაშვება
-```bash
-# MCP Server-ის გაშვება
-npm start
-
-# ან უშუალოდ
-node dist/index.js
-```
-
-### 3. ტესტირება
-```bash
-# სწრაფი ტესტი
+# Test the installation
 npm run marathon:test
-
-# სრული ტესტ სუიტი
-node test/marathon-test-suite.js
 ```
 
-## 📖 მოდულების დეტალური აღწერა
+### 2️⃣ Claude Desktop Configuration
 
-### 🔧 Core System Module
-სისტემური ფუნქციები და კონფიგურაცია:
-- `marathon_test_connection` - კავშირის ტესტირება
-- `marathon_get_status` - სისტემის სტატუსი
-- `marathon_get_config` - კონფიგურაციის მიღება
-- `marathon_set_config` - კონფიგურაციის განახლება
-- `marathon_module_toggle` - მოდულების ჩართვა/გამორთვა
-- `marathon_language_switch` - ენის შეცვლა
-- და სხვა...
+Add to your `claude_desktop_config.json`:
 
-### 📁 File System Module
-ფაილური სისტემის სრული მართვა:
-- `marathon_smart_read` - ჭკვიანი ფაილის წაკითხვა
-- `marathon_smart_write` - ჭკვიანი ფაილის ჩაწერა
-- `marathon_file_analyze` - ფაილის ანალიზი
-- `marathon_batch_process` - მრავალი ფაილის დამუშავება
-- `marathon_file_compare` - ფაილების შედარება
-- `marathon_search_advanced` - განვითარებული ძიება
-- და სხვა...
-
-### 🧠 Memory Knowledge Module
-მეხსიერება და ცოდნის მენეჯმენტი:
-- `marathon_memory_save` - ინფორმაციის შენახვა
-- `marathon_memory_load` - ინფორმაციის ჩატვირთვა
-- `marathon_memory_search` - მეხსიერებაში ძიება
-- `marathon_kb_create_entities` - ცოდნის ერთეულების შექმნა
-- `marathon_kb_search_nodes` - ცოდნის გრაფში ძიება
-- და სხვა...
-
-### 📚 Documentation Module
-ავტომატური დოკუმენტაციის გენერაცია:
-- `marathon_fetch_docs` - დოკუმენტაციის მიღება
-- `marathon_search_docs` - დოკუმენტაციაში ძიება
-- `marathon_generate_markdown` - Markdown გენერაცია
-- `marathon_generate_summary` - რეზიუმეების შექმნა
-- `marathon_translate_content` - თარგმანი
-- და სხვა...
-
-### 🚀 Advanced Features Module
-20+ დამატებითი ფუნქცია:
-- `marathon_smart_analyze` - AI ანალიზი
-- `marathon_workflow_create` - Workflow-ების შექმნა
-- `marathon_context_optimize` - კონტექსტის ოპტიმიზაცია
-- `marathon_auto_resume` - ავტო-განახლება
-- `marathon_cloud_sync` - ღრუბლოვან სინქრონიზაცია
-- `marathon_backup_create` - ბექაპების შექმნა
-- და კიდევ ბევრი...
-
-## 🛠️ განვითარება
-
-### პროექტის სტრუქტურა
-```
-marathon-mcp-tool/
-├── src/                     # Source code
-│   ├── modules/            # 8 მოდული
-│   ├── config/             # კონფიგურაცია
-│   └── utils/              # დამხმარე ფუნქციები
-├── dist/                   # Compiled JavaScript
-├── test/                   # ტესტები
-├── examples/               # მაგალითები
-└── docs/                   # დოკუმენტაცია
+```json
+{
+  "mcpServers": {
+    "marathon-mcp-tool": {
+      "command": "node",
+      "args": ["path/to/marathon-mcp-tool/dist/index.js"],
+      "env": {
+        "MARATHON_LANGUAGE": "georgian",
+        "MARATHON_THEME": "batumi_sunset"
+      }
+    }
+  }
+}
 ```
 
-### Build პროცესი
+### 3️⃣ First Test | პირველი ტესტი
+
+In Claude Desktop:
+```
+🏃‍♂️ მაუწყე ხომ მუშაობს marathon?
+```
+
+## 🎯 Usage Examples | გამოყენების მაგალითები
+
+### Memory Operations | მეხსიერების ოპერაციები
+```
+შემინახე წუხელი შეხვედრის ნოტები marathon-ში
+```
+
+### Analysis | ანალიზი
+```
+marathon, აანალიზე ეს დავალება და მითხარი რა ნაბიჯები უნდა გავაკეთო
+```
+
+### Session Management | სესიის მართვა
+```
+marathon, შენახე დღევანდელი სამუშაო
+```
+
+### File Operations | ფაილური ოპერაციები
+```
+შექმენი პროექტის სტრუქტურა "ჩემი-ვებსაიტისთვის"
+```
+
+## 🌊 Batumi Signature | ბათუმური ხელწერა
+
+Created with **love** in **Batumi, Georgia** 🇬🇪, this tool embodies:
+
+- 🌊 **Black Sea inspiration** - fluid and powerful
+- 🏔️ **Caucasus Mountains strength** - reliable and solid
+- 🍇 **Georgian wine tradition** - crafted with passion
+- ☕ **Georgian coffee energy** - energizing productivity
+
+## 📊 Version History | ვერსიების ისტორია
+
+- **v1.0.0** - Stable Working Edition
+  - 55+ tested functions
+  - 5 stable modules
+  - Full Georgian interface
+  - Production ready
+
+## 🛠️ Development | განვითარება
+
+### Scripts | სკრიპტები
 ```bash
-# წვრილმანი build
-npm run build
-
-# სრული rebuild
-npm run build:clean
-
-# ტიპების შემოწმება
-npm run check
-
-# Watch mode
-npm run watch
+npm run build       # Build the project
+npm run dev         # Development mode
+npm run test        # Run tests
+npm run lint        # Code linting
+npm run format      # Code formatting
 ```
 
-## 🤝 წვლილის შეტანა
+### Requirements | მოთხოვნები
+- Node.js >= 18.0.0
+- Claude Desktop
+- TypeScript support
 
-მოდით ერთად გავხადოთ Marathon MCP Tool კიდევ უფრო მძლავრი! 
+## 🤝 Contributing | წვლილის შეტანა
 
-### როგორ დავრეკოთ წვლილი:
-1. Fork Repository
-2. Create Feature Branch
-3. Make Changes
-4. Submit Pull Request
+Contributions are welcome! Please:
 
-### კოდის სტილი:
-- TypeScript/JavaScript ES2022
-- ქართული კომენტარები კოდში 🇬🇪
-- ESLint + Prettier
-- სწრაფი unit ტესტები
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-## 📄 ლიცენზია
+## 📝 License
 
-MIT License - იხილეთ [LICENSE](LICENSE) ფაილი დეტალებისთვის.
+MIT License - see [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 ავტორი
+## 🔗 Links | ბმულები
 
-**SiTech from Georgia** 🇬🇪
-- GitHub: [@sitechfromgeorgia](https://github.com/sitechfromgeorgia)
-- Email: sitech.georgia@gmail.com
-- Location: Batumi, Georgia 🌊
-
-## 🙏 მადლობა
-
-მადლობა ყველას ვისაც შეუძლია ხელი შეუწყოს ამ პროექტის განვითარებას!
+- **Repository**: https://github.com/sitechfromgeorgia/marathon-mcp-tool
+- **Issues**: https://github.com/sitechfromgeorgia/marathon-mcp-tool/issues
+- **Author**: [@sitechfromgeorgia](https://github.com/sitechfromgeorgia)
 
 ---
 
-<div align="center">
+## 🌊 Created with love in Batumi, Georgia | ბათუმში სიყვარულით შექმნილი
 
-**🏃‍♂️ Marathon MCP Tool v2.0.0 Universal Edition**
+**Marathon MCP Tool v1.0.0** - Where technology meets Georgian soul! | სადაც ტექნოლოგია ხვდება ქართულ სულს!
 
-*ერთი ხელსაწყო - ყველა შესაძლებლობა!*
-
-🇬🇪 Made with ❤️ in Batumi, Georgia 🌊
-
-</div>
+🏔️ **Caucasus Mountains Strength** | **კავკასიონის მთების სიძლიერე**  
+🇬🇪 **Georgian Technological Excellence** | **საქართველოს ტექნოლოგიური ხარისხი**
