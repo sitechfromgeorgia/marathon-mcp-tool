@@ -189,7 +189,7 @@ export class MarathonMode {
       this.saveCount++;
 
       // Log the save
-      await this.logger.logInfo(`🏃‍♂️ Marathon auto-save #${this.saveCount}: ${reason}`, 'marathon-mode');
+      await this.logger.info(`🏃‍♂️ Marathon auto-save #${this.saveCount}: ${reason}`, 'marathon-mode');
 
       console.log(`🏃‍♂️ Marathon auto-save #${this.saveCount} completed: ${timestamp}`);
     } catch (error) {
@@ -300,10 +300,6 @@ export class MarathonMode {
 
   private generateSessionId(): string {
     return `marathon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  public isActive(): boolean {
-    return this.isActive;
   }
 
   public getCurrentProject(): string | null {

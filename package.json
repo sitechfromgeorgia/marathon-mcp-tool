@@ -18,7 +18,8 @@
     "build:clean": "npm run clean && npm run build",
     "watch": "tsc --watch",
     "check": "tsc --noEmit",
-    "postinstall": "npm run build"
+    "postinstall": "echo 'postinstall script disabled'",
+    "inspector": "npx @modelcontextprotocol/inspector dist/index.js"
   },
   "keywords": [
     "mcp",
