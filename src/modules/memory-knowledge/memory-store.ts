@@ -158,7 +158,7 @@ export class MemoryStore {
       const { category, limit = 20 } = options;
 
       let sql = `
-        SELECT * FROM memory_entries 
+        SELECT * FROM memories
         WHERE (ttl_expires_at IS NULL OR ttl_expires_at > CURRENT_TIMESTAMP)
         AND (key LIKE ? OR value LIKE ?)
       `;
@@ -172,12 +172,9 @@ export class MemoryStore {
       sql += ' ORDER BY access_count DESC, updated_at DESC LIMIT ?';
       params.push(limit.toString());
 
-      const entries = await this.db.allAsync(sql, params);
+      const entries = await this.db.all<MemoryEntry>(sql, params);
       
-      return entries.map(entry => ({
-        ...entry,
-        tags: entry.tags ? entry.tags.split(',') : []
-      }));
+      return entries;
     } catch (error) {
       this.logger.error('Failed to search memory entries:', error);
       throw error;
@@ -186,7 +183,7 @@ export class MemoryStore {
 
   async delete(key: string): Promise<boolean> {
     try {
-      await this.db.runAsync('DELETE FROM memory_entries WHERE key = ?', [key]);
+      await this.db.run('DELETE FROM memories WHERE key = ?', [key]);
       return true;
     } catch (error) {
       this.logger.error('Failed to delete memory entry:', error);
@@ -197,18 +194,18 @@ export class MemoryStore {
   async getStats(): Promise<any> {
     try {
       const [totalResult, categoriesResult, mostAccessedResult] = await Promise.all([
-        this.db.getAsync('SELECT COUNT(*) as total FROM memory_entries WHERE (ttl_expires_at IS NULL OR ttl_expires_at > CURRENT_TIMESTAMP)'),
-        this.db.allAsync('SELECT category, COUNT(*) as count FROM memory_entries WHERE (ttl_expires_at IS NULL OR ttl_expires_at > CURRENT_TIMESTAMP) GROUP BY category'),
-        this.db.allAsync('SELECT key, access_count FROM memory_entries WHERE (ttl_expires_at IS NULL OR ttl_expires_at > CURRENT_TIMESTAMP) ORDER BY access_count DESC LIMIT 10')
+        this.db.get<{total: number}>('SELECT COUNT(*) as total FROM memories WHERE (ttl_expires_at IS NULL OR ttl_expires_at > CURRENT_TIMESTAMP)'),
+        this.db.all<{category: string, count: number}>('SELECT category, COUNT(*) as count FROM memories WHERE (ttl_expires_at IS NULL OR ttl_expires_at > CURRENT_TIMESTAMP) GROUP BY category'),
+        this.db.all<{key: string, access_count: number}>('SELECT key, access_count FROM memories WHERE (ttl_expires_at IS NULL OR ttl_expires_at > CURRENT_TIMESTAMP) ORDER BY access_count DESC LIMIT 10')
       ]);
 
       const categories = categoriesResult.reduce((acc, row) => {
         acc[row.category] = row.count;
         return acc;
-      }, {});
+      }, {} as {[key: string]: number});
 
       return {
-        total: totalResult.total,
+        total: totalResult?.total || 0,
         categories,
         mostAccessed: mostAccessedResult
       };
@@ -221,7 +218,7 @@ export class MemoryStore {
   async cleanup(): Promise<void> {
     try {
       // Remove expired entries
-      await this.db.runAsync('DELETE FROM memory_entries WHERE ttl_expires_at IS NOT NULL AND ttl_expires_at <= CURRENT_TIMESTAMP');
+      await this.db.run('DELETE FROM memories WHERE ttl_expires_at IS NOT NULL AND ttl_expires_at <= CURRENT_TIMESTAMP');
       this.logger.info('Memory cleanup completed');
     } catch (error) {
       this.logger.error('Failed to cleanup memory entries:', error);

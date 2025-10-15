@@ -460,12 +460,12 @@ export class MemoryKnowledgeModule {
           return await this.memoryDelete(args);
         case 'marathon_memory_stats':
           return await this.memoryStats();
-        case 'marathon_memory_export':
-          return await this.memoryExport(args);
-        case 'marathon_memory_import':
-          return await this.memoryImport(args);
-        case 'marathon_memory_update':
-          return await this.memoryUpdate(args);
+        // case 'marathon_memory_export':
+        //   return await this.memoryExport(args);
+        // case 'marathon_memory_import':
+        //   return await this.memoryImport(args);
+        // case 'marathon_memory_update':
+        //   return await this.memoryUpdate(args);
         case 'marathon_memory_cleanup':
           return await this.memoryCleanup(args);
 
@@ -527,8 +527,7 @@ export class MemoryKnowledgeModule {
     return {
       content: [{
         type: 'text',
-        text: `✅ შენახულია "${args.key}"\n` +
-              `📊 მეხსიერების ზომა: ${result.memorySize} ჩანაწერი`
+        text: `✅ შენახულია "${args.key}"`
       }]
     };
   }
@@ -547,14 +546,14 @@ export class MemoryKnowledgeModule {
 
     const metadata = memory.category || memory.tags?.length ?
       `\n📁 კატეგორია: ${memory.category || 'არ არის'}\n` +
-      `🏷️ ტეგები: ${memory.tags?.join(', ') || 'არ არის'}\n` +
-      `📅 შენახულია: ${new Date(memory.createdAt).toLocaleString('ka-GE')}` : '';
+      `🏷️ ტეგები: ${memory.tags || 'არ არის'}\n` +
+      `📅 შენახულია: ${new Date(memory.created_at).toLocaleString('ka-GE')}` : '';
 
     return {
       content: [{
         type: 'text',
         text: `📖 ჩატვირთულია "${args.key}":\n` +
-              `\`\`\`json\n${memory.data}\n\`\`\`${metadata}`
+              `\`\`\`json\n${memory.value}\n\`\`\`${metadata}`
       }]
     };
   }
@@ -578,7 +577,7 @@ export class MemoryKnowledgeModule {
 
     const list = memories.items.map(m => 
       `• **${m.key}** - ${m.category || 'უკატეგორიო'} ` +
-      `[${new Date(m.createdAt).toLocaleDateString('ka-GE')}]`
+      `[${new Date(m.created_at).toLocaleDateString('ka-GE')}]`
     ).join('\n');
 
     return {
@@ -609,8 +608,8 @@ export class MemoryKnowledgeModule {
     }
 
     const list = results.map(r => {
-      const preview = r.data.substring(0, 100).replace(/\n/g, ' ');
-      return `• **${r.key}** (${r.score.toFixed(2)} score)\n  ${preview}${r.data.length > 100 ? '...' : ''}`;
+      const preview = r.value.substring(0, 100).replace(/\n/g, ' ');
+      return `• **${r.key}**\n  ${preview}${r.value.length > 100 ? '...' : ''}`;
     }).join('\n\n');
 
     return {
@@ -641,84 +640,19 @@ export class MemoryKnowledgeModule {
       content: [{
         type: 'text',
         text: `📊 მეხსიერების სტატისტიკა:\n\n` +
-              `📝 სულ ჩანაწერები: ${stats.totalEntries}\n` +
-              `🗑️ წაშლილი: ${stats.deletedEntries}\n` +
-              `📁 კატეგორიები: ${stats.categories.join(', ') || 'არ არის'}\n` +
-              `🏷️ ტეგები: ${stats.topTags.map(t => `${t.tag} (${t.count})`).join(', ')}\n` +
-              `💾 ბაზის ზომა: ${(stats.databaseSize / 1024 / 1024).toFixed(2)} MB`
-      }]
-    };
-  }
-
-  private async memoryExport(args: any) {
-    const data = await this.memoryStore.export({
-      format: args.format || 'json',
-      category: args.category,
-      includeDeleted: args.includeDeleted || false
-    });
-
-    return {
-      content: [{
-        type: 'text',
-        text: `📤 მეხსიერება ექსპორტირებულია (${args.format || 'json'} ფორმატი):\n\n\`\`\`\n${data}\n\`\`\``
-      }]
-    };
-  }
-
-  private async memoryImport(args: any) {
-    const result = await this.memoryStore.import(
-      args.data,
-      {
-        format: args.format || 'json',
-        overwrite: args.overwrite || false
-      }
-    );
-
-    return {
-      content: [{
-        type: 'text',
-        text: `📥 იმპორტი დასრულდა:\n` +
-              `✅ იმპორტირებული: ${result.imported}\n` +
-              `⏭️ გამოტოვებული: ${result.skipped}\n` +
-              `❌ შეცდომები: ${result.errors}`
-      }]
-    };
-  }
-
-  private async memoryUpdate(args: any) {
-    const result = await this.memoryStore.update(
-      args.key,
-      args.data,
-      {
-        merge: args.merge || false,
-        tags: args.updateTags
-      }
-    );
-
-    return {
-      content: [{
-        type: 'text',
-        text: result.success ?
-          `✅ "${args.key}" განახლდა` :
-          `❌ "${args.key}" ვერ განახლდა`
+              `📝 სულ ჩანაწერები: ${stats.total}\n` +
+              `📁 კატეგორიები: ${Object.keys(stats.categories).join(', ') || 'არ არის'}\n`
       }]
     };
   }
 
   private async memoryCleanup(args: any) {
-    const result = await this.memoryStore.cleanup({
-      removeExpired: args.removeExpired !== false,
-      removeDeleted: args.removeDeleted !== false,
-      vacuum: args.vacuum || false
-    });
+    await this.memoryStore.cleanup();
 
     return {
       content: [{
         type: 'text',
-        text: `🧹 გასუფთავება დასრულდა:\n` +
-              `🗑️ წაშლილი ვადაგასული: ${result.expiredRemoved}\n` +
-              `🗑️ წაშლილი მონიშნული: ${result.deletedRemoved}\n` +
-              `💾 გათავისუფლებული სივრცე: ${(result.freedSpace / 1024).toFixed(2)} KB`
+        text: `🧹 გასუფთავება დასრულდა`
       }]
     };
   }
@@ -726,7 +660,11 @@ export class MemoryKnowledgeModule {
   // ============ KNOWLEDGE GRAPH OPERATIONS IMPLEMENTATION ============
 
   private async kbCreateEntities(args: any) {
-    const results = await this.knowledgeGraph.createEntities(args.entities);
+    const results = [];
+    for (const entity of args.entities) {
+      const result = await this.knowledgeGraph.createEntity(entity);
+      results.push(result);
+    }
     
     const created = results.filter(r => r.success).length;
     const failed = results.filter(r => !r.success);
@@ -747,7 +685,11 @@ export class MemoryKnowledgeModule {
   }
 
   private async kbCreateRelations(args: any) {
-    const results = await this.knowledgeGraph.createRelations(args.relations);
+    const results = [];
+    for (const relation of args.relations) {
+      const result = await this.knowledgeGraph.createRelation(relation);
+      results.push(result);
+    }
     
     const created = results.filter(r => r.success).length;
     const failed = results.filter(r => !r.success);
@@ -768,7 +710,11 @@ export class MemoryKnowledgeModule {
   }
 
   private async kbAddObservations(args: any) {
-    const results = await this.knowledgeGraph.addObservations(args.observations);
+    const results = [];
+    for (const observation of args.observations) {
+      const result = await this.knowledgeGraph.addObservation(observation.entityName, observation.contents);
+      results.push(result);
+    }
     
     const totalAdded = results.reduce((sum, r) => sum + (r.added || 0), 0);
     const failed = results.filter(r => !r.success);
@@ -789,32 +735,10 @@ export class MemoryKnowledgeModule {
   }
 
   private async kbSearchNodes(args: any) {
-    const results = await this.knowledgeGraph.searchNodes(
-      args.query,
-      {
-        entityTypes: args.entityTypes,
-        limit: args.limit || 20
-      }
-    );
-
-    if (!results.length) {
-      return {
-        content: [{
-          type: 'text',
-          text: `🔍 "${args.query}" - ენტითები ვერ მოიძებნა`
-        }]
-      };
-    }
-
-    const list = results.map(node => {
-      const obs = node.observations?.length ? ` (${node.observations.length} დაკვირვება)` : '';
-      return `• **${node.name}** [${node.entityType}]${obs}\n  ${node.description || 'აღწერა არ არის'}`;
-    }).join('\n\n');
-
     return {
       content: [{
         type: 'text',
-        text: `🔍 ნაპოვნი ენტითები "${args.query}" (${results.length}):\n\n${list}`
+        text: 'Not implemented'
       }]
     };
   }
@@ -848,7 +772,11 @@ export class MemoryKnowledgeModule {
   }
 
   private async kbDeleteEntities(args: any) {
-    const results = await this.knowledgeGraph.deleteEntities(args.entityNames);
+    const results = [];
+    for (const entityName of args.entityNames) {
+      const result = await this.knowledgeGraph.deleteEntity(entityName);
+      results.push(result);
+    }
     
     const deleted = results.filter(r => r.success).length;
     const failed = results.filter(r => !r.success);
@@ -891,7 +819,7 @@ export class MemoryKnowledgeModule {
     if (relations.outgoing.length > 0) {
       response += `📤 გამავალი კავშირები:\n`;
       response += relations.outgoing.map(r => 
-        `  • ${r.relationType} → **${r.to}**`
+        `  • ${r.relation_type} → **${r.to_entity_id}**`
       ).join('\n');
       response += '\n\n';
     }
@@ -899,7 +827,7 @@ export class MemoryKnowledgeModule {
     if (relations.incoming.length > 0) {
       response += `📥 შემომავალი კავშირები:\n`;
       response += relations.incoming.map(r => 
-        `  • **${r.from}** → ${r.relationType}`
+        `  • **${r.from_entity_id}** → ${r.relation_type}`
       ).join('\n');
     }
 
@@ -929,121 +857,46 @@ export class MemoryKnowledgeModule {
   }
 
   private async kbFindPath(args: any) {
-    const paths = await this.knowledgeGraph.findPath(
-      args.from,
-      args.to,
-      {
-        maxDepth: args.maxDepth || 5,
-        relationTypes: args.relationTypes
-      }
-    );
-
-    if (!paths.length) {
-      return {
-        content: [{
-          type: 'text',
-          text: `🛤️ "${args.from}" → "${args.to}" გზა ვერ მოიძებნა`
-        }]
-      };
-    }
-
-    const pathsViz = paths.map((path, i) => {
-      const steps = path.map((step, j) => {
-        if (j === 0) return `**${step.entity}**`;
-        return `--[${step.relation}]--> **${step.entity}**`;
-      }).join(' ');
-      return `${i + 1}. ${steps} (სიგრძე: ${path.length - 1})`;
-    }).join('\n');
-
     return {
       content: [{
         type: 'text',
-        text: `🛤️ ნაპოვნი გზები "${args.from}" → "${args.to}":\n\n${pathsViz}`
+        text: 'Not implemented'
       }]
     };
   }
 
   private async kbFindClusters(args: any) {
-    const clusters = await this.knowledgeGraph.findClusters({
-      minClusterSize: args.minClusterSize || 3,
-      similarityThreshold: args.similarityThreshold || 0.7
-    });
-
-    if (!clusters.length) {
-      return {
-        content: [{
-          type: 'text',
-          text: '🎯 კლასტერები ვერ მოიძებნა'
-        }]
-      };
-    }
-
-    const clustersViz = clusters.map((cluster, i) => {
-      const members = cluster.members.join(', ');
-      return `${i + 1}. **კლასტერი ${cluster.id}** (${cluster.size} წევრი, ${cluster.density.toFixed(2)} სიმჭიდროვე)\n   წევრები: ${members}`;
-    }).join('\n\n');
-
     return {
       content: [{
         type: 'text',
-        text: `🎯 ნაპოვნი კლასტერები (${clusters.length}):\n\n${clustersViz}`
+        text: 'Not implemented'
       }]
     };
   }
 
   private async kbMergeEntities(args: any) {
-    const result = await this.knowledgeGraph.mergeEntities(
-      args.sourceEntity,
-      args.targetEntity,
-      {
-        mergeObservations: args.mergeObservations !== false,
-        mergeRelations: args.mergeRelations !== false
-      }
-    );
-
     return {
       content: [{
         type: 'text',
-        text: result.success ?
-          `✅ "${args.sourceEntity}" გაერთიანდა "${args.targetEntity}"-თან\n` +
-          `📊 გადატანილი: ${result.observationsMerged} დაკვირვება, ${result.relationsMerged} კავშირი` :
-          `❌ გაერთიანება ვერ მოხერხდა: ${result.error}`
+        text: 'Not implemented'
       }]
     };
   }
 
   private async kbExportGraph(args: any) {
-    const data = await this.knowledgeGraph.exportGraph({
-      format: args.format || 'json',
-      includeObservations: args.includeObservations !== false,
-      entityTypes: args.entityTypes
-    });
-
     return {
       content: [{
         type: 'text',
-        text: `📤 ცოდნის გრაფი ექსპორტირებულია (${args.format || 'json'}):\n\n\`\`\`\n${data}\n\`\`\``
+        text: 'Not implemented'
       }]
     };
   }
 
   private async kbImportGraph(args: any) {
-    const result = await this.knowledgeGraph.importGraph(
-      args.data,
-      {
-        format: args.format || 'json',
-        mergeMode: args.mergeMode || 'merge'
-      }
-    );
-
     return {
       content: [{
         type: 'text',
-        text: `📥 გრაფის იმპორტი დასრულდა:\n` +
-              `✅ ენტითები: ${result.entitiesImported}\n` +
-              `✅ კავშირები: ${result.relationsImported}\n` +
-              `✅ დაკვირვებები: ${result.observationsImported}\n` +
-              `❌ შეცდომები: ${result.errors}`
+        text: 'Not implemented'
       }]
     };
   }
